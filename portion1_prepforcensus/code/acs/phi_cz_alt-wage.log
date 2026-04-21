@@ -1,0 +1,441 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/acs/phi_cz_alt-wage.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:31:44
+
+. 
+. /*******************************************
+> Source:
+> rank6_alt-wage.do
+> Author: Richard Jin (richjin@berkeley.edu)
+> Last modified: 6/18/21
+> adjusted by dc to set predicts to missing for out of scope cases
+> adjusted by JR 9/23 for replication package
+> *******************************************/
+. 
+. set seed 912109
+
+. 
+. *Intermediate CZ names
+. local cznames_dta "${raw}/cznames.dta"
+
+. 
+. *Output datasets
+. local czranking6_altwage_dta "${scratch}/phi_cz_alt-wage.dta" //CZ-level mean
+> s
+
+. 
+. 
+. use ${scratch}/working2010-2018_extravars, clear
+
+. drop if age < educ + 7 
+(356,496 observations deleted)
+
+. drop if age > 62
+(615,900 observations deleted)
+
+. 
+. /*
+> *Input datasets
+> forvalues y = 2010(1)2018 {
+>         local sub`y' "./sub`y'.dta"
+> }
+> 
+> use `sub2010', clear
+> append using `sub2011' `sub2012' `sub2013' `sub2014' `sub2015' `sub2016' `sub
+> 2017' `sub2018'
+> */
+. 
+. 
+. ***********************
+. *I. Weighted regressions
+. ***********************
+. 
+. 
+. *setup 
+. gen alaska=(cz>=34101)*(cz<=34115)
+
+. tab year alaska , row col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+|  row percentage   |
+| column percentage |
++-------------------+
+
+           |        alaska
+      year |         0          1 |     Total
+-----------+----------------------+----------
+      2010 | 1,289,063      3,265 | 1,292,328 
+           |     99.75       0.25 |    100.00 
+           |     11.01      11.81 |     11.01 
+-----------+----------------------+----------
+      2011 | 1,269,688      3,254 | 1,272,942 
+           |     99.74       0.26 |    100.00 
+           |     10.85      11.77 |     10.85 
+-----------+----------------------+----------
+      2012 | 1,275,268      3,148 | 1,278,416 
+           |     99.75       0.25 |    100.00 
+           |     10.89      11.39 |     10.90 
+-----------+----------------------+----------
+      2013 | 1,298,298      3,077 | 1,301,375 
+           |     99.76       0.24 |    100.00 
+           |     11.09      11.13 |     11.09 
+-----------+----------------------+----------
+      2014 | 1,295,570      3,070 | 1,298,640 
+           |     99.76       0.24 |    100.00 
+           |     11.07      11.11 |     11.07 
+-----------+----------------------+----------
+      2015 | 1,303,236      2,971 | 1,306,207 
+           |     99.77       0.23 |    100.00 
+           |     11.13      10.75 |     11.13 
+-----------+----------------------+----------
+      2016 | 1,308,484      2,995 | 1,311,479 
+           |     99.77       0.23 |    100.00 
+           |     11.18      10.84 |     11.18 
+-----------+----------------------+----------
+      2017 | 1,329,324      2,895 | 1,332,219 
+           |     99.78       0.22 |    100.00 
+           |     11.36      10.47 |     11.35 
+-----------+----------------------+----------
+      2018 | 1,336,984      2,964 | 1,339,948 
+           |     99.78       0.22 |    100.00 
+           |     11.42      10.72 |     11.42 
+-----------+----------------------+----------
+     Total |11,705,915     27,639 |11,733,554 
+           |     99.76       0.24 |    100.00 
+           |    100.00     100.00 |    100.00 
+
+. 
+. replace cz=99999 if alaska==1
+(27,639 real changes made)
+
+. 
+. gen imm_r3=(region_birth==3)
+
+. gen imm_r4=(region_birth==4)
+
+. gen imm_r5=(region_birth==5) + (region_birth==7) + (region_birth==8)
+
+. 
+. gen imm_r3_f=imm_r3*female
+
+. gen imm_r4_f=imm_r4*female
+
+. gen imm_r5_f=imm_r5*female
+
+. 
+. gen imm_f=imm*female
+
+. 
+. *four measures of wages- 3800 cutoff is rule imposed in using LEHD quarterly 
+> data
+. gen logwage1 = .
+(11,733,554 missing values generated)
+
+. replace logwage1=logwage if wagsal>=3800
+(10,957,812 real changes made)
+
+. gen logwage2 = .
+(11,733,554 missing values generated)
+
+. replace logwage2=logwage if wagsal>=2*3800
+(10,299,771 real changes made)
+
+. gen logwage3 = .
+(11,733,554 missing values generated)
+
+. replace logwage3=logwage if wagsal>=3*3800
+(9,672,375 real changes made)
+
+. gen logwage4 = .
+(11,733,554 missing values generated)
+
+. replace logwage4=logwage if wagsal>=4*3800
+(8,950,841 real changes made)
+
+. 
+. 
+. sum logwage logwage1-logwage4 [aw=pweight]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+     logwage |11733554  1.2458e+09    2.863386   .7301887   1.609438   6.214608
+    logwage1 |10957812  1.1670e+09    2.918544     .70568   1.609438   6.214608
+    logwage2 |10299771  1.0968e+09    2.967635   .6819399   1.609438   6.214608
+    logwage3 | 9672375  1.0273e+09    3.020504   .6552963   1.609438   6.214608
+    logwage4 | 8950841   945320456    3.087563   .6227283   1.609438   6.214608
+
+. corr logwage logwage1-logwage4 [aw=pweight]
+(sum of wgt is 945,320,456)
+(obs=8,950,841)
+
+             |  logwage logwage1 logwage2 logwage3 logwage4
+-------------+---------------------------------------------
+     logwage |   1.0000
+    logwage1 |   1.0000   1.0000
+    logwage2 |   1.0000   1.0000   1.0000
+    logwage3 |   1.0000   1.0000   1.0000   1.0000
+    logwage4 |   1.0000   1.0000   1.0000   1.0000   1.0000
+
+
+. 
+. 
+. *adjusted 1- with demographics
+. forvalues i=4(1)4 {
+  2.         areg logwage`i' female educ college f_educ f_college exp exp2 exp3
+>  f_exp f_exp2 f_exp3 pt f_pt i.year imm_r3 imm_r4 imm_r5 imm_r3_f imm_r4_f im
+> m_r5_f imm imm_f [aw=pweight], absorb(cz)
+  3.         predict czbase`i', d
+  4.         predict skillbase`i', xb
+  5.         replace czbase`i'=. if logwage`i'==.
+  6.         replace skillbase`i'=. if logwage`i'==.
+  7. }
+(sum of wgt is 945,320,456)
+
+Linear regression, absorbing indicators          Number of obs     = 8,950,841
+Absorbed variable: cz                            No. of categories =       691
+                                                 F(29, 8950121)    = 119296.31
+                                                 Prob > F          =    0.0000
+                                                 R-squared         =    0.3115
+                                                 Adj R-squared     =    0.3115
+                                                 Root MSE          =    0.5167
+
+------------------------------------------------------------------------------
+    logwage4 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      female |  -.1268342   .0033795   -37.53   0.000     -.133458   -.1202104
+        educ |   .0585918   .0001374   426.57   0.000     .0583226     .058861
+     college |   .2782722   .0008132   342.20   0.000     .2766784     .279866
+      f_educ |   .0096862   .0002223    43.57   0.000     .0092505     .010122
+   f_college |  -.1030468   .0012371   -83.30   0.000    -.1054714   -.1006221
+         exp |   .0659264    .000198   332.94   0.000     .0655383    .0663145
+        exp2 |  -.1918297    .000965  -198.79   0.000     -.193721   -.1899384
+        exp3 |   .0195265   .0001382   141.34   0.000     .0192558    .0197973
+       f_exp |   -.011858   .0002952   -40.17   0.000    -.0124366   -.0112794
+      f_exp2 |   .0087612   .0014592     6.00   0.000     .0059012    .0116213
+      f_exp3 |   .0017485   .0002112     8.28   0.000     .0013347    .0021624
+          pt |   .1877724   .0011113   168.97   0.000     .1855943    .1899505
+        f_pt |  -.0174838    .001379   -12.68   0.000    -.0201866    -.014781
+             |
+        year |
+       2011  |   .0022037   .0007565     2.91   0.004      .000721    .0036863
+       2012  |   .0111224    .000753    14.77   0.000     .0096465    .0125983
+       2013  |   .0218223   .0007503    29.08   0.000     .0203517    .0232929
+       2014  |   .0313441   .0007467    41.98   0.000     .0298807    .0328076
+       2015  |   .0476142   .0007422    64.15   0.000     .0461595    .0490689
+       2016  |   .0673779   .0007386    91.22   0.000     .0659302    .0688256
+       2017  |   .0875447   .0007341   119.26   0.000      .086106    .0889835
+       2018  |   .1076317   .0007312   147.21   0.000     .1061986    .1090647
+             |
+      imm_r3 |  -.0885244    .001863   -47.52   0.000    -.0921757    -.084873
+      imm_r4 |   .0558026   .0019245    29.00   0.000     .0520306    .0595747
+      imm_r5 |   .1501668   .0019697    76.24   0.000     .1463062    .1540273
+    imm_r3_f |  -.0000636   .0028673    -0.02   0.982    -.0056834    .0055561
+    imm_r4_f |   .0021524    .002925     0.74   0.462    -.0035804    .0078853
+    imm_r5_f |  -.0878261   .0029889   -29.38   0.000    -.0936842   -.0819679
+         imm |  -.1237347   .0017267   -71.66   0.000    -.1271189   -.1203505
+       imm_f |   .0549565   .0026404    20.81   0.000     .0497815    .0601315
+       _cons |   1.576907   .0022021   716.10   0.000     1.572591    1.581223
+------------------------------------------------------------------------------
+F test of absorbed indicators: F(690, 8950121) = 516.530      Prob > F = 0.000
+(2,782,713 missing values generated)
+(0 real changes made)
+(2,782,713 real changes made, 2,782,713 to missing)
+
+. 
+. *adjusted 2- with demographics & industry 
+. forvalues i = 4(1)4 {
+  2.         areg logwage`i' female educ college f_educ f_college exp exp2 exp3
+>  f_exp f_exp2 f_exp3 pt f_pt i.year imm_r3 imm_r4 imm_r5 imm_r3_f imm_r4_f im
+> m_r5_f imm imm_f i.naics [aw=pweight], absorb(cz)
+  3.         predict czind`i', d
+  4.         predict skillind`i', xb
+  5.         replace czind`i'=. if logwage`i'==.
+  6.         replace skillind`i'=. if logwage`i'==.
+  7. 
+. }
+(sum of wgt is 945,320,456)
+
+Linear regression, absorbing indicators          Number of obs     = 8,950,841
+Absorbed variable: cz                            No. of categories =       691
+                                                 F(47, 8950103)    =  87465.09
+                                                 Prob > F          =    0.0000
+                                                 R-squared         =    0.3459
+                                                 Adj R-squared     =    0.3458
+                                                 Root MSE          =    0.5037
+
+------------------------------------------------------------------------------
+    logwage4 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      female |  -.1036019   .0033055   -31.34   0.000    -.1100806   -.0971231
+        educ |   .0572552   .0001354   422.95   0.000     .0569899    .0575205
+     college |   .2553345   .0007999   319.22   0.000     .2537668    .2569022
+      f_educ |   .0089074   .0002173    40.99   0.000     .0084815    .0093334
+   f_college |  -.0707705   .0012108   -58.45   0.000    -.0731438   -.0683973
+         exp |   .0637217   .0001931   330.02   0.000     .0633433    .0641002
+        exp2 |  -.1855782   .0009409  -197.24   0.000    -.1874222   -.1837341
+        exp3 |   .0189619   .0001347   140.76   0.000     .0186979    .0192259
+       f_exp |  -.0122283   .0002878   -42.49   0.000    -.0127924   -.0116642
+      f_exp2 |    .011594   .0014226     8.15   0.000     .0088057    .0143822
+      f_exp3 |   .0012728   .0002059     6.18   0.000     .0008693    .0016762
+          pt |   .2393007   .0010881   219.93   0.000     .2371681    .2414333
+        f_pt |   -.036325   .0013457   -26.99   0.000    -.0389625   -.0336874
+             |
+        year |
+       2011  |   .0026235   .0007374     3.56   0.000     .0011783    .0040687
+       2012  |    .011361    .000734    15.48   0.000     .0099224    .0127997
+       2013  |   .0218588   .0007314    29.89   0.000     .0204252    .0232923
+       2014  |   .0319179   .0007279    43.85   0.000     .0304912    .0333445
+       2015  |   .0483263   .0007235    66.79   0.000     .0469082    .0497444
+       2016  |    .069103   .0007201    95.96   0.000     .0676917    .0705144
+       2017  |   .0888358   .0007157   124.13   0.000     .0874331    .0902385
+       2018  |   .1095972   .0007129   153.74   0.000        .1082    .1109945
+             |
+      imm_r3 |  -.0791565    .001818   -43.54   0.000    -.0827198   -.0755932
+      imm_r4 |   .0452878   .0018768    24.13   0.000     .0416093    .0489662
+      imm_r5 |    .135375   .0019204    70.49   0.000      .131611     .139139
+    imm_r3_f |   .0104593    .002796     3.74   0.000     .0049793    .0159393
+    imm_r4_f |   .0009846   .0028518     0.35   0.730    -.0046047     .006574
+    imm_r5_f |  -.0800229   .0029137   -27.46   0.000    -.0857336   -.0743122
+         imm |  -.1083232    .001684   -64.33   0.000    -.1116237   -.1050227
+       imm_f |    .042296   .0025741    16.43   0.000     .0372508    .0473411
+             |
+       naics |
+          2  |   .4184014   .0026825   155.98   0.000     .4131438     .423659
+          3  |   .3931113    .002387   164.69   0.000     .3884329    .3977896
+          4  |   .1996002   .0018667   106.93   0.000     .1959416    .2032587
+          5  |   .1995742    .001819   109.71   0.000      .196009    .2031394
+          6  |   .1649674   .0020037    82.33   0.000     .1610402    .1688946
+          7  |   .0205375   .0018431    11.14   0.000     .0169251    .0241498
+          8  |   .1133285   .0019237    58.91   0.000     .1095581     .117099
+          9  |   .2555805    .002082   122.76   0.000     .2514999    .2596612
+         10  |   .3081749   .0019119   161.19   0.000     .3044277    .3119222
+         11  |   .1376965    .002177    63.25   0.000     .1334298    .1419633
+         12  |   .3126966   .0018822   166.14   0.000     .3090076    .3163856
+         13  |   .0305971   .0019596    15.61   0.000     .0267563    .0344379
+         14  |  -.0163837   .0018665    -8.78   0.000     -.020042   -.0127254
+         15  |   .1428121   .0018319    77.96   0.000     .1392217    .1464024
+         16  |    .008362   .0022229     3.76   0.000     .0040052    .0127188
+         17  |  -.0688225   .0019193   -35.86   0.000    -.0725842   -.0650608
+         18  |   -.022345   .0019701   -11.34   0.000    -.0262063   -.0184836
+         19  |   .1957082   .0018807   104.06   0.000     .1920222    .1993942
+             |
+       _cons |   1.471751   .0027059   543.90   0.000     1.466447    1.477054
+------------------------------------------------------------------------------
+F test of absorbed indicators: F(690, 8950103) = 503.530      Prob > F = 0.000
+(2,782,713 missing values generated)
+(0 real changes made)
+(2,782,713 real changes made, 2,782,713 to missing)
+
+. 
+. /***********************
+> II. Collapse to CZ level
+> ***********************/
+. 
+. gen c = 1
+
+. forvalues i = 4(1)4 {
+  2.         gen c`i' = .
+  3.         replace c`i' = 1 if logwage`i' != .
+  4. }
+(11,733,554 missing values generated)
+(8,950,841 real changes made)
+
+. 
+. collapse (mean) mlogwage4=logwage4 czbase4=czbase4 czind4=czind4 (sum) wcount
+> =c wcount4=c4 [pw=pweight], by(cz)
+
+. 
+. forvalues i = 4(1)4 {
+  2.         *frac of obs dropped when imposing wage cutoffs
+.         gen fracdrop`i' = (wcount - wcount`i')/wcount
+  3. }
+
+. 
+. merge 1:1 cz using `cznames_dta'
+(variable cz was float, now double to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               691  (_merge==3)
+    -----------------------------------------
+
+. tab _m
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+            Matched (3) |        691      100.00      100.00
+------------------------+-----------------------------------
+                  Total |        691      100.00
+
+. drop if _m == 2
+(0 observations deleted)
+
+. drop _m
+
+. 
+. save `czranking6_altwage_dta', replace
+file
+    ~/replication/industries/portion1_prepforcensus/intermediate/phi_cz_alt-w
+    > age.dta saved
+
+. 
+. keep cz mlogwage4 wcount
+
+. save ${tocensus}/czranking6_alt-wage.dta, replace
+file
+    ~/replication/industries/portion1_prepforcensus/tocensus/czranking6_alt-w
+    > age.dta saved
+
+. 
+. desc
+
+Contains data from ~/replication/industries/portion1_prepforcensus/tocensus/czr
+> anking6_alt-wage.dta
+ Observations:           691                  
+    Variables:             3                  6 Oct 2023 12:34
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+cz              double  %9.0g                 
+mlogwage4       float   %9.0g                 (mean) logwage4
+wcount          double  %9.0g                 (sum) c
+-------------------------------------------------------------------------------
+Sorted by: cz
+
+. sum
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |        691    21913.16    11602.69        100      99999
+   mlogwage4 |        691    2.945561    .0965745   2.710961   3.389369
+      wcount |        691     1802847     4809471       3624   6.99e+07
+
+. sum [aw=wcount]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+          cz |     691  1.2458e+09    21883.97   12292.35        100      99999
+   mlogwage4 |     691  1.2458e+09     3.08255    .132349   2.710961   3.389369
+      wcount |     691  1.2458e+09    1.46e+07   1.78e+07       3624   6.99e+07
+
+. 
+. /* 
+> corr logwage logwage1-logwage4 czbase1-czbase4 czind1-czind4 [aw=wcount]
+> 
+> *check
+> reg mlogwage1 czbase1 skillbase1 [aw=wcount1]
+> reg mlogwage2 czbase2 skillbase2 [aw=wcount2]
+> reg mlogwage3 czbase3 skillbase3 [aw=wcount3]
+> reg mlogwage4 czbase4 skillbase4 [aw=wcount4]
+> */
+. 
+. cap log close

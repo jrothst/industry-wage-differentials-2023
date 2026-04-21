@@ -1,0 +1,115 @@
+1                                                          The SAS System                            18:20 Thursday, October 5, 2023
+
+NOTE: Copyright (c) 2016 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M6) 
+      Licensed to UNIVERSITY OF CALIFORNIA SYSTEM-SFA-T&R, Site 70081487.
+NOTE: This session is executing on the Linux 5.15.0-76-generic (LIN X64) platform.
+
+
+
+NOTE: Analytical products:
+      
+      SAS/STAT 15.1
+      SAS/ETS 15.1
+      SAS/OR 15.1
+      SAS/IML 15.1
+      SAS/QC 15.1
+
+NOTE: Additional host information:
+
+ Linux LIN X64 5.15.0-76-generic #83-Ubuntu SMP Thu Jun 15 19:16:32 UTC 2023 x86_64 Unrecognized Linux Distribution 
+
+You are running SAS 9. Some SAS 8 files will be automatically converted 
+by the V9 engine; others are incompatible.  Please see 
+http://support.sas.com/rnd/migration/planning/platform/64bit.html
+
+PROC MIGRATE will preserve current SAS file attributes and is 
+recommended for converting all your SAS libraries from any 
+SAS 8 release to SAS 9.  For details and examples, please see
+http://support.sas.com/rnd/migration/index.html
+
+
+This message is contained in the SAS news file, and is presented upon
+initialization.  Edit the file "news" in the "misc/base" directory to
+display site-specific news and information in the program log.
+The command line option "-nonews" will prevent this display.
+
+
+
+
+NOTE: SAS initialization used:
+      real time           0.09 seconds
+      cpu time            0.04 seconds
+      
+1          options ls=100 nocenter nofmterr;
+2          libname here '../../tmp';
+NOTE: Libref HERE was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: 
+      /accounts/projects/card/hurricane/replication/industries/portion1_prepforcensus/tmp
+3          
+4          proc freq data=here.acs2017;
+NOTE: Data file HERE.ACS2017.DATA is in a format that is native to another host, or the file 
+      encoding does not match the session encoding. Cross Environment Data Access will be used, 
+      which might require additional CPU resources and might reduce performance.
+5          tables agep / missing;
+6          
+
+NOTE: There were 3190041 observations read from the data set HERE.ACS2017.
+NOTE: The PROCEDURE FREQ printed pages 1-2.
+NOTE: PROCEDURE FREQ used (Total process time):
+2 The SAS System                                                     18:20 Thursday, October 5, 2023
+
+      real time           3.85 seconds
+      cpu time            3.83 seconds
+      
+
+7          data here.extract2017;
+8          set here.acs2017;
+NOTE: Data file HERE.ACS2017.DATA is in a format that is native to another host, or the file 
+      encoding does not match the session encoding. Cross Environment Data Access will be used, 
+      which might require additional CPU resources and might reduce performance.
+9          if agep>=18 and agep<=66;
+10         
+11         drop ddrs dear deye dout dphy drat dratx drem gcl gcm gcr hins1-hins7
+12              jwrip jwtr mlpa mlpb mlpc mlpd mlpe mlpf mlpg mlph mlpi mlpj mlpk
+13              nwab nwav nwla nwlk nwre anc anc1p anc2p drivesp
+14              jwap jwdp fagep fcitp fcitwp
+15              fddrsp fdearp fdeyep fdisp fdoutp fdphyp fdratp fdratxp fdremp
+16              fengp fesrp fferp ffodp fgclp fgcmp fgcrp fhins1p fhins2p
+17              fhins3c fhins30 fhins4c fhins40 fhins5c fhins5p fhins6p fhins7p
+18              fhisp findp fintp fjwdp fjwmnp fjwrip fjwtrp
+19              flanp flanxp fmarp fmarhdp fmarhtp fmarhwp fmarhyp
+20              fmilpp fmilsp foccp foip fpap
+21              fpobp fpowsp fprivcovp fpubcovp fracp frelp fretp
+22              fschgp fschlp fschp
+23              fssip fssp  fwkhp fwklp fwkwp fwrkp fyoep pwgtp1-pwgtp80 ;
+24         
+
+WARNING: The variable mlpc in the DROP, KEEP, or RENAME list has never been referenced.
+WARNING: The variable mlpd in the DROP, KEEP, or RENAME list has never been referenced.
+WARNING: The variable mlpf in the DROP, KEEP, or RENAME list has never been referenced.
+WARNING: The variable mlpg in the DROP, KEEP, or RENAME list has never been referenced.
+WARNING: The variable fhins30 in the DROP, KEEP, or RENAME list has never been referenced.
+WARNING: The variable fhins40 in the DROP, KEEP, or RENAME list has never been referenced.
+NOTE: There were 3190041 observations read from the data set HERE.ACS2017.
+NOTE: The data set HERE.EXTRACT2017 has 2004531 observations and 105 variables.
+NOTE: DATA statement used (Total process time):
+      real time           1:03.36
+      cpu time            1:03.17
+      
+
+25         proc means;
+26         
+NOTE: There were 2004531 observations read from the data set HERE.EXTRACT2017.
+NOTE: The PROCEDURE MEANS printed pages 3-4.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           1.60 seconds
+      cpu time            7.42 seconds
+      
+
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+      real time           1:08.95
+      cpu time            1:14.48
+      

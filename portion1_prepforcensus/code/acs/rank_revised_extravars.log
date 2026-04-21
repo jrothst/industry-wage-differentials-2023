@@ -1,0 +1,2578 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/acs/rank_revised_extravars.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:13:57
+
+. 
+. 
+. 
+. set seed 921109
+
+. 
+. 
+. 
+. forvalues y=2010/2011 {
+  2. 
+. use ${scratch}/simple`y'.dta
+  3. isid serialno sporder
+  4. sort serialno sporder
+  5. keep serialno sporder age female educ twage hrswkly weeksly imm yoep regio
+> n_birth pob wnh bnh anh hispanic mobility pweight ncz cz1-cz10 af1-af10 field
+> _degree ind occ cow wagsal selfearn
+  6. gen year = `y'
+  7. 
+. drop if twage==.
+  8. 
+. gen college=(educ>=16)
+  9. gen logwage=log(twage)
+ 10. gen exp=age-educ-6
+ 11. gen exp2=exp*exp/100
+ 12. gen exp3=exp*exp*exp/1000
+ 13. gen f_exp=female*exp
+ 14. gen f_exp2=female*exp2
+ 15. gen f_exp3=female*exp3
+ 16. gen f_educ=female*educ
+ 17. gen f_college=female*college
+ 18. gen pt=(hrswkly<35)
+ 19. gen f_pt=female*pt
+ 20. 
+. 
+. 
+. gen rv=runiform()
+ 21. gen s1=af1
+ 22. gen s2=af1+af2
+ 23. gen s3=af1+af2+af3 
+ 24. gen s4=af1+af2+af3+af4 
+ 25. gen s5=af1+af2+af3+af4+af5 
+ 26. gen s6=af1+af2+af3+af4+af5+af6
+ 27. gen s7=af1+af2+af3+af4+af5+af6+af7
+ 28. gen s8=af1+af2+af3+af4+af5+af6+af7+af8
+ 29. gen s9=af1+af2+af3+af4+af5+af6+af7+af8+af9
+ 30. gen s10=af1+af2+af3+af4+af5+af6+af7+af8+af9+af10
+ 31. sum s1 if ncz==1
+ 32. sum s1 s2 if ncz==2
+ 33. sum s1-s3 if ncz==3
+ 34. sum s1-s4 if ncz==4
+ 35. sum s1-s5 if ncz==5
+ 36. sum s1-s6 if ncz==6
+ 37. sum s1-s7 if ncz==7
+ 38. sum s1-s8 if ncz==8
+ 39. sum s1-s9 if ncz==9
+ 40. sum s1-s10 if ncz==10
+ 41. 
+. sum rv , detail
+ 42. 
+. gen cz=cz1 if ncz==1
+ 43. replace cz=cz1*(rv<=s1)+cz2*(rv>s1) if ncz==2
+ 44. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2) if ncz==3
+ 45. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3) if ncz==4
+ 46. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4) if ncz==5
+ 47. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5) if ncz==6
+ 48. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5)*(rv<=s6)+cz7*(rv>s6) if ncz==7
+ 49. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5)*(rv<=s6)+cz7*(rv>s6)*(rv<=s7)+c
+> z8*(rv>s7) if ncz==8
+ 50. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5)*(rv<=s6)+cz7*(rv>s6)*(rv<=s7)+c
+> z8*(rv>s7)*(rv<=s8)+cz9*(rv>s8) if ncz==9
+ 51. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5)*(rv<=s6)+cz7*(rv>s6)*(rv<=s7)+c
+> z8*(rv>s7)*(rv<=s8)+cz9*(rv>s8)*(rv<=s9)+cz10*(rv>s9) if ncz==10
+ 52. 
+. sum cz
+ 53. 
+. 
+. gen ind3=floor(ind/10)
+ 54. gen naics=(ind3>=17)*(ind3<=29)
+ 55. replace naics=2  if (ind3>=37)&(ind3<=49)
+ 56. replace naics=3  if (ind3>=57)&(ind3<=69)
+ 57. replace naics=4  if (ind3==77)
+ 58. replace naics=5  if (ind3>=107)&(ind3<=399)
+ 59. replace naics=6  if (ind3>=407)&(ind3<=459)
+ 60. replace naics=7  if (ind3>=467)&(ind3<=579)
+ 61. replace naics=8  if (ind3>=607)&(ind3<=639)
+ 62. replace naics=9  if (ind3>=647)&(ind3<=678)
+ 63. replace naics=10  if (ind3>=687)&(ind3<=699)
+ 64. replace naics=11 if (ind3>=707)&(ind3<=719)
+ 65. replace naics=12 if (ind3>=727)&(ind3<=757)
+ 66. replace naics=13 if (ind3>=758)&(ind3<=779)
+ 67. replace naics=14 if (ind3>=786)&(ind3<=789)
+ 68. replace naics=15 if (ind3>=797)&(ind3<=847)
+ 69. replace naics=16 if (ind3>=856)&(ind3<=859)
+ 70. replace naics=17  if (ind3>=866)&(ind3<=869)
+ 71. replace naics=18  if (ind3>=877)&(ind3<=936)
+ 72. replace naics=19  if (ind3>=937)&(ind3<=987)
+ 73. replace naics=20 if naics==0
+ 74. 
+. replace naics=. if ind3==0
+ 75. replace naics=. if ind3>=988
+ 76. replace naics=. if ind3==.
+ 77. 
+. gen field_degree2d = floor(field_degree/100)
+ 78. gen field_degree_agg1 = ""
+ 79. replace field_degree_agg1 = "Computers,Mathematics,and Statistics" if inli
+> st(field_degree,2100,2102,2103,2105,2106,2107,2199) | (field_degree2d == 37)
+ 80. replace field_degree_agg1 = "Biological,Agricultural,and Environmental Sci
+> ences" if (field_degree2d == 11) | (field_degree2d == 13) | (field_degree2d =
+> = 36)
+ 81. replace field_degree_agg1 = "Physical and Related Science" if field_degree
+> 2d == 50
+ 82. replace field_degree_agg1 = "Psychology" if field_degree2d == 52
+ 83. replace field_degree_agg1 = "Social Science" if (field_degree == 1501) | (
+> field_degree2d == 55) | (field_degree == 6401)
+ 84. replace field_degree_agg1 = "Engineering" if field_degree2d == 24
+ 85. replace field_degree_agg1 = "Multidisciplinary Studies" if field_degree2d 
+> == 40
+ 86. replace field_degree_agg1 = "Science and Engineering Related Fields" if (f
+> ield_degree == 1401) | inlist(field_degree,2101,2104) |  inlist(field_degree,
+> 2302,2305,2308) | (field_degree2d == 25) | (field_degree2d == 51) | (field_de
+> gree2d == 61 & field_degree != 6101)
+ 87. replace field_degree_agg1 = "Business" if (field_degree == 3201) | (field_
+> degree == 6101) | (field_degree2d == 62)
+ 88. replace field_degree_agg1 = "Education" if (field_degree2d == 23) & !inlis
+> t(field_degree,2301,2305,2308)
+ 89. replace field_degree_agg1 = "Literature and Languages" if (field_degree2d 
+> == 26) | (field_degree2d == 33)
+ 90. replace field_degree_agg1 = "Liberal Arts and History" if (field_degree2d 
+> == 34) | (field_degree == 4801) | (field_degree == 4901) | inlist(field_degre
+> e,6402,6403)
+ 91. replace field_degree_agg1 = "Visual and Performing Arts" if field_degree2d
+>  == 60
+ 92. replace field_degree_agg1 = "Communications" if (field_degree2d == 19) | (
+> field_degree == 2001)
+ 93. replace field_degree_agg1 = "Other" if field_degree_agg1 == "" & field_deg
+> ree != .
+ 94. 
+. encode field_degree_agg1, gen(field_degree_agg)
+ 95. drop field_degree2d field_degree_agg1
+ 96. 
+. tempfile working`y'_tmp
+ 97. save `working`y'_tmp', replace
+ 98. 
+. tab naics
+ 99. tab field_degree_agg
+100. sum female age educ exp twage imm wnh bnh anh hispanic imm   
+101. sum female age educ exp twage imm wnh bnh anh hispanic imm [aw=pweight] 
+102. clear
+103. 
+. }
+(559,767 observations deleted)
+(1,113,625 missing values generated)
+(1,232,608 missing values generated)
+(1,311,354 missing values generated)
+(1,355,458 missing values generated)
+(1,373,168 missing values generated)
+(1,379,303 missing values generated)
+(1,379,905 missing values generated)
+(1,379,905 missing values generated)
+(1,380,749 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |  1,113,625           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    118,983    .7068769    .1153453       .504   .9449449
+          s2 |    118,983           1    1.81e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     78,746    .5501018    .1215422       .378   .8488488
+          s2 |     78,746    .8474863    .0599776       .718       .946
+          s3 |     78,746           1    2.77e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     44,104    .4718035    .1114981   .2987013   .7447447
+          s2 |     44,104    .7396462    .0728825   .5944055   .8667401
+          s3 |     44,104    .8990624    .0334354       .819       .949
+          s4 |     44,104           1    2.44e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     17,710    .3683071    .0909669   .2741433   .6133866
+          s2 |     17,710    .6176632    .0953641       .485   .8071927
+          s3 |     17,710     .794966    .0665066        .67   .8838839
+          s4 |     17,710    .9149399    .0337255       .849       .949
+          s5 |     17,710           1    1.56e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      6,135    .3573617    .0887529    .254509   .5867082
+          s2 |      6,135    .5716845    .0638332   .4759519   .7113188
+          s3 |      6,135     .728492    .0456027   .6593186    .834891
+          s4 |      6,135    .8430067    .0263316   .8076152   .8899273
+          s5 |      6,135     .930969    .0102661    .916497   .9449636
+-------------+---------------------------------------------------------
+          s6 |      6,135           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        602    .4002157           0   .4002157   .4002157
+          s2 |        602     .579288           0    .579288    .579288
+          s3 |        602    .6893204           0   .6893204   .6893204
+          s4 |        602    .7799352           0   .7799352   .7799352
+          s5 |        602    .8694714           0   .8694714   .8694714
+-------------+---------------------------------------------------------
+          s6 |        602    .9374326           0   .9374326   .9374326
+          s7 |        602           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |          0
+          s2 |          0
+          s3 |          0
+          s4 |          0
+          s5 |          0
+-------------+---------------------------------------------------------
+          s6 |          0
+          s7 |          0
+          s8 |          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        844    .1972477           0   .1972477   .1972477
+          s2 |        844    .3061927           0   .3061927   .3061927
+          s3 |        844    .4139909           0   .4139909   .4139909
+          s4 |        844    .5206422           0   .5206422   .5206422
+          s5 |        844    .6261468           0   .6261468   .6261468
+-------------+---------------------------------------------------------
+          s6 |        844    .7305046           0   .7305046   .7305046
+          s7 |        844    .8325688           0   .8325688   .8325688
+          s8 |        844     .918578           0    .918578    .918578
+          s9 |        844           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        927         .25           0        .25        .25
+          s2 |        927     .400655           0    .400655    .400655
+          s3 |        927          .5           0         .5         .5
+          s4 |        927    .5796943           0   .5796943   .5796943
+          s5 |        927    .6582969           0   .6582969   .6582969
+-------------+---------------------------------------------------------
+          s6 |        927     .731441           0    .731441    .731441
+          s7 |        927    .8034934           0   .8034934   .8034934
+          s8 |        927    .8744541           0   .8744541   .8744541
+          s9 |        927     .941048           0    .941048    .941048
+         s10 |        927           1           0          1          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0099546       8.93e-07
+ 5%      .049985       1.45e-06
+10%     .0999464       1.80e-06       Obs           1,381,676
+25%     .2495083       2.71e-06       Sum of wgt.   1,381,676
+
+50%      .499268                      Mean            .499711
+                        Largest       Std. dev.      .2887342
+75%     .7500243       .9999966
+90%      .899846        .999997       Variance       .0833675
+95%     .9499609       .9999973       Skewness       .0015257
+99%     .9899651       .9999973       Kurtosis       1.798876
+(268,051 missing values generated)
+(118,983 real changes made)
+(78,746 real changes made)
+(44,104 real changes made)
+(17,710 real changes made)
+(6,135 real changes made)
+(602 real changes made)
+(0 real changes made)
+(844 real changes made)
+(927 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,381,676    21514.58    11558.46        100      39400
+(7,698 real changes made)
+(13,708 real changes made)
+(81,153 real changes made)
+(154,465 real changes made)
+(39,326 real changes made)
+(156,880 real changes made)
+(54,225 real changes made)
+(30,084 real changes made)
+(65,776 real changes made)
+(22,048 real changes made)
+(85,621 real changes made)
+(51,735 real changes made)
+(147,992 real changes made)
+(187,339 real changes made)
+(29,093 real changes made)
+(91,947 real changes made)
+(56,468 real changes made)
+(87,733 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(934,562 missing values generated)
+(1,381,676 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(19,744 real changes made)
+variable field_degree_agg1 was str36 now str50
+(30,312 real changes made)
+(14,166 real changes made)
+(21,365 real changes made)
+(35,691 real changes made)
+(34,682 real changes made)
+(2,860 real changes made)
+(41,302 real changes made)
+(92,254 real changes made)
+(55,186 real changes made)
+(18,434 real changes made)
+(21,745 real changes made)
+(16,736 real changes made)
+(17,971 real changes made)
+(24,666 real changes made)
+(file /tmp/St2381900.000001 not found)
+file /tmp/St2381900.000001 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     18,385        1.33        1.33
+          2 |      7,698        0.56        1.89
+          3 |     13,708        0.99        2.88
+          4 |     81,153        5.87        8.75
+          5 |    154,465       11.18       19.93
+          6 |     39,326        2.85       22.78
+          7 |    156,880       11.35       34.13
+          8 |     54,225        3.92       38.06
+          9 |     30,084        2.18       40.24
+         10 |     65,776        4.76       45.00
+         11 |     22,048        1.60       46.59
+         12 |     85,621        6.20       52.79
+         13 |     51,735        3.74       56.53
+         14 |    147,992       10.71       67.24
+         15 |    187,339       13.56       80.80
+         16 |     29,093        2.11       82.91
+         17 |     91,947        6.65       89.56
+         18 |     56,468        4.09       93.65
+         19 |     87,733        6.35      100.00
+------------+-----------------------------------
+      Total |  1,381,676      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     30,312        6.78        6.78
+                               Business |     92,254       20.63       27.41
+                         Communications |     17,971        4.02       31.43
+   Computers,Mathematics,and Statistics |     19,744        4.42       35.85
+                              Education |     55,186       12.34       48.19
+                            Engineering |     34,682        7.76       55.95
+               Liberal Arts and History |     21,745        4.86       60.81
+               Literature and Languages |     18,434        4.12       64.93
+              Multidisciplinary Studies |      2,860        0.64       65.57
+                                  Other |     24,666        5.52       71.09
+           Physical and Related Science |     14,166        3.17       74.26
+                             Psychology |     21,365        4.78       79.04
+ Science and Engineering Related Fields |     41,302        9.24       88.27
+                         Social Science |     35,691        7.98       96.26
+             Visual and Performing Arts |     16,736        3.74      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    447,114      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,381,676     .489499    .4998899          0          1
+         age |  1,381,676    41.45168    13.14503         18         66
+        educ |  1,381,676    13.64542    2.889792          0         20
+         exp |  1,381,676    21.80626    13.23588         -5         60
+       twage |  1,381,676    22.83472    25.70038          5        500
+-------------+---------------------------------------------------------
+         imm |  1,381,676    .1396695    .3466439          0          1
+         wnh |  1,381,676    .7084881    .4544589          0          1
+         bnh |  1,381,676    .0926911    .2899991          0          1
+         anh |  1,381,676    .0489058    .2156712          0          1
+    hispanic |  1,381,676    .1258544    .3316853          0          1
+-------------+---------------------------------------------------------
+         imm |  1,381,676    .1396695    .3466439          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1381676   142697513    .4821651    .499682          0          1
+         age | 1381676   142697513    40.08933   13.04946         18         66
+        educ | 1381676   142697513    13.51038   2.887762          0         20
+         exp | 1381676   142697513    20.57895   13.11042         -5         60
+       twage | 1381676   142697513    21.95484   24.73911          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1381676   142697513    .1593782   .3660285          0          1
+         wnh | 1381676   142697513    .6621629   .4729729          0          1
+         bnh | 1381676   142697513    .1124882   .3159663          0          1
+         anh | 1381676   142697513    .0501693   .2182942          0          1
+    hispanic | 1381676   142697513    .1513378    .358378          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1381676   142697513    .1593782   .3660285          0          1
+(605,749 observations deleted)
+(1,091,554 missing values generated)
+(1,213,887 missing values generated)
+(1,296,190 missing values generated)
+(1,343,543 missing values generated)
+(1,362,628 missing values generated)
+(1,369,456 missing values generated)
+(1,370,079 missing values generated)
+(1,370,079 missing values generated)
+(1,370,998 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |  1,091,554           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    122,333     .706975    .1148677       .504   .9449449
+          s2 |    122,333           1    1.85e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     82,303    .5509388    .1217155       .378   .8488488
+          s2 |     82,303    .8480037    .0595596       .718       .946
+          s3 |     82,303           1    2.70e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     47,353    .4710831    .1113606   .2987013   .7447447
+          s2 |     47,353    .7393346    .0724119   .5944055   .8667401
+          s3 |     47,353    .8989202     .033568       .819       .949
+          s4 |     47,353           1    2.44e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     19,085    .3676673    .0906786   .2741433   .6133866
+          s2 |     19,085    .6165435    .0951933       .485   .8071927
+          s3 |     19,085    .7940586     .066001        .67   .8838839
+          s4 |     19,085    .9146648    .0334218       .849       .949
+          s5 |     19,085           1    1.52e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      6,828     .354654    .0848286    .254509   .5867082
+          s2 |      6,828    .5699529    .0619724   .4759519   .7113188
+          s3 |      6,828     .726889    .0442369   .6593186    .834891
+          s4 |      6,828    .8428728     .026016   .8076152   .8899273
+          s5 |      6,828    .9310778    .0100712    .916497   .9449636
+-------------+---------------------------------------------------------
+          s6 |      6,828           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        623    .4002157           0   .4002157   .4002157
+          s2 |        623     .579288           0    .579288    .579288
+          s3 |        623    .6893204           0   .6893204   .6893204
+          s4 |        623    .7799352           0   .7799352   .7799352
+          s5 |        623    .8694714           0   .8694714   .8694714
+-------------+---------------------------------------------------------
+          s6 |        623    .9374326           0   .9374326   .9374326
+          s7 |        623           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |          0
+          s2 |          0
+          s3 |          0
+          s4 |          0
+          s5 |          0
+-------------+---------------------------------------------------------
+          s6 |          0
+          s7 |          0
+          s8 |          0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        919    .1972477           0   .1972477   .1972477
+          s2 |        919    .3061927           0   .3061927   .3061927
+          s3 |        919    .4139909           0   .4139909   .4139909
+          s4 |        919    .5206422           0   .5206422   .5206422
+          s5 |        919    .6261468           0   .6261468   .6261468
+-------------+---------------------------------------------------------
+          s6 |        919    .7305046           0   .7305046   .7305046
+          s7 |        919    .8325688           0   .8325688   .8325688
+          s8 |        919     .918578           0    .918578    .918578
+          s9 |        919           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      1,317         .25           0        .25        .25
+          s2 |      1,317     .400655           0    .400655    .400655
+          s3 |      1,317          .5           0         .5         .5
+          s4 |      1,317    .5796943           0   .5796943   .5796943
+          s5 |      1,317    .6582969           0   .6582969   .6582969
+-------------+---------------------------------------------------------
+          s6 |      1,317     .731441           0    .731441    .731441
+          s7 |      1,317    .8034934           0   .8034934   .8034934
+          s8 |      1,317    .8744541           0   .8744541   .8744541
+          s9 |      1,317     .941048           0    .941048    .941048
+         s10 |      1,317           1           0          1          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0100079       5.90e-08
+ 5%      .050261       1.42e-07
+10%     .1002128       1.11e-06       Obs           1,372,315
+25%     .2501551       1.27e-06       Sum of wgt.   1,372,315
+
+50%     .5003499                      Mean           .5001397
+                        Largest       Std. dev.      .2885277
+75%     .7499754       .9999973
+90%     .8998047        .999998       Variance       .0832482
+95%     .9499374       .9999984       Skewness      -.0007112
+99%     .9899269        .999999       Kurtosis       1.800453
+(280,761 missing values generated)
+(122,333 real changes made)
+(82,303 real changes made)
+(47,353 real changes made)
+(19,085 real changes made)
+(6,828 real changes made)
+(623 real changes made)
+(0 real changes made)
+(919 real changes made)
+(1,317 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,372,315    21529.43    11536.79        100      39400
+(8,378 real changes made)
+(13,364 real changes made)
+(77,846 real changes made)
+(152,445 real changes made)
+(37,267 real changes made)
+(155,683 real changes made)
+(54,098 real changes made)
+(28,396 real changes made)
+(61,927 real changes made)
+(21,050 real changes made)
+(81,942 real changes made)
+(53,318 real changes made)
+(148,646 real changes made)
+(189,419 real changes made)
+(29,987 real changes made)
+(95,003 real changes made)
+(57,332 real changes made)
+(86,228 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(941,791 missing values generated)
+(1,372,315 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(18,571 real changes made)
+variable field_degree_agg1 was str36 now str50
+(29,499 real changes made)
+(13,687 real changes made)
+(20,793 real changes made)
+(34,078 real changes made)
+(32,860 real changes made)
+(2,811 real changes made)
+(40,355 real changes made)
+(87,978 real changes made)
+(52,383 real changes made)
+(18,041 real changes made)
+(21,427 real changes made)
+(16,662 real changes made)
+(17,245 real changes made)
+(24,134 real changes made)
+(file /tmp/St2381900.000002 not found)
+file /tmp/St2381900.000002 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     19,986        1.46        1.46
+          2 |      8,378        0.61        2.07
+          3 |     13,364        0.97        3.04
+          4 |     77,846        5.67        8.71
+          5 |    152,445       11.11       19.82
+          6 |     37,267        2.72       22.54
+          7 |    155,683       11.34       33.88
+          8 |     54,098        3.94       37.82
+          9 |     28,396        2.07       39.89
+         10 |     61,927        4.51       44.41
+         11 |     21,050        1.53       45.94
+         12 |     81,942        5.97       51.91
+         13 |     53,318        3.89       55.80
+         14 |    148,646       10.83       66.63
+         15 |    189,419       13.80       80.43
+         16 |     29,987        2.19       82.62
+         17 |     95,003        6.92       89.54
+         18 |     57,332        4.18       93.72
+         19 |     86,228        6.28      100.00
+------------+-----------------------------------
+      Total |  1,372,315      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     29,499        6.85        6.85
+                               Business |     87,978       20.44       27.29
+                         Communications |     17,245        4.01       31.29
+   Computers,Mathematics,and Statistics |     18,571        4.31       35.61
+                              Education |     52,383       12.17       47.77
+                            Engineering |     32,860        7.63       55.41
+               Liberal Arts and History |     21,427        4.98       60.38
+               Literature and Languages |     18,041        4.19       64.57
+              Multidisciplinary Studies |      2,811        0.65       65.23
+                                  Other |     24,134        5.61       70.83
+           Physical and Related Science |     13,687        3.18       74.01
+                             Psychology |     20,793        4.83       78.84
+ Science and Engineering Related Fields |     40,355        9.37       88.21
+                         Social Science |     34,078        7.92       96.13
+             Visual and Performing Arts |     16,662        3.87      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    430,524      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,372,315    .4884177     .499866          0          1
+         age |  1,372,315    41.39967    13.42176         18         66
+        educ |  1,372,315    13.60251    2.884176          0         20
+         exp |  1,372,315    21.79716    13.51218         -6         60
+       twage |  1,372,315    22.55918     26.2038          5        500
+-------------+---------------------------------------------------------
+         imm |  1,372,315    .1385192    .3454443          0          1
+         wnh |  1,372,315    .7005935    .4579982          0          1
+         bnh |  1,372,315    .0970149    .2959782          0          1
+         anh |  1,372,315     .048682    .2152024          0          1
+    hispanic |  1,372,315    .1276762    .3337291          0          1
+-------------+---------------------------------------------------------
+         imm |  1,372,315    .1385192    .3454443          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1372315   142964860    .4807377    .499629          0          1
+         age | 1372315   142964860    40.17983   13.11005         18         66
+        educ | 1372315   142964860    13.54704   2.882019          0         20
+         exp | 1372315   142964860     20.6328   13.19008         -6         60
+       twage | 1372315   142964860    22.16165   25.36843          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1372315   142964860    .1604172   .3669927          0          1
+         wnh | 1372315   142964860    .6577792   .4744533          0          1
+         bnh | 1372315   142964860    .1128205   .3163734          0          1
+         anh | 1372315   142964860    .0509847   .2199666          0          1
+    hispanic | 1372315   142964860    .1547046    .361623          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1372315   142964860    .1604172   .3669927          0          1
+
+. 
+. 
+. forvalues y=2012/2018 {
+  2. 
+. use ${scratch}/simple`y'.dta
+  3. isid serialno sporder
+  4. sort serialno sporder
+  5. 
+. keep serialno sporder age female educ twage hrswkly weeksly imm yoep region_b
+> irth pob wnh bnh anh hispanic mobility pweight ncz cz1-cz9 af1-af9 ind occ fi
+> eld_degree cow wagsal selfearn
+  6. gen year = `y'
+  7. 
+. drop if twage==.
+  8. 
+. gen college=(educ>=16)
+  9. gen logwage=log(twage)
+ 10. gen exp=age-educ-6
+ 11. gen exp2=exp*exp/100
+ 12. gen exp3=exp*exp*exp/1000
+ 13. gen f_exp=female*exp
+ 14. gen f_exp2=female*exp2
+ 15. gen f_exp3=female*exp3
+ 16. gen f_educ=female*educ
+ 17. gen f_college=female*college
+ 18. gen pt=(hrswkly<35)
+ 19. gen f_pt=female*pt
+ 20. 
+. 
+. 
+. gen rv=runiform()
+ 21. gen s1=af1
+ 22. gen s2=af1+af2
+ 23. gen s3=af1+af2+af3 
+ 24. gen s4=af1+af2+af3+af4 
+ 25. gen s5=af1+af2+af3+af4+af5 
+ 26. gen s6=af1+af2+af3+af4+af5+af6
+ 27. gen s7=af1+af2+af3+af4+af5+af6+af7
+ 28. gen s8=af1+af2+af3+af4+af5+af6+af7+af8
+ 29. gen s9=af1+af2+af3+af4+af5+af6+af7+af8+af9
+ 30. 
+. tab ncz
+ 31. sum s1 if ncz==1
+ 32. sum s1 s2 if ncz==2
+ 33. sum s1-s3 if ncz==3
+ 34. sum s1-s4 if ncz==4
+ 35. sum s1-s5 if ncz==5
+ 36. sum s1-s6 if ncz==6
+ 37. sum s1-s7 if ncz==7
+ 38. sum s1-s8 if ncz==8
+ 39. sum s1-s9 if ncz==9
+ 40. 
+. sum rv , detail
+ 41. 
+. gen cz=cz1 if ncz==1
+ 42. replace cz=cz1*(rv<=s1)+cz2*(rv>s1) if ncz==2
+ 43. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2) if ncz==3
+ 44. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3) if ncz==4
+ 45. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4) if ncz==5
+ 46. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5) if ncz==6
+ 47. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5)*(rv<=s6)+cz7*(rv>s6) if ncz==7
+ 48. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5)*(rv<=s6)+cz7*(rv>s6)*(rv<=s7)+c
+> z8*(rv>s7) if ncz==8
+ 49. replace cz=cz1*(rv<=s1)+cz2*(rv>s1)*(rv<=s2)+cz3*(rv>s2)*(rv<=s3)+cz4*(rv>
+> s3)*(rv<=s4)+cz5*(rv>s4)*(rv<=s5)+cz6*(rv>s5)*(rv<=s6)+cz7*(rv>s6)*(rv<=s7)+c
+> z8*(rv>s7)*(rv<=s8)+cz9*(rv>s8) if ncz==9
+ 50. 
+. sum cz
+ 51. 
+. gen ind3=floor(ind/10)
+ 52. gen naics=(ind3>=17)*(ind3<=29)
+ 53. replace naics=2  if (ind3>=37)&(ind3<=49)
+ 54. replace naics=3  if (ind3>=57)&(ind3<=69)
+ 55. replace naics=4  if (ind3==77)
+ 56. replace naics=5  if (ind3>=107)&(ind3<=399)
+ 57. replace naics=6  if (ind3>=407)&(ind3<=459)
+ 58. replace naics=7  if (ind3>=467)&(ind3<=579)
+ 59. replace naics=8  if (ind3>=607)&(ind3<=639)
+ 60. replace naics=9  if (ind3>=647)&(ind3<=678)
+ 61. replace naics=10  if (ind3>=687)&(ind3<=699)
+ 62. replace naics=11 if (ind3>=707)&(ind3<=719)
+ 63. replace naics=12 if (ind3>=727)&(ind3<=757)
+ 64. replace naics=13 if (ind3>=758)&(ind3<=779)
+ 65. replace naics=14 if (ind3>=786)&(ind3<=789)
+ 66. replace naics=15 if (ind3>=797)&(ind3<=847)
+ 67. replace naics=16 if (ind3>=856)&(ind3<=859)
+ 68. replace naics=17  if (ind3>=866)&(ind3<=869)
+ 69. replace naics=18  if (ind3>=877)&(ind3<=936)
+ 70. replace naics=19  if (ind3>=937)&(ind3<=987)
+ 71. replace naics=20 if naics==0
+ 72. 
+. replace naics=. if ind3==0
+ 73. replace naics=. if ind3>=988
+ 74. replace naics=. if ind3==.
+ 75. 
+. gen field_degree2d = floor(field_degree/100)
+ 76. gen field_degree_agg1 = ""
+ 77. replace field_degree_agg1 = "Computers,Mathematics,and Statistics" if inli
+> st(field_degree,2100,2102,2103,2105,2106,2107,2199) | (field_degree2d == 37)
+ 78. replace field_degree_agg1 = "Biological,Agricultural,and Environmental Sci
+> ences" if (field_degree2d == 11) | (field_degree2d == 13) | (field_degree2d =
+> = 36)
+ 79. replace field_degree_agg1 = "Physical and Related Science" if field_degree
+> 2d == 50
+ 80. replace field_degree_agg1 = "Psychology" if field_degree2d == 52
+ 81. replace field_degree_agg1 = "Social Science" if (field_degree == 1501) | (
+> field_degree2d == 55) | (field_degree == 6401)
+ 82. replace field_degree_agg1 = "Engineering" if field_degree2d == 24
+ 83. replace field_degree_agg1 = "Multidisciplinary Studies" if field_degree2d 
+> == 40
+ 84. replace field_degree_agg1 = "Science and Engineering Related Fields" if (f
+> ield_degree == 1401) | inlist(field_degree,2101,2104) |  inlist(field_degree,
+> 2302,2305,2308) | (field_degree2d == 25) | (field_degree2d == 51) | (field_de
+> gree2d == 61 & field_degree != 6101)
+ 85. replace field_degree_agg1 = "Business" if (field_degree == 3201) | (field_
+> degree == 6101) | (field_degree2d == 62)
+ 86. replace field_degree_agg1 = "Education" if (field_degree2d == 23) & !inlis
+> t(field_degree,2301,2305,2308)
+ 87. replace field_degree_agg1 = "Literature and Languages" if (field_degree2d 
+> == 26) | (field_degree2d == 33)
+ 88. replace field_degree_agg1 = "Liberal Arts and History" if (field_degree2d 
+> == 34) | (field_degree == 4801) | (field_degree == 4901) | inlist(field_degre
+> e,6402,6403)
+ 89. replace field_degree_agg1 = "Visual and Performing Arts" if field_degree2d
+>  == 60
+ 90. replace field_degree_agg1 = "Communications" if (field_degree2d == 19) | (
+> field_degree == 2001)
+ 91. replace field_degree_agg1 = "Other" if field_degree_agg1 == "" & field_deg
+> ree != .
+ 92. 
+. encode field_degree_agg1, gen(field_degree_agg)
+ 93. drop field_degree2d field_degree_agg1
+ 94. 
+. tempfile working`y'_tmp
+ 95. save `working`y'_tmp', replace
+ 96. 
+. tab naics
+ 97. tab field_degree_agg
+ 98. sum female age educ exp twage imm wnh bnh anh hispanic imm   
+ 99. sum female age educ exp twage imm wnh bnh anh hispanic imm [aw=pweight] 
+100. 
+. }
+(597,806 observations deleted)
+(681,889 missing values generated)
+(1,036,391 missing values generated)
+(1,223,224 missing values generated)
+(1,301,821 missing values generated)
+(1,345,636 missing values generated)
+(1,366,842 missing values generated)
+(1,376,806 missing values generated)
+(1,377,858 missing values generated)
+
+        ncz |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    681,889       49.37       49.37
+          2 |    354,502       25.67       75.04
+          3 |    186,833       13.53       88.57
+          4 |     78,597        5.69       94.26
+          5 |     43,815        3.17       97.43
+          6 |     21,206        1.54       98.97
+          7 |      9,964        0.72       99.69
+          8 |      1,052        0.08       99.76
+          9 |      3,271        0.24      100.00
+------------+-----------------------------------
+      Total |  1,381,129      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    681,889           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    354,502    .7525951    .1340553    .500047   .9489369
+          s2 |    354,502           1    8.43e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    186,833    .6027132    .1341891   .3438855   .8943223
+          s2 |    186,833    .8689953    .0625098   .6865564   .9498661
+          s3 |    186,833           1    8.56e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     78,597    .4901187    .1201698   .2861782   .7669325
+          s2 |     78,597    .7493493    .0773464   .5574559    .870999
+          s3 |     78,597    .9071103    .0366312   .7859867    .949734
+          s4 |     78,597           1    1.86e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     43,815    .3944862    .1055657   .2505459   .6432766
+          s2 |     43,815    .6288914    .0876573   .4773995   .7924043
+          s3 |     43,815    .7950461    .0565502        .67   .8824122
+          s4 |     43,815    .9131229    .0276335   .8479446        .95
+          s5 |     43,815           1    1.05e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     21,206    .3584713     .093924    .241516   .6084408
+          s2 |     21,206    .5652466    .0701472   .4509889   .7113188
+          s3 |     21,206    .7219772    .0519374   .6254027    .834891
+          s4 |     21,206    .8401484    .0292107   .7892318   .8899273
+          s5 |     21,206    .9307719    .0129009   .8974279   .9496052
+-------------+---------------------------------------------------------
+          s6 |     21,206           1    1.68e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      9,964    .2923403    .0736897   .2095458    .434848
+          s2 |      9,964    .4883743    .0704652   .3653795   .6085298
+          s3 |      9,964    .6342843    .0528175   .5187796   .7242807
+          s4 |      9,964    .7584276    .0400951   .6571643   .8229342
+          s5 |      9,964    .8516959    .0268621    .778497   .8910547
+-------------+---------------------------------------------------------
+          s6 |      9,964    .9337173    .0134416   .8925325   .9465967
+          s7 |      9,964           1    1.30e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      1,052    .2614568    .0483497   .2097012   .3065819
+          s2 |      1,052    .4287516    .0366076   .3895652   .4629176
+          s3 |      1,052    .5508845    .0322946    .516315   .5810252
+          s4 |      1,052    .6692245    .0320456   .6349216   .6991328
+          s5 |      1,052    .7780394    .0251829   .7510825   .8015428
+-------------+---------------------------------------------------------
+          s6 |      1,052    .8573578     .015895   .8403431   .8721927
+          s7 |      1,052    .9299809    .0065525   .9229669   .9360964
+          s8 |      1,052           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      3,271    .2569408    .0782999   .1614145   .3649662
+          s2 |      3,271    .4005738    .0832831   .2907711   .5013281
+          s3 |      3,271    .5059557    .0637015   .4195653   .5766442
+          s4 |      3,271    .6000424    .0444065   .5404513   .6511675
+          s5 |      3,271    .6884786    .0314159    .646413    .724898
+-------------+---------------------------------------------------------
+          s6 |      3,271    .7716665    .0210215   .7442943   .7978357
+          s7 |      3,271    .8536082     .011306   .8404681   .8699806
+          s8 |      3,271    .9345523    .0046765   .9292343     .94054
+          s9 |      3,271           1    2.81e-08   .9999999          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0099807       1.12e-07
+ 5%     .0500543       3.65e-07
+10%     .0998265       1.94e-06       Obs           1,381,129
+25%     .2497019       2.16e-06       Sum of wgt.   1,381,129
+
+50%     .4995694                      Mean           .4999449
+                        Largest       Std. dev.       .288812
+75%     .7501962       .9999976
+90%     .9001756       .9999977       Variance       .0834124
+95%     .9502307        .999999       Skewness       .0009587
+99%     .9900905       .9999996       Kurtosis       1.798589
+(699,240 missing values generated)
+(354,502 real changes made)
+(186,833 real changes made)
+(78,597 real changes made)
+(43,815 real changes made)
+(21,206 real changes made)
+(9,964 real changes made)
+(1,052 real changes made)
+(3,271 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,381,129    21527.49    11534.39        100      39400
+(9,139 real changes made)
+(13,176 real changes made)
+(78,199 real changes made)
+(153,152 real changes made)
+(35,819 real changes made)
+(156,706 real changes made)
+(54,046 real changes made)
+(28,696 real changes made)
+(63,957 real changes made)
+(21,386 real changes made)
+(86,384 real changes made)
+(53,801 real changes made)
+(146,811 real changes made)
+(191,179 real changes made)
+(30,011 real changes made)
+(98,063 real changes made)
+(56,587 real changes made)
+(84,915 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(935,286 missing values generated)
+(1,381,129 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(19,962 real changes made)
+variable field_degree_agg1 was str36 now str50
+(30,538 real changes made)
+(13,594 real changes made)
+(21,414 real changes made)
+(34,880 real changes made)
+(34,696 real changes made)
+(3,083 real changes made)
+(41,889 real changes made)
+(92,603 real changes made)
+(52,634 real changes made)
+(17,969 real changes made)
+(21,341 real changes made)
+(17,433 real changes made)
+(18,320 real changes made)
+(25,487 real changes made)
+(file /tmp/St2381900.000003 not found)
+file /tmp/St2381900.000003 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     19,102        1.38        1.38
+          2 |      9,139        0.66        2.04
+          3 |     13,176        0.95        3.00
+          4 |     78,199        5.66        8.66
+          5 |    153,152       11.09       19.75
+          6 |     35,819        2.59       22.34
+          7 |    156,706       11.35       33.69
+          8 |     54,046        3.91       37.60
+          9 |     28,696        2.08       39.68
+         10 |     63,957        4.63       44.31
+         11 |     21,386        1.55       45.86
+         12 |     86,384        6.25       52.11
+         13 |     53,801        3.90       56.01
+         14 |    146,811       10.63       66.64
+         15 |    191,179       13.84       80.48
+         16 |     30,011        2.17       82.65
+         17 |     98,063        7.10       89.75
+         18 |     56,587        4.10       93.85
+         19 |     84,915        6.15      100.00
+------------+-----------------------------------
+      Total |  1,381,129      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     30,538        6.85        6.85
+                               Business |     92,603       20.77       27.62
+                         Communications |     18,320        4.11       31.73
+   Computers,Mathematics,and Statistics |     19,962        4.48       36.21
+                              Education |     52,634       11.81       48.01
+                            Engineering |     34,696        7.78       55.79
+               Liberal Arts and History |     21,341        4.79       60.58
+               Literature and Languages |     17,969        4.03       64.61
+              Multidisciplinary Studies |      3,083        0.69       65.30
+                                  Other |     25,487        5.72       71.02
+           Physical and Related Science |     13,594        3.05       74.07
+                             Psychology |     21,414        4.80       78.87
+ Science and Engineering Related Fields |     41,889        9.40       88.27
+                         Social Science |     34,880        7.82       96.09
+             Visual and Performing Arts |     17,433        3.91      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    445,843      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,381,129    .4873469    .4998401          0          1
+         age |  1,381,129    41.53441    13.46355         18         66
+        educ |  1,381,129    13.65945    2.879395          0         20
+         exp |  1,381,129    21.87496    13.56704         -5         60
+       twage |  1,381,129    23.15228    26.79644          5        500
+-------------+---------------------------------------------------------
+         imm |  1,381,129    .1397248    .3467014          0          1
+         wnh |  1,381,129    .6965084    .4597658          0          1
+         bnh |  1,381,129    .0959346    .2945016          0          1
+         anh |  1,381,129     .050311     .218586          0          1
+    hispanic |  1,381,129    .1302152    .3365402          0          1
+-------------+---------------------------------------------------------
+         imm |  1,381,129    .1397248    .3467014          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1381129   144803177    .4792869    .499571          0          1
+         age | 1381129   144803177    40.20468   13.18446         18         66
+        educ | 1381129   144803177    13.58849   2.872958          0         20
+         exp | 1381129   144803177    20.61619   13.27495         -5         60
+       twage | 1381129   144803177    22.54766   26.04517          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1381129   144803177    .1598051   .3664254          0          1
+         wnh | 1381129   144803177    .6527082   .4761096          0          1
+         bnh | 1381129   144803177    .1135395   .3172513          0          1
+         anh | 1381129   144803177    .0523115   .2226544          0          1
+    hispanic | 1381129   144803177    .1565947   .3634184          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1381129   144803177    .1598051   .3664254          0          1
+(588,585 observations deleted)
+(698,996 missing values generated)
+(1,061,810 missing values generated)
+(1,250,399 missing values generated)
+(1,328,985 missing values generated)
+(1,372,737 missing values generated)
+(1,394,006 missing values generated)
+(1,404,081 missing values generated)
+(1,405,025 missing values generated)
+
+        ncz |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    698,996       49.63       49.63
+          2 |    362,814       25.76       75.39
+          3 |    188,589       13.39       88.78
+          4 |     78,586        5.58       94.36
+          5 |     43,752        3.11       97.47
+          6 |     21,269        1.51       98.98
+          7 |     10,075        0.72       99.69
+          8 |        944        0.07       99.76
+          9 |      3,356        0.24      100.00
+------------+-----------------------------------
+      Total |  1,408,381      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    698,996           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    362,814    .7526975    .1341202    .500047   .9489369
+          s2 |    362,814           1    8.39e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    188,589    .6035314    .1341088   .3438855   .8943223
+          s2 |    188,589    .8697531    .0622596   .6865564   .9498661
+          s3 |    188,589           1    8.73e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     78,586    .4891793    .1203571   .2861782   .7669325
+          s2 |     78,586    .7487951    .0776435   .5574559    .870999
+          s3 |     78,586     .906973    .0366973   .7859867    .949734
+          s4 |     78,586           1    1.86e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     43,752    .3942946    .1052371   .2505459   .6432766
+          s2 |     43,752    .6282772    .0877821   .4773995   .7924043
+          s3 |     43,752    .7946939    .0567995        .67   .8824122
+          s4 |     43,752    .9129905     .027775   .8479446        .95
+          s5 |     43,752           1    1.04e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     21,269    .3587406    .0935162    .241516   .6084408
+          s2 |     21,269     .565627    .0696746   .4509889   .7113188
+          s3 |     21,269    .7221158    .0514603   .6254027    .834891
+          s4 |     21,269    .8400803    .0290319   .7892318   .8899273
+          s5 |     21,269    .9307639    .0128316   .8974279   .9496052
+-------------+---------------------------------------------------------
+          s6 |     21,269           1    1.70e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     10,075    .2911037    .0734116   .2095458    .434848
+          s2 |     10,075    .4868104    .0710884   .3653795   .6085298
+          s3 |     10,075    .6324245    .0539926   .5187796   .7242807
+          s4 |     10,075    .7567353    .0413713   .6571643   .8229342
+          s5 |     10,075     .850579    .0279127    .778497   .8910547
+-------------+---------------------------------------------------------
+          s6 |     10,075    .9331977    .0141433   .8925325   .9465967
+          s7 |     10,075           1    1.30e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        944    .2620414    .0483087   .2097012   .3065819
+          s2 |        944    .4291941    .0365765   .3895652   .4629176
+          s3 |        944     .551275    .0322671    .516315   .5810252
+          s4 |        944     .669612    .0320184   .6349216   .6991328
+          s5 |        944    .7783439    .0251615   .7510825   .8015428
+-------------+---------------------------------------------------------
+          s6 |        944      .85755    .0158815   .8403431   .8721927
+          s7 |        944    .9300602    .0065469   .9229669   .9360964
+          s8 |        944           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      3,356    .2566738    .0789726   .1614145   .3649662
+          s2 |      3,356    .4000112     .083955   .2907711   .5013281
+          s3 |      3,356    .5054194    .0641828   .4195653   .5766442
+          s4 |      3,356    .5996982    .0447521   .5404513   .6511675
+          s5 |      3,356    .6882392    .0316617    .646413    .724898
+-------------+---------------------------------------------------------
+          s6 |      3,356    .7715377    .0211942   .7442943   .7978357
+          s7 |      3,356     .853588    .0114033   .8404681   .8699806
+          s8 |      3,356    .9346442    .0046615   .9292343     .94054
+          s9 |      3,356           1    2.82e-08   .9999999          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0100054       3.39e-07
+ 5%     .0504967       3.80e-06
+10%     .1005167       4.66e-06       Obs           1,408,381
+25%     .2506429       4.90e-06       Sum of wgt.   1,408,381
+
+50%     .5001537                      Mean           .5001648
+                        Largest       Std. dev.      .2884223
+75%     .7499152       .9999971
+90%     .8998181       .9999992       Variance       .0831874
+95%     .9497036       .9999997       Skewness      -.0001853
+99%     .9899678       .9999999       Kurtosis       1.801514
+(709,385 missing values generated)
+(362,814 real changes made)
+(188,589 real changes made)
+(78,586 real changes made)
+(43,752 real changes made)
+(21,269 real changes made)
+(10,075 real changes made)
+(944 real changes made)
+(3,356 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,408,381    21564.63    11534.07        100      39400
+(9,416 real changes made)
+(13,596 real changes made)
+(78,005 real changes made)
+(156,820 real changes made)
+(37,984 real changes made)
+(158,519 real changes made)
+(54,352 real changes made)
+(30,334 real changes made)
+(66,188 real changes made)
+(22,068 real changes made)
+(91,090 real changes made)
+(55,139 real changes made)
+(150,286 real changes made)
+(193,285 real changes made)
+(31,431 real changes made)
+(99,313 real changes made)
+(58,024 real changes made)
+(84,016 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(938,685 missing values generated)
+(1,408,381 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(21,951 real changes made)
+variable field_degree_agg1 was str36 now str50
+(32,031 real changes made)
+(14,113 real changes made)
+(22,531 real changes made)
+(36,900 real changes made)
+(37,130 real changes made)
+(3,394 real changes made)
+(43,996 real changes made)
+(97,513 real changes made)
+(52,778 real changes made)
+(19,033 real changes made)
+(22,721 real changes made)
+(18,763 real changes made)
+(19,761 real changes made)
+(27,081 real changes made)
+(file /tmp/St2381900.000004 not found)
+file /tmp/St2381900.000004 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     18,515        1.31        1.31
+          2 |      9,416        0.67        1.98
+          3 |     13,596        0.97        2.95
+          4 |     78,005        5.54        8.49
+          5 |    156,820       11.13       19.62
+          6 |     37,984        2.70       22.32
+          7 |    158,519       11.26       33.57
+          8 |     54,352        3.86       37.43
+          9 |     30,334        2.15       39.59
+         10 |     66,188        4.70       44.29
+         11 |     22,068        1.57       45.85
+         12 |     91,090        6.47       52.32
+         13 |     55,139        3.92       56.24
+         14 |    150,286       10.67       66.91
+         15 |    193,285       13.72       80.63
+         16 |     31,431        2.23       82.86
+         17 |     99,313        7.05       89.91
+         18 |     58,024        4.12       94.03
+         19 |     84,016        5.97      100.00
+------------+-----------------------------------
+      Total |  1,408,381      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     32,031        6.82        6.82
+                               Business |     97,513       20.76       27.58
+                         Communications |     19,761        4.21       31.79
+   Computers,Mathematics,and Statistics |     21,951        4.67       36.46
+                              Education |     52,778       11.24       47.70
+                            Engineering |     37,130        7.91       55.60
+               Liberal Arts and History |     22,721        4.84       60.44
+               Literature and Languages |     19,033        4.05       64.49
+              Multidisciplinary Studies |      3,394        0.72       65.21
+                                  Other |     27,081        5.77       70.98
+           Physical and Related Science |     14,113        3.00       73.99
+                             Psychology |     22,531        4.80       78.78
+ Science and Engineering Related Fields |     43,996        9.37       88.15
+                         Social Science |     36,900        7.86       96.01
+             Visual and Performing Arts |     18,763        3.99      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    469,696      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,408,381    .4858983    .4998013          0          1
+         age |  1,408,381    41.57222    13.51603         18         66
+        educ |  1,408,381    13.71212    2.922612          0         20
+         exp |  1,408,381    21.86009    13.62919         -6         60
+       twage |  1,408,381    23.82283    27.82935          5        500
+-------------+---------------------------------------------------------
+         imm |  1,408,381     .140036    .3470245          0          1
+         wnh |  1,408,381     .695652    .4601309          0          1
+         bnh |  1,408,381    .0945831    .2926383          0          1
+         anh |  1,408,381    .0523559    .2227437          0          1
+    hispanic |  1,408,381    .1302311    .3365576          0          1
+-------------+---------------------------------------------------------
+         imm |  1,408,381     .140036    .3470245          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1408381   146527004    .4790452   .4995609          0          1
+         age | 1408381   146527004    40.25197    13.2703         18         66
+        educ | 1408381   146527004    13.59181   2.921782          0         20
+         exp | 1408381   146527004    20.66017   13.37154         -6         60
+       twage | 1408381   146527004    22.97271   26.71823          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1408381   146527004    .1613079   .3678149          0          1
+         wnh | 1408381   146527004    .6457537   .4782845          0          1
+         bnh | 1408381   146527004    .1155884   .3197308          0          1
+         anh | 1408381   146527004    .0535502   .2251281          0          1
+    hispanic | 1408381   146527004     .159567   .3662041          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1408381   146527004    .1613079   .3678149          0          1
+(579,493 observations deleted)
+(699,377 missing values generated)
+(1,061,752 missing values generated)
+(1,249,280 missing values generated)
+(1,327,082 missing values generated)
+(1,370,257 missing values generated)
+(1,391,419 missing values generated)
+(1,401,404 missing values generated)
+(1,402,413 missing values generated)
+
+        ncz |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    699,377       49.75       49.75
+          2 |    362,375       25.78       75.53
+          3 |    187,528       13.34       88.87
+          4 |     77,802        5.53       94.41
+          5 |     43,175        3.07       97.48
+          6 |     21,162        1.51       98.99
+          7 |      9,985        0.71       99.70
+          8 |      1,009        0.07       99.77
+          9 |      3,253        0.23      100.00
+------------+-----------------------------------
+      Total |  1,405,666      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    699,377           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    362,375    .7525069    .1342905    .500047   .9489369
+          s2 |    362,375           1    8.47e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    187,528    .6031705    .1339568   .3438855   .8943223
+          s2 |    187,528    .8694866    .0625546   .6865564   .9498661
+          s3 |    187,528           1    8.59e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     77,802    .4895379     .120532   .2861782   .7669325
+          s2 |     77,802    .7488813     .077747   .5574559    .870999
+          s3 |     77,802    .9068551     .036839   .7859867    .949734
+          s4 |     77,802           1    1.83e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     43,175    .3944052    .1059376   .2505459   .6432766
+          s2 |     43,175    .6282328    .0884416   .4773995   .7924043
+          s3 |     43,175    .7945857    .0572236        .67   .8824122
+          s4 |     43,175    .9128924    .0278876   .8479446        .95
+          s5 |     43,175           1    1.07e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     21,162    .3583662    .0935382    .241516   .6084408
+          s2 |     21,162    .5653029    .0699139   .4509889   .7113188
+          s3 |     21,162    .7220423    .0517646   .6254027    .834891
+          s4 |     21,162    .8402527    .0291144   .7892318   .8899273
+          s5 |     21,162    .9308773    .0128492   .8974279   .9496052
+-------------+---------------------------------------------------------
+          s6 |     21,162           1    1.69e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      9,985    .2929257    .0741783   .2095458    .434848
+          s2 |      9,985    .4888187    .0707482   .3653795   .6085298
+          s3 |      9,985    .6340565    .0530249   .5187796   .7242807
+          s4 |      9,985    .7579455    .0404608   .6571643   .8229342
+          s5 |      9,985     .851364    .0271836    .778497   .8910547
+-------------+---------------------------------------------------------
+          s6 |      9,985    .9334847    .0136542   .8925325   .9465967
+          s7 |      9,985           1    1.31e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      1,009    .2621262    .0483001   .2097012   .3065819
+          s2 |      1,009    .4292584      .03657   .3895652   .4629176
+          s3 |      1,009    .5513316    .0322614    .516315   .5810252
+          s4 |      1,009    .6696682    .0320127   .6349216   .6991328
+          s5 |      1,009    .7783881    .0251571   .7510825   .8015428
+-------------+---------------------------------------------------------
+          s6 |      1,009    .8575779    .0158787   .8403431   .8721927
+          s7 |      1,009    .9300716    .0065457   .9229669   .9360964
+          s8 |      1,009           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      3,253    .2543179    .0785081   .1614145   .3649662
+          s2 |      3,253    .3976711    .0838164   .2907711   .5013281
+          s3 |      3,253    .5037131    .0642142   .4195653   .5766442
+          s4 |      3,253    .5984841    .0447355   .5404513   .6511675
+          s5 |      3,253     .687377    .0316445    .646413    .724898
+-------------+---------------------------------------------------------
+          s6 |      3,253    .7709378    .0211421   .7442943   .7978357
+          s7 |      3,253    .8532401    .0113141   .8404681   .8699806
+          s8 |      3,253    .9345622    .0046247   .9292343     .94054
+          s9 |      3,253           1    2.84e-08   .9999999          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0100892       5.42e-07
+ 5%     .0500688       7.86e-07
+10%     .0999955       1.91e-06       Obs           1,405,666
+25%     .2501716       3.00e-06       Sum of wgt.   1,405,666
+
+50%     .4999701                      Mean            .500041
+                        Largest       Std. dev.      .2886098
+75%      .749763       .9999977
+90%     .9001384        .999998       Variance       .0832956
+95%     .9501188        .999998       Skewness       .0002378
+99%     .9901729              1       Kurtosis       1.800939
+(706,289 missing values generated)
+(362,375 real changes made)
+(187,528 real changes made)
+(77,802 real changes made)
+(43,175 real changes made)
+(21,162 real changes made)
+(9,985 real changes made)
+(1,009 real changes made)
+(3,253 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,405,666    21595.11    11551.78        100      39400
+(9,815 real changes made)
+(13,187 real changes made)
+(78,909 real changes made)
+(153,761 real changes made)
+(38,716 real changes made)
+(156,907 real changes made)
+(55,220 real changes made)
+(30,944 real changes made)
+(64,755 real changes made)
+(22,668 real changes made)
+(91,503 real changes made)
+(55,705 real changes made)
+(148,897 real changes made)
+(194,523 real changes made)
+(31,159 real changes made)
+(100,004 real changes made)
+(56,752 real changes made)
+(83,601 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(933,107 missing values generated)
+(1,405,666 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(22,275 real changes made)
+variable field_degree_agg1 was str36 now str50
+(32,748 real changes made)
+(14,420 real changes made)
+(22,897 real changes made)
+(36,851 real changes made)
+(37,316 real changes made)
+(3,648 real changes made)
+(45,062 real changes made)
+(98,012 real changes made)
+(51,448 real changes made)
+(18,866 real changes made)
+(22,234 real changes made)
+(18,727 real changes made)
+(20,117 real changes made)
+(27,938 real changes made)
+(file /tmp/St2381900.000005 not found)
+file /tmp/St2381900.000005 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     18,640        1.33        1.33
+          2 |      9,815        0.70        2.02
+          3 |     13,187        0.94        2.96
+          4 |     78,909        5.61        8.58
+          5 |    153,761       10.94       19.51
+          6 |     38,716        2.75       22.27
+          7 |    156,907       11.16       33.43
+          8 |     55,220        3.93       37.36
+          9 |     30,944        2.20       39.56
+         10 |     64,755        4.61       44.17
+         11 |     22,668        1.61       45.78
+         12 |     91,503        6.51       52.29
+         13 |     55,705        3.96       56.25
+         14 |    148,897       10.59       66.85
+         15 |    194,523       13.84       80.68
+         16 |     31,159        2.22       82.90
+         17 |    100,004        7.11       90.02
+         18 |     56,752        4.04       94.05
+         19 |     83,601        5.95      100.00
+------------+-----------------------------------
+      Total |  1,405,666      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     32,748        6.93        6.93
+                               Business |     98,012       20.74       27.67
+                         Communications |     20,117        4.26       31.93
+   Computers,Mathematics,and Statistics |     22,275        4.71       36.64
+                              Education |     51,448       10.89       47.53
+                            Engineering |     37,316        7.90       55.43
+               Liberal Arts and History |     22,234        4.71       60.13
+               Literature and Languages |     18,866        3.99       64.12
+              Multidisciplinary Studies |      3,648        0.77       64.89
+                                  Other |     27,938        5.91       70.81
+           Physical and Related Science |     14,420        3.05       73.86
+                             Psychology |     22,897        4.85       78.70
+ Science and Engineering Related Fields |     45,062        9.54       88.24
+                         Social Science |     36,851        7.80       96.04
+             Visual and Performing Arts |     18,727        3.96      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    472,559      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,405,666    .4851238    .4997788          0          1
+         age |  1,405,666    41.56978    13.57668         18         66
+        educ |  1,405,666    13.72984    2.919108          0         20
+         exp |  1,405,666    21.83994    13.70512         -6         60
+       twage |  1,405,666    24.17547      28.097          5        500
+-------------+---------------------------------------------------------
+         imm |  1,405,666    .1419306    .3489791          0          1
+         wnh |  1,405,666    .6882624    .4632034          0          1
+         bnh |  1,405,666    .0961039    .2947338          0          1
+         anh |  1,405,666     .053963    .2259448          0          1
+    hispanic |  1,405,666    .1340496    .3407057          0          1
+-------------+---------------------------------------------------------
+         imm |  1,405,666    .1419306    .3489791          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1405666   148061566    .4783613   .4995317          0          1
+         age | 1405666   148061566    40.22333   13.29411         18         66
+        educ | 1405666   148061566    13.61809   2.916283          0         20
+         exp | 1405666   148061566    20.60524    13.4128         -6         60
+       twage | 1405666   148061566    23.31403   26.96753          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1405666   148061566    .1634548   .3697802          0          1
+         wnh | 1405666   148061566    .6375679   .4807029          0          1
+         bnh | 1405666   148061566    .1172369   .3217025          0          1
+         anh | 1405666   148061566    .0557267   .2293933          0          1
+    hispanic | 1405666   148061566    .1633698   .3697028          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1405666   148061566    .1634548   .3697802          0          1
+(571,645 observations deleted)
+(704,591 missing values generated)
+(1,070,928 missing values generated)
+(1,260,373 missing values generated)
+(1,338,837 missing values generated)
+(1,382,205 missing values generated)
+(1,402,737 missing values generated)
+(1,412,663 missing values generated)
+(1,413,648 missing values generated)
+
+        ncz |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    704,591       49.73       49.73
+          2 |    366,337       25.86       75.59
+          3 |    189,445       13.37       88.96
+          4 |     78,464        5.54       94.50
+          5 |     43,368        3.06       97.56
+          6 |     20,532        1.45       99.01
+          7 |      9,926        0.70       99.71
+          8 |        985        0.07       99.78
+          9 |      3,078        0.22      100.00
+------------+-----------------------------------
+      Total |  1,416,726      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    704,591           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    366,337    .7530117    .1340631    .500047   .9489369
+          s2 |    366,337           1    8.50e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    189,445    .6035086    .1341199   .3438855   .8943223
+          s2 |    189,445    .8696192    .0625214   .6865564   .9498661
+          s3 |    189,445           1    8.71e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     78,464    .4891089    .1208928   .2861782   .7669325
+          s2 |     78,464    .7483172    .0781009   .5574559    .870999
+          s3 |     78,464    .9068056    .0369831   .7859867    .949734
+          s4 |     78,464           1    1.87e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     43,368    .3948771     .105966   .2505459   .6432766
+          s2 |     43,368     .628416    .0880812   .4773995   .7924043
+          s3 |     43,368    .7945433    .0569496        .67   .8824122
+          s4 |     43,368     .912829    .0278373   .8479446        .95
+          s5 |     43,368           1    1.04e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     20,532     .358637    .0924235    .241516   .6084408
+          s2 |     20,532    .5659141    .0694164   .4509889   .7113188
+          s3 |     20,532     .722483    .0515837   .6254027    .834891
+          s4 |     20,532    .8402434    .0290528   .7892318   .8899273
+          s5 |     20,532    .9307227    .0129376   .8974279   .9496052
+-------------+---------------------------------------------------------
+          s6 |     20,532           1    1.67e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      9,926    .2933848    .0744378   .2095458    .434848
+          s2 |      9,926    .4890798    .0712389   .3653795   .6085298
+          s3 |      9,926    .6343578    .0534572   .5187796   .7242807
+          s4 |      9,926    .7580637    .0406611   .6571643   .8229342
+          s5 |      9,926    .8514101    .0273274    .778497   .8910547
+-------------+---------------------------------------------------------
+          s6 |      9,926    .9335477    .0137134   .8925325   .9465967
+          s7 |      9,926           1    1.29e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        985    .2604529    .0484097   .2097012   .3065819
+          s2 |        985    .4279914     .036653   .3895652   .4629176
+          s3 |        985     .550214    .0323346    .516315   .5810252
+          s4 |        985    .6685591    .0320853   .6349216   .6991328
+          s5 |        985    .7775165    .0252142   .7510825   .8015428
+-------------+---------------------------------------------------------
+          s6 |        985    .8570278    .0159148   .8403431   .8721927
+          s7 |        985    .9298449    .0065606   .9229669   .9360964
+          s8 |        985           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      3,078    .2542614    .0791721   .1614145   .3649662
+          s2 |      3,078    .3973359    .0844413   .2907711   .5013281
+          s3 |      3,078    .5033502    .0646462   .4195653   .5766442
+          s4 |      3,078    .5982611    .0450504   .5404513   .6511675
+          s5 |      3,078    .6872234    .0318692    .646413    .724898
+-------------+---------------------------------------------------------
+          s6 |      3,078    .7708664    .0213047   .7442943   .7978357
+          s7 |      3,078    .8532498    .0114127   .8404681   .8699806
+          s8 |      3,078    .9346552    .0046134   .9292343     .94054
+          s9 |      3,078           1    2.85e-08   .9999999          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0100016       6.24e-07
+ 5%     .0497988       2.14e-06
+10%     .0997937       5.05e-06       Obs           1,416,726
+25%     .2497774       5.13e-06       Sum of wgt.   1,416,726
+
+50%     .4996232                      Mean           .4997396
+                        Largest       Std. dev.      .2887676
+75%     .7499987       .9999987
+90%     .9000571       .9999992       Variance       .0833867
+95%     .9502199       .9999995       Skewness       .0015867
+99%     .9901015       .9999996       Kurtosis       1.800276
+(712,135 missing values generated)
+(366,337 real changes made)
+(189,445 real changes made)
+(78,464 real changes made)
+(43,368 real changes made)
+(20,532 real changes made)
+(9,926 real changes made)
+(985 real changes made)
+(3,078 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,416,726    21639.05     11573.2        100      39400
+(9,487 real changes made)
+(13,175 real changes made)
+(80,185 real changes made)
+(155,078 real changes made)
+(38,793 real changes made)
+(157,752 real changes made)
+(57,237 real changes made)
+(30,368 real changes made)
+(65,388 real changes made)
+(23,255 real changes made)
+(95,694 real changes made)
+(55,728 real changes made)
+(149,056 real changes made)
+(195,449 real changes made)
+(31,298 real changes made)
+(100,968 real changes made)
+(56,733 real changes made)
+(82,473 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(932,394 missing values generated)
+(1,416,726 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(23,493 real changes made)
+variable field_degree_agg1 was str36 now str50
+(34,142 real changes made)
+(14,182 real changes made)
+(23,810 real changes made)
+(37,527 real changes made)
+(38,597 real changes made)
+(3,669 real changes made)
+(46,867 real changes made)
+(100,732 real changes made)
+(50,157 real changes made)
+(19,245 real changes made)
+(22,437 real changes made)
+(19,261 real changes made)
+(20,837 real changes made)
+(29,376 real changes made)
+(file /tmp/St2381900.000006 not found)
+file /tmp/St2381900.000006 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     18,609        1.31        1.31
+          2 |      9,487        0.67        1.98
+          3 |     13,175        0.93        2.91
+          4 |     80,185        5.66        8.57
+          5 |    155,078       10.95       19.52
+          6 |     38,793        2.74       22.26
+          7 |    157,752       11.13       33.39
+          8 |     57,237        4.04       37.43
+          9 |     30,368        2.14       39.58
+         10 |     65,388        4.62       44.19
+         11 |     23,255        1.64       45.83
+         12 |     95,694        6.75       52.59
+         13 |     55,728        3.93       56.52
+         14 |    149,056       10.52       67.04
+         15 |    195,449       13.80       80.84
+         16 |     31,298        2.21       83.05
+         17 |    100,968        7.13       90.17
+         18 |     56,733        4.00       94.18
+         19 |     82,473        5.82      100.00
+------------+-----------------------------------
+      Total |  1,416,726      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     34,142        7.05        7.05
+                               Business |    100,732       20.80       27.85
+                         Communications |     20,837        4.30       32.15
+   Computers,Mathematics,and Statistics |     23,493        4.85       37.00
+                              Education |     50,157       10.36       47.36
+                            Engineering |     38,597        7.97       55.33
+               Liberal Arts and History |     22,437        4.63       59.96
+               Literature and Languages |     19,245        3.97       63.93
+              Multidisciplinary Studies |      3,669        0.76       64.69
+                                  Other |     29,376        6.07       70.75
+           Physical and Related Science |     14,182        2.93       73.68
+                             Psychology |     23,810        4.92       78.60
+ Science and Engineering Related Fields |     46,867        9.68       88.27
+                         Social Science |     37,527        7.75       96.02
+             Visual and Performing Arts |     19,261        3.98      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    484,332      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,416,726    .4850317    .4997761          0          1
+         age |  1,416,726    41.54758    13.62722         18         66
+        educ |  1,416,726    13.75751    2.929301          0         20
+         exp |  1,416,726    21.79007    13.75757         -6         60
+       twage |  1,416,726    24.89355    29.36903          5        500
+-------------+---------------------------------------------------------
+         imm |  1,416,726    .1436375    .3507219          0          1
+         wnh |  1,416,726    .6842742    .4648045          0          1
+         bnh |  1,416,726    .0951758    .2934577          0          1
+         anh |  1,416,726    .0551878    .2283466          0          1
+    hispanic |  1,416,726    .1371966    .3440549          0          1
+-------------+---------------------------------------------------------
+         imm |  1,416,726    .1436375    .3507219          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1416726   149722811    .4787622   .4995489          0          1
+         age | 1416726   149722811    40.20669   13.32362         18         66
+        educ | 1416726   149722811    13.63874   2.930296          0         20
+         exp | 1416726   149722811    20.56796   13.45036         -6         60
+       twage | 1416726   149722811    23.95506   28.10306          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1416726   149722811    .1655044   .3716353          0          1
+         wnh | 1416726   149722811    .6297474   .4828724          0          1
+         bnh | 1416726   149722811    .1191526   .3239681          0          1
+         anh | 1416726   149722811     .057197   .2322188          0          1
+    hispanic | 1416726   149722811    .1667978   .3727953          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1416726   149722811    .1655044   .3716353          0          1
+(558,917 observations deleted)
+(713,598 missing values generated)
+(1,081,769 missing values generated)
+(1,271,746 missing values generated)
+(1,349,714 missing values generated)
+(1,392,227 missing values generated)
+(1,412,665 missing values generated)
+(1,422,404 missing values generated)
+(1,423,312 missing values generated)
+
+        ncz |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    713,598       50.03       50.03
+          2 |    368,171       25.81       75.84
+          3 |    189,977       13.32       89.16
+          4 |     77,968        5.47       94.62
+          5 |     42,513        2.98       97.60
+          6 |     20,438        1.43       99.03
+          7 |      9,739        0.68       99.72
+          8 |        908        0.06       99.78
+          9 |      3,127        0.22      100.00
+------------+-----------------------------------
+      Total |  1,426,439      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    713,598           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    368,171    .7529688    .1343096    .500047   .9489369
+          s2 |    368,171           1    8.46e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    189,977    .6039995    .1342849   .3438855   .8943223
+          s2 |    189,977    .8698734    .0625485   .6865564   .9498661
+          s3 |    189,977           1    8.82e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     77,968     .490176    .1212826   .2861782   .7669325
+          s2 |     77,968    .7492985    .0783613   .5574559    .870999
+          s3 |     77,968    .9070432    .0370848   .7859867    .949734
+          s4 |     77,968           1    1.85e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     42,513    .3929123    .1050538   .2505459   .6432766
+          s2 |     42,513    .6275146    .0878849   .4773995   .7924043
+          s3 |     42,513    .7943665    .0569961        .67   .8824122
+          s4 |     42,513    .9128962    .0278605   .8479446        .95
+          s5 |     42,513           1    1.07e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     20,438    .3585851    .0938459    .241516   .6084408
+          s2 |     20,438    .5652045    .0701195   .4509889   .7113188
+          s3 |     20,438    .7214798    .0521503   .6254027    .834891
+          s4 |     20,438    .8395971    .0294033   .7892318   .8899273
+          s5 |     20,438    .9304778    .0131677   .8974279   .9496052
+-------------+---------------------------------------------------------
+          s6 |     20,438           1    1.68e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      9,739    .2921949    .0739827   .2095458    .434848
+          s2 |      9,739    .4879565    .0707532   .3653795   .6085298
+          s3 |      9,739    .6334262    .0530568   .5187796   .7242807
+          s4 |      9,739    .7574665     .040694   .6571643   .8229342
+          s5 |      9,739    .8509695    .0273821    .778497   .8910547
+-------------+---------------------------------------------------------
+          s6 |      9,739    .9333046    .0137562   .8925325   .9465967
+          s7 |      9,739           1    1.27e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        908    .2650768    .0479677   .2097012   .3065819
+          s2 |        908    .4314924    .0363183   .3895652   .4629176
+          s3 |        908    .5533024    .0320394    .516315   .5810252
+          s4 |        908    .6716238    .0317924   .6349216   .6991328
+          s5 |        908    .7799249    .0249839   .7510825   .8015428
+-------------+---------------------------------------------------------
+          s6 |        908    .8585479    .0157694   .8403431   .8721927
+          s7 |        908    .9304715    .0065007   .9229669   .9360964
+          s8 |        908           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      3,127    .2546464    .0782891   .1614145   .3649662
+          s2 |      3,127    .3981162    .0835708   .2907711   .5013281
+          s3 |      3,127    .5040879    .0640275   .4195653   .5766442
+          s4 |      3,127    .5987359    .0446047   .5404513   .6511675
+          s5 |      3,127    .6875538    .0315519    .646413    .724898
+-------------+---------------------------------------------------------
+          s6 |      3,127    .7710457    .0210803   .7442943   .7978357
+          s7 |      3,127     .853281    .0112842   .8404681   .8699806
+          s8 |      3,127    .9345332     .004634   .9292343     .94054
+          s9 |      3,127           1    2.84e-08   .9999999          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0099824       3.19e-07
+ 5%     .0497416       6.21e-07
+10%     .0997329       1.04e-06       Obs           1,426,439
+25%     .2498688       1.60e-06       Sum of wgt.   1,426,439
+
+50%     .4999036                      Mean           .4998738
+                        Largest       Std. dev.      .2887375
+75%     .7500795       .9999962
+90%     .8998756        .999997       Variance       .0833694
+95%     .9498348       .9999989       Skewness      -.0000388
+99%     .9899428       .9999989       Kurtosis       1.799486
+(712,841 missing values generated)
+(368,171 real changes made)
+(189,977 real changes made)
+(77,968 real changes made)
+(42,513 real changes made)
+(20,438 real changes made)
+(9,739 real changes made)
+(908 real changes made)
+(3,127 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,426,439    21666.46    11591.22        100      39400
+(7,854 real changes made)
+(13,221 real changes made)
+(81,207 real changes made)
+(154,059 real changes made)
+(37,827 real changes made)
+(158,881 real changes made)
+(58,988 real changes made)
+(29,969 real changes made)
+(66,454 real changes made)
+(23,878 real changes made)
+(99,316 real changes made)
+(54,415 real changes made)
+(150,533 real changes made)
+(196,818 real changes made)
+(31,608 real changes made)
+(102,100 real changes made)
+(57,843 real changes made)
+(83,203 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(927,223 missing values generated)
+(1,426,439 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(24,392 real changes made)
+variable field_degree_agg1 was str36 now str50
+(35,194 real changes made)
+(14,613 real changes made)
+(24,483 real changes made)
+(38,684 real changes made)
+(40,188 real changes made)
+(3,941 real changes made)
+(48,516 real changes made)
+(103,257 real changes made)
+(50,397 real changes made)
+(19,558 real changes made)
+(23,040 real changes made)
+(20,350 real changes made)
+(21,719 real changes made)
+(30,884 real changes made)
+(file /tmp/St2381900.000007 not found)
+file /tmp/St2381900.000007 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     18,265        1.28        1.28
+          2 |      7,854        0.55        1.83
+          3 |     13,221        0.93        2.76
+          4 |     81,207        5.69        8.45
+          5 |    154,059       10.80       19.25
+          6 |     37,827        2.65       21.90
+          7 |    158,881       11.14       33.04
+          8 |     58,988        4.14       37.18
+          9 |     29,969        2.10       39.28
+         10 |     66,454        4.66       43.94
+         11 |     23,878        1.67       45.61
+         12 |     99,316        6.96       52.57
+         13 |     54,415        3.81       56.39
+         14 |    150,533       10.55       66.94
+         15 |    196,818       13.80       80.74
+         16 |     31,608        2.22       82.95
+         17 |    102,100        7.16       90.11
+         18 |     57,843        4.06       94.17
+         19 |     83,203        5.83      100.00
+------------+-----------------------------------
+      Total |  1,426,439      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     35,194        7.05        7.05
+                               Business |    103,257       20.68       27.73
+                         Communications |     21,719        4.35       32.08
+   Computers,Mathematics,and Statistics |     24,392        4.89       36.97
+                              Education |     50,397       10.10       47.07
+                            Engineering |     40,188        8.05       55.12
+               Liberal Arts and History |     23,040        4.62       59.73
+               Literature and Languages |     19,558        3.92       63.65
+              Multidisciplinary Studies |      3,941        0.79       64.44
+                                  Other |     30,884        6.19       70.62
+           Physical and Related Science |     14,613        2.93       73.55
+                             Psychology |     24,483        4.90       78.46
+ Science and Engineering Related Fields |     48,516        9.72       88.17
+                         Social Science |     38,684        7.75       95.92
+             Visual and Performing Arts |     20,350        4.08      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    499,216      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,426,439    .4842282    .4997514          0          1
+         age |  1,426,439    41.54436    13.67713         18         66
+        educ |  1,426,439    13.80017    2.937769          0         20
+         exp |  1,426,439     21.7442    13.81423         -5         60
+       twage |  1,426,439    25.70292    30.34902          5        500
+-------------+---------------------------------------------------------
+         imm |  1,426,439    .1442017    .3512943          0          1
+         wnh |  1,426,439    .6795811    .4666377          0          1
+         bnh |  1,426,439     .094466    .2924761          0          1
+         anh |  1,426,439    .0565843    .2310466          0          1
+    hispanic |  1,426,439    .1400915    .3470821          0          1
+-------------+---------------------------------------------------------
+         imm |  1,426,439    .1442017    .3512943          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1426439   151095715    .4787473   .4995483          0          1
+         age | 1426439   151095715    40.19328   13.37415         18         66
+        educ | 1426439   151095715    13.67578    2.93456          0         20
+         exp | 1426439   151095715     20.5175   13.50809         -5         60
+       twage | 1426439   151095715     24.6569    28.8873          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1426439   151095715    .1657837   .3718865          0          1
+         wnh | 1426439   151095715    .6248423   .4841638          0          1
+         bnh | 1426439   151095715    .1202037   .3251997          0          1
+         anh | 1426439   151095715    .0578727   .2335026          0          1
+    hispanic | 1426439   151095715    .1688382   .3746091          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1426439   151095715    .1657837   .3718865          0          1
+(554,315 observations deleted)
+(725,450 missing values generated)
+(1,100,757 missing values generated)
+(1,294,476 missing values generated)
+(1,373,271 missing values generated)
+(1,416,082 missing values generated)
+(1,436,501 missing values generated)
+(1,446,150 missing values generated)
+(1,447,052 missing values generated)
+
+        ncz |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    725,450       50.02       50.02
+          2 |    375,307       25.88       75.90
+          3 |    193,719       13.36       89.26
+          4 |     78,795        5.43       94.69
+          5 |     42,811        2.95       97.65
+          6 |     20,419        1.41       99.05
+          7 |      9,649        0.67       99.72
+          8 |        902        0.06       99.78
+          9 |      3,164        0.22      100.00
+------------+-----------------------------------
+      Total |  1,450,216      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    725,450           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    375,307    .7530551     .134235    .500047   .9489369
+          s2 |    375,307           1    8.56e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    193,719    .6046367    .1344126   .3438855   .8943223
+          s2 |    193,719    .8701767    .0625337   .6865564   .9498661
+          s3 |    193,719           1    8.84e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     78,795    .4905431    .1215449   .2861782   .7669325
+          s2 |     78,795    .7493152    .0784581   .5574559    .870999
+          s3 |     78,795    .9069385    .0372364   .7859867    .949734
+          s4 |     78,795           1    1.84e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     42,811     .393057    .1051217   .2505459   .6432766
+          s2 |     42,811    .6277465    .0880099   .4773995   .7924043
+          s3 |     42,811    .7944267    .0573019        .67   .8824122
+          s4 |     42,811    .9128135    .0279954   .8479446        .95
+          s5 |     42,811           1    1.05e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     20,419     .358334    .0923855    .241516   .6084408
+          s2 |     20,419    .5653842    .0693573   .4509889   .7113188
+          s3 |     20,419    .7220477    .0517008   .6254027    .834891
+          s4 |     20,419    .8398466    .0292134   .7892318   .8899273
+          s5 |     20,419     .930608    .0130088   .8974279   .9496052
+-------------+---------------------------------------------------------
+          s6 |     20,419           1    1.68e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      9,649    .2916932    .0740078   .2095458    .434848
+          s2 |      9,649    .4872818    .0710078   .3653795   .6085298
+          s3 |      9,649    .6327727    .0532527   .5187796   .7242807
+          s4 |      9,649    .7568667    .0408361   .6571643   .8229342
+          s5 |      9,649    .8506277    .0275397    .778497   .8910547
+-------------+---------------------------------------------------------
+          s6 |      9,649    .9330469    .0138911   .8925325   .9465967
+          s7 |      9,649           1    1.29e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        902    .2616859    .0483373   .2097012   .3065819
+          s2 |        902     .428925    .0365981   .3895652   .4629176
+          s3 |        902    .5510376    .0322862    .516315   .5810252
+          s4 |        902    .6693764    .0320373   .6349216   .6991328
+          s5 |        902    .7781588    .0251764   .7510825   .8015428
+-------------+---------------------------------------------------------
+          s6 |        902    .8574332    .0158909   .8403431   .8721927
+          s7 |        902     .930012    .0065508   .9229669   .9360964
+          s8 |        902           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      3,164    .2570021    .0795634   .1614145   .3649662
+          s2 |      3,164    .4001165    .0844737   .2907711   .5013281
+          s3 |      3,164    .5054024    .0645251   .4195653   .5766442
+          s4 |      3,164     .599714    .0450067   .5404513   .6511675
+          s5 |      3,164    .6882542    .0318439    .646413    .724898
+-------------+---------------------------------------------------------
+          s6 |      3,164    .7715762    .0213312   .7442943   .7978357
+          s7 |      3,164    .8536507    .0114936   .8404681   .8699806
+          s8 |      3,164    .9347308    .0046569   .9292343     .94054
+          s9 |      3,164           1    2.83e-08   .9999999          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0099607       2.78e-06
+ 5%     .0500354       2.89e-06
+10%     .1001912       3.24e-06       Obs           1,450,216
+25%     .2501015       3.49e-06       Sum of wgt.   1,450,216
+
+50%     .5002768                      Mean            .500145
+                        Largest       Std. dev.      .2887527
+75%     .7504931       .9999983
+90%     .9004493       .9999986       Variance       .0833781
+95%     .9501675       .9999997       Skewness       .0002381
+99%      .990018       .9999999       Kurtosis       1.799367
+(724,766 missing values generated)
+(375,307 real changes made)
+(193,719 real changes made)
+(78,795 real changes made)
+(42,811 real changes made)
+(20,419 real changes made)
+(9,649 real changes made)
+(902 real changes made)
+(3,164 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,450,216    21674.72    11610.15        100      39400
+(7,343 real changes made)
+(13,428 real changes made)
+(84,956 real changes made)
+(155,703 real changes made)
+(37,440 real changes made)
+(157,379 real changes made)
+(62,053 real changes made)
+(29,983 real changes made)
+(67,935 real changes made)
+(24,433 real changes made)
+(104,101 real changes made)
+(55,230 real changes made)
+(152,043 real changes made)
+(201,557 real changes made)
+(32,315 real changes made)
+(102,578 real changes made)
+(59,285 real changes made)
+(84,516 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(933,083 missing values generated)
+(1,450,216 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(25,925 real changes made)
+variable field_degree_agg1 was str36 now str50
+(37,174 real changes made)
+(14,991 real changes made)
+(25,476 real changes made)
+(39,130 real changes made)
+(42,442 real changes made)
+(4,369 real changes made)
+(50,656 real changes made)
+(107,224 real changes made)
+(50,252 real changes made)
+(19,975 real changes made)
+(23,544 real changes made)
+(20,997 real changes made)
+(22,565 real changes made)
+(32,413 real changes made)
+(file /tmp/St2381900.000008 not found)
+file /tmp/St2381900.000008 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     17,938        1.24        1.24
+          2 |      7,343        0.51        1.74
+          3 |     13,428        0.93        2.67
+          4 |     84,956        5.86        8.53
+          5 |    155,703       10.74       19.26
+          6 |     37,440        2.58       21.85
+          7 |    157,379       10.85       32.70
+          8 |     62,053        4.28       36.98
+          9 |     29,983        2.07       39.04
+         10 |     67,935        4.68       43.73
+         11 |     24,433        1.68       45.41
+         12 |    104,101        7.18       52.59
+         13 |     55,230        3.81       56.40
+         14 |    152,043       10.48       66.88
+         15 |    201,557       13.90       80.78
+         16 |     32,315        2.23       83.01
+         17 |    102,578        7.07       90.08
+         18 |     59,285        4.09       94.17
+         19 |     84,516        5.83      100.00
+------------+-----------------------------------
+      Total |  1,450,216      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     37,174        7.19        7.19
+                               Business |    107,224       20.73       27.92
+                         Communications |     22,565        4.36       32.29
+   Computers,Mathematics,and Statistics |     25,925        5.01       37.30
+                              Education |     50,252        9.72       47.02
+                            Engineering |     42,442        8.21       55.22
+               Liberal Arts and History |     23,544        4.55       59.78
+               Literature and Languages |     19,975        3.86       63.64
+              Multidisciplinary Studies |      4,369        0.84       64.48
+                                  Other |     32,413        6.27       70.75
+           Physical and Related Science |     14,991        2.90       73.65
+                             Psychology |     25,476        4.93       78.58
+ Science and Engineering Related Fields |     50,656        9.80       88.37
+                         Social Science |     39,130        7.57       95.94
+             Visual and Performing Arts |     20,997        4.06      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    517,133      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,450,216    .4846492    .4997645          0          1
+         age |  1,450,216    41.51425    13.67773         18         66
+        educ |  1,450,216    13.84855    2.927438          0         20
+         exp |  1,450,216     21.6657    13.82342         -5         60
+       twage |  1,450,216    26.47385    31.19039          5        500
+-------------+---------------------------------------------------------
+         imm |  1,450,216    .1455693    .3526741          0          1
+         wnh |  1,450,216    .6770295    .4676117          0          1
+         bnh |  1,450,216    .0915057     .288327          0          1
+         anh |  1,450,216    .0591126    .2358354          0          1
+    hispanic |  1,450,216    .1421857    .3492406          0          1
+-------------+---------------------------------------------------------
+         imm |  1,450,216    .1455693    .3526741          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1450216   152766990    .4787119   .4995468          0          1
+         age | 1450216   152766990    40.24212   13.38794         18         66
+        educ | 1450216   152766990    13.72266   2.921669          0         20
+         exp | 1450216   152766990    20.51946   13.52769         -5         60
+       twage | 1450216   152766990     25.4652   29.87946          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1450216   152766990     .167106   .3730706          0          1
+         wnh | 1450216   152766990    .6172377   .4860612          0          1
+         bnh | 1450216   152766990    .1202371   .3252387          0          1
+         anh | 1450216   152766990    .0599643   .2374208          0          1
+    hispanic | 1450216   152766990    .1732046   .3784242          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1450216   152766990     .167106   .3730706          0          1
+(548,446 observations deleted)
+(729,768 missing values generated)
+(1,108,545 missing values generated)
+(1,304,007 missing values generated)
+(1,384,441 missing values generated)
+(1,428,298 missing values generated)
+(1,449,146 missing values generated)
+(1,459,342 missing values generated)
+(1,460,276 missing values generated)
+
+        ncz |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    729,768       49.87       49.87
+          2 |    378,777       25.88       75.75
+          3 |    195,462       13.36       89.11
+          4 |     80,434        5.50       94.60
+          5 |     43,857        3.00       97.60
+          6 |     20,848        1.42       99.03
+          7 |     10,196        0.70       99.72
+          8 |        934        0.06       99.79
+          9 |      3,126        0.21      100.00
+------------+-----------------------------------
+      Total |  1,463,402      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    729,768           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    378,777     .753185    .1343847    .500047   .9489369
+          s2 |    378,777           1    8.45e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |    195,462    .6040004    .1346419   .3438855   .8943223
+          s2 |    195,462    .8698957    .0625618   .6865564   .9498661
+          s3 |    195,462           1    8.86e-09   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     80,434    .4896448    .1210357   .2861782   .7669325
+          s2 |     80,434    .7484736      .07834   .5574559    .870999
+          s3 |     80,434    .9065994    .0370838   .7859867    .949734
+          s4 |     80,434           1    1.83e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     43,857    .3948991     .106126   .2505459   .6432766
+          s2 |     43,857    .6287717    .0883135   .4773995   .7924043
+          s3 |     43,857     .795106    .0570037        .67   .8824122
+          s4 |     43,857    .9131593    .0277739   .8479446        .95
+          s5 |     43,857           1    1.03e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     20,848    .3576249    .0922061    .241516   .6084408
+          s2 |     20,848    .5648716    .0697997   .4509889   .7113188
+          s3 |     20,848    .7214948    .0517174   .6254027    .834891
+          s4 |     20,848     .839767    .0290787   .7892318   .8899273
+          s5 |     20,848    .9306213    .0128694   .8974279   .9496052
+-------------+---------------------------------------------------------
+          s6 |     20,848           1    1.66e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |     10,196    .2924808    .0743113   .2095458    .434848
+          s2 |     10,196    .4882458    .0713835   .3653795   .6085298
+          s3 |     10,196    .6337129     .053902   .5187796   .7242807
+          s4 |     10,196    .7576588    .0412885   .6571643   .8229342
+          s5 |     10,196    .8510112    .0278406    .778497   .8910547
+-------------+---------------------------------------------------------
+          s6 |     10,196    .9332346    .0139948   .8925325   .9465967
+          s7 |     10,196           1    1.26e-08   .9999999          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |        934    .2612533    .0483662   .2097012   .3065819
+          s2 |        934    .4285975      .03662   .3895652   .4629176
+          s3 |        934    .5507486    .0323055    .516315   .5810252
+          s4 |        934    .6690896    .0320565   .6349216   .6991328
+          s5 |        934    .7779334    .0251915   .7510825   .8015428
+-------------+---------------------------------------------------------
+          s6 |        934    .8572909    .0159004   .8403431   .8721927
+          s7 |        934    .9299534    .0065547   .9229669   .9360964
+          s8 |        934           1           0          1          1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          s1 |      3,126    .2512398    .0800365   .1614145   .3649662
+          s2 |      3,126    .3936839    .0855815   .2907711   .5013281
+          s3 |      3,126    .5004114    .0655709   .4195653   .5766442
+          s4 |      3,126     .596252    .0456822   .5404513   .6511675
+          s5 |      3,126    .6858077    .0323141    .646413    .724898
+-------------+---------------------------------------------------------
+          s6 |      3,126    .7699641     .021584   .7442943   .7978357
+          s7 |      3,126    .8528457    .0115184   .8404681   .8699806
+          s8 |      3,126    .9347715    .0045382   .9292343     .94054
+          s9 |      3,126           1    2.89e-08   .9999999          1
+
+                             rv
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0101598       1.42e-06
+ 5%      .050328       1.89e-06
+10%     .1002104       2.03e-06       Obs           1,463,402
+25%     .2503316       2.48e-06       Sum of wgt.   1,463,402
+
+50%     .5005381                      Mean           .5003058
+                        Largest       Std. dev.      .2886533
+75%     .7502147       .9999954
+90%     .9004074       .9999976       Variance       .0833207
+95%     .9500713       .9999978       Skewness      -.0009319
+99%     .9899125       .9999989       Kurtosis       1.800104
+(733,634 missing values generated)
+(378,777 real changes made)
+(195,462 real changes made)
+(80,434 real changes made)
+(43,857 real changes made)
+(20,848 real changes made)
+(10,196 real changes made)
+(934 real changes made)
+(3,126 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+          cz |  1,463,402    21691.03    11629.29        100      39400
+(7,771 real changes made)
+(13,231 real changes made)
+(86,780 real changes made)
+(156,591 real changes made)
+(36,657 real changes made)
+(157,657 real changes made)
+(63,954 real changes made)
+(29,231 real changes made)
+(68,083 real changes made)
+(23,990 real changes made)
+(108,168 real changes made)
+(55,610 real changes made)
+(154,183 real changes made)
+(201,753 real changes made)
+(32,442 real changes made)
+(103,479 real changes made)
+(60,276 real changes made)
+(85,507 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(932,557 missing values generated)
+(1,463,402 missing values generated)
+variable field_degree_agg1 was str1 now str36
+(26,887 real changes made)
+variable field_degree_agg1 was str36 now str50
+(38,049 real changes made)
+(15,115 real changes made)
+(26,457 real changes made)
+(40,309 real changes made)
+(43,784 real changes made)
+(4,608 real changes made)
+(52,724 real changes made)
+(110,090 real changes made)
+(49,767 real changes made)
+(20,244 real changes made)
+(23,733 real changes made)
+(21,792 real changes made)
+(23,748 real changes made)
+(33,538 real changes made)
+(file /tmp/St2381900.000009 not found)
+file /tmp/St2381900.000009 saved as .dta format
+
+      naics |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     18,039        1.23        1.23
+          2 |      7,771        0.53        1.76
+          3 |     13,231        0.90        2.67
+          4 |     86,780        5.93        8.60
+          5 |    156,591       10.70       19.30
+          6 |     36,657        2.50       21.80
+          7 |    157,657       10.77       32.58
+          8 |     63,954        4.37       36.95
+          9 |     29,231        2.00       38.94
+         10 |     68,083        4.65       43.60
+         11 |     23,990        1.64       45.24
+         12 |    108,168        7.39       52.63
+         13 |     55,610        3.80       56.43
+         14 |    154,183       10.54       66.96
+         15 |    201,753       13.79       80.75
+         16 |     32,442        2.22       82.97
+         17 |    103,479        7.07       90.04
+         18 |     60,276        4.12       94.16
+         19 |     85,507        5.84      100.00
+------------+-----------------------------------
+      Total |  1,463,402      100.00
+
+                       field_degree_agg |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Biological,Agricultural,and Environment |     38,049        7.17        7.17
+                               Business |    110,090       20.74       27.91
+                         Communications |     23,748        4.47       32.38
+   Computers,Mathematics,and Statistics |     26,887        5.06       37.44
+                              Education |     49,767        9.38       46.82
+                            Engineering |     43,784        8.25       55.07
+               Liberal Arts and History |     23,733        4.47       59.54
+               Literature and Languages |     20,244        3.81       63.35
+              Multidisciplinary Studies |      4,608        0.87       64.22
+                                  Other |     33,538        6.32       70.54
+           Physical and Related Science |     15,115        2.85       73.39
+                             Psychology |     26,457        4.98       78.37
+ Science and Engineering Related Fields |     52,724        9.93       88.30
+                         Social Science |     40,309        7.59       95.89
+             Visual and Performing Arts |     21,792        4.11      100.00
+----------------------------------------+-----------------------------------
+                                  Total |    530,845      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      female |  1,463,402     .484946    .4997735          0          1
+         age |  1,463,402    41.52097    13.73095         18         66
+        educ |  1,463,402    13.87927    2.944457          0         20
+         exp |  1,463,402     21.6417    13.88523         -5         60
+       twage |  1,463,402    27.27908    32.27439          5        500
+-------------+---------------------------------------------------------
+         imm |  1,463,402     .144872    .3519719          0          1
+         wnh |  1,463,402    .6773231    .4675004          0          1
+         bnh |  1,463,402    .0892995    .2851756          0          1
+         anh |  1,463,402    .0597765    .2370723          0          1
+    hispanic |  1,463,402    .1435026    .3505848          0          1
+-------------+---------------------------------------------------------
+         imm |  1,463,402     .144872    .3519719          0          1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      female | 1463402   153930590    .4794265   .4995767          0          1
+         age | 1463402   153930590    40.25221   13.40685         18         66
+        educ | 1463402   153930590    13.75384   2.954659          0         20
+         exp | 1463402   153930590    20.49837    13.5668         -5         60
+       twage | 1463402   153930590    26.19832   30.67949          5        500
+-------------+-----------------------------------------------------------------
+         imm | 1463402   153930590     .168292   .3741255          0          1
+         wnh | 1463402   153930590    .6118763   .4873231          0          1
+         bnh | 1463402   153930590    .1211389   .3262887          0          1
+         anh | 1463402   153930590    .0611665   .2396356          0          1
+    hispanic | 1463402   153930590    .1756158   .3804931          0          1
+-------------+-----------------------------------------------------------------
+         imm | 1463402   153930590     .168292   .3741255          0          1
+
+. 
+. use `working2010_tmp', clear
+
+. append using `working2011_tmp' `working2012_tmp' `working2013_tmp' `working20
+> 14_tmp' `working2015_tmp' `working2016_tmp' `working2017_tmp' `working2018_tm
+> p'
+(label field_degree_agg already defined)
+(label field_degree_agg already defined)
+(label field_degree_agg already defined)
+(label field_degree_agg already defined)
+(label field_degree_agg already defined)
+(label field_degree_agg already defined)
+(variable serialno was str7, now str13 to accommodate using data's values)
+(label field_degree_agg already defined)
+(label field_degree_agg already defined)
+
+. compress
+  variable female was float now byte
+  variable hispanic was float now byte
+  variable wnh was float now byte
+  variable bnh was float now byte
+  variable anh was float now byte
+  variable imm was float now byte
+  variable educ was float now byte
+  variable weeksly was float now byte
+  variable ncz was float now byte
+  variable year was float now int
+  variable college was float now byte
+  variable exp was float now byte
+  variable f_exp was float now byte
+  variable f_educ was float now byte
+  variable f_college was float now byte
+  variable pt was float now byte
+  variable f_pt was float now byte
+  variable s10 was float now byte
+  variable ind3 was float now int
+  variable naics was float now byte
+  variable field_degree_agg was long now byte
+  (775,062,950 bytes saved)
+
+. save ${scratch}/working2010-2018_extravars.dta, replace
+file
+    ~/replication/industries/portion1_prepforcensus/intermediate/working2010-
+    > 2018_extravars.dta saved
+
+. 
+. cap log close

@@ -1,0 +1,303 @@
+total 456
+-rw-r--r--@ 1 jesse-local  staff   28402 Oct  6 15:32 README.docx
+-rw-r--r--@ 1 jesse-local  staff       0 Oct  6 15:32 filelisting.txt
+drwxr-xr-x@ 7 jesse-local  staff     224 Oct  6 14:54 portion1_prepforcensus
+drwxr-xr-x@ 3 jesse-local  staff      96 Oct  6 14:55 portion2_atcensus
+drwxr-xr-x@ 7 jesse-local  staff     224 Oct  6 14:53 portion3_postdisclosure
+-rw-r--r--@ 1 jesse-local  staff  204796 Oct  6 14:55 tables.xlsx
+
+./portion1_prepforcensus:
+total 0
+drwxr-xr-x@  6 jesse-local  staff  192 Oct  6 14:54 code
+drwxr-xr-x@  2 jesse-local  staff   64 Oct  6 14:54 intermediate
+drwxr-xr-x@ 13 jesse-local  staff  416 Oct  6 15:28 origdata
+drwxr-xr-x@  2 jesse-local  staff   64 Oct  6 14:54 tmp
+drwxr-xr-x@  7 jesse-local  staff  224 Oct  6 14:54 tocensus
+
+./portion1_prepforcensus/code:
+total 2264
+drwxr-xr-x@ 47 jesse-local  staff     1504 Oct  6 14:54 acs
+-rw-r--r--@  1 jesse-local  staff     2370 Oct  6 14:54 main_prepforcensus.do
+-rw-r--r--@  1 jesse-local  staff  1153972 Oct  6 14:54 main_prepforcensus.log
+drwxr-xr-x@  6 jesse-local  staff      192 Oct  6 14:54 nonacs
+
+./portion1_prepforcensus/code/acs:
+total 3008
+-rw-r--r--@ 1 jesse-local  staff    1731 Oct  6 14:54 cw_cz_state.do
+-rw-r--r--@ 1 jesse-local  staff   24919 Oct  6 14:54 cw_cz_state.log
+-rw-r--r--@ 1 jesse-local  staff    4966 Oct  6 14:54 extract10.log
+-rw-r--r--@ 1 jesse-local  staff   11949 Oct  6 14:54 extract10.lst
+-rw-r--r--@ 1 jesse-local  staff     917 Oct  6 14:54 extract10.sas
+-rw-r--r--@ 1 jesse-local  staff    4697 Oct  6 14:54 extract11.log
+-rw-r--r--@ 1 jesse-local  staff   15135 Oct  6 14:54 extract11.lst
+-rw-r--r--@ 1 jesse-local  staff     920 Oct  6 14:54 extract11.sas
+-rw-r--r--@ 1 jesse-local  staff    4681 Oct  6 14:54 extract12.log
+-rw-r--r--@ 1 jesse-local  staff   12289 Oct  6 14:54 extract12.lst
+-rw-r--r--@ 1 jesse-local  staff     917 Oct  6 14:54 extract12.sas
+-rw-r--r--@ 1 jesse-local  staff    5038 Oct  6 14:54 extract13.log
+-rw-r--r--@ 1 jesse-local  staff   15390 Oct  6 14:54 extract13.lst
+-rw-r--r--@ 1 jesse-local  staff     919 Oct  6 14:54 extract13.sas
+-rw-r--r--@ 1 jesse-local  staff    5038 Oct  6 14:54 extract14.log
+-rw-r--r--@ 1 jesse-local  staff   15533 Oct  6 14:54 extract14.lst
+-rw-r--r--@ 1 jesse-local  staff     919 Oct  6 14:54 extract14.sas
+-rw-r--r--@ 1 jesse-local  staff    5038 Oct  6 14:54 extract15.log
+-rw-r--r--@ 1 jesse-local  staff   15533 Oct  6 14:54 extract15.lst
+-rw-r--r--@ 1 jesse-local  staff     919 Oct  6 14:54 extract15.sas
+-rw-r--r--@ 1 jesse-local  staff    5038 Oct  6 14:54 extract16.log
+-rw-r--r--@ 1 jesse-local  staff   15533 Oct  6 14:54 extract16.lst
+-rw-r--r--@ 1 jesse-local  staff     919 Oct  6 14:54 extract16.sas
+-rw-r--r--@ 1 jesse-local  staff    5038 Oct  6 14:54 extract17.log
+-rw-r--r--@ 1 jesse-local  staff   15703 Oct  6 14:54 extract17.lst
+-rw-r--r--@ 1 jesse-local  staff     919 Oct  6 14:54 extract17.sas
+-rw-r--r--@ 1 jesse-local  staff    5038 Oct  6 14:54 extract18.log
+-rw-r--r--@ 1 jesse-local  staff   15618 Oct  6 14:54 extract18.lst
+-rw-r--r--@ 1 jesse-local  staff     919 Oct  6 14:54 extract18.sas
+-rw-r--r--@ 1 jesse-local  staff    1622 Oct  6 14:54 extractacs.do
+-rw-r--r--@ 1 jesse-local  staff   21011 Oct  6 14:54 extractacs.log
+-rw-r--r--@ 1 jesse-local  staff    1808 Oct  6 14:54 industry_averages.do
+-rw-r--r--@ 1 jesse-local  staff   34253 Oct  6 14:54 industry_averages.log
+-rw-r--r--@ 1 jesse-local  staff    7563 Oct  6 14:54 phi_acs.do
+-rw-r--r--@ 1 jesse-local  staff  194724 Oct  6 14:54 phi_acs.log
+-rw-r--r--@ 1 jesse-local  staff    3308 Oct  6 14:54 phi_cz_alt-wage.do
+-rw-r--r--@ 1 jesse-local  staff   18291 Oct  6 14:54 phi_cz_alt-wage.log
+-rw-r--r--@ 1 jesse-local  staff    2223 Oct  6 14:54 puma2000_prep.do
+-rw-r--r--@ 1 jesse-local  staff   33879 Oct  6 14:54 puma2000_prep.log
+-rw-r--r--@ 1 jesse-local  staff    2454 Oct  6 14:54 puma2010_prep.do
+-rw-r--r--@ 1 jesse-local  staff   55179 Oct  6 14:54 puma2010_prep.log
+-rw-r--r--@ 1 jesse-local  staff   11146 Oct  6 14:54 rank_revised_extravars.do
+-rw-r--r--@ 1 jesse-local  staff  130616 Oct  6 14:54 rank_revised_extravars.log
+-rw-r--r--@ 1 jesse-local  staff    5058 Oct  6 14:54 readacs.do
+-rw-r--r--@ 1 jesse-local  staff  699159 Oct  6 14:54 readacs.log
+
+./portion1_prepforcensus/code/nonacs:
+total 144
+-rw-r--r--@ 1 jesse-local  staff   4421 Oct  6 14:54 cz_minwage.do
+-rw-r--r--@ 1 jesse-local  staff  14318 Oct  6 14:54 cz_minwage.log
+-rw-r--r--@ 1 jesse-local  staff  11890 Oct  6 14:54 cz_unionization.do
+-rw-r--r--@ 1 jesse-local  staff  32781 Oct  6 14:54 cz_unionization.log
+
+./portion1_prepforcensus/intermediate:
+total 0
+
+./portion1_prepforcensus/origdata:
+total 2336
+-rw-r--r--@  1 jesse-local  staff  139825 Oct  6 14:54 CBSA2013.xlsx
+drwxr-xr-x@ 22 jesse-local  staff     704 Oct  6 14:54 Hirsch
+-rw-r--r--@  1 jesse-local  staff    4065 Oct  6 14:54 assign_naics_step3.dta
+-rw-r--r--@  1 jesse-local  staff  545280 Oct  6 14:54 cbsa03_msa99.xls
+-rw-r--r--@  1 jesse-local  staff   12035 Oct  6 14:54 cw_cz_division_nottop50.dta
+-rw-r--r--@  1 jesse-local  staff  444416 Oct  6 14:54 cz-codes-1990.xls
+-rw-r--r--@  1 jesse-local  staff   11859 Oct  6 14:54 cz00_equiv.csv
+-rw-r--r--@  1 jesse-local  staff   25329 Oct  6 14:54 cznames.dta
+drwxr-xr-x@  6 jesse-local  staff     192 Oct  6 14:54 dorn
+drwxr-xr-x@  4 jesse-local  staff     128 Oct  6 14:54 minwages
+drwxr-xr-x@  2 jesse-local  staff      64 Oct  6 15:28 rawacs
+
+./portion1_prepforcensus/origdata/Hirsch:
+total 2224
+-rw-r--r--@ 1 jesse-local  staff  74908 Oct  6 14:54 Met_110.xlsx
+-rw-r--r--@ 1 jesse-local  staff  76261 Oct  6 14:54 Met_111.xlsx
+-rw-r--r--@ 1 jesse-local  staff  89129 Oct  6 14:54 Met_112.xlsx
+-rw-r--r--@ 1 jesse-local  staff  86874 Oct  6 14:54 Met_113.xlsx
+-rw-r--r--@ 1 jesse-local  staff  82591 Oct  6 14:54 Met_114.xlsx
+-rw-r--r--@ 1 jesse-local  staff  88021 Oct  6 14:54 Met_115.xlsx
+-rw-r--r--@ 1 jesse-local  staff  88083 Oct  6 14:54 Met_116.xlsx
+-rw-r--r--@ 1 jesse-local  staff  87957 Oct  6 14:54 Met_117.xlsx
+-rw-r--r--@ 1 jesse-local  staff  74203 Oct  6 14:54 Met_118.xlsx
+-rw-r--r--@ 1 jesse-local  staff  30667 Oct  6 14:54 State_U_2010.xlsx
+-rw-r--r--@ 1 jesse-local  staff  31169 Oct  6 14:54 State_U_2011.xlsx
+-rw-r--r--@ 1 jesse-local  staff  31089 Oct  6 14:54 State_U_2012.xlsx
+-rw-r--r--@ 1 jesse-local  staff  31206 Oct  6 14:54 State_U_2013.xlsx
+-rw-r--r--@ 1 jesse-local  staff  29722 Oct  6 14:54 State_U_2014.xlsx
+-rw-r--r--@ 1 jesse-local  staff  29725 Oct  6 14:54 State_U_2015.xlsx
+-rw-r--r--@ 1 jesse-local  staff  29655 Oct  6 14:54 State_U_2016.xlsx
+-rw-r--r--@ 1 jesse-local  staff  29839 Oct  6 14:54 State_U_2017.xlsx
+-rw-r--r--@ 1 jesse-local  staff  29729 Oct  6 14:54 State_U_2018.xlsx
+-rw-r--r--@ 1 jesse-local  staff  30273 Oct  6 14:54 State_U_2019.xlsx
+-rw-r--r--@ 1 jesse-local  staff  36891 Oct  6 14:54 State_U_2020.xlsx
+
+./portion1_prepforcensus/origdata/dorn:
+total 272
+-rw-r--r--@ 1 jesse-local  staff   1046 Oct  6 14:54 README
+-rw-r--r--@ 1 jesse-local  staff   4315 Oct  6 14:54 cw_czone_state.dta
+-rw-r--r--@ 1 jesse-local  staff  46793 Oct  6 14:54 cw_puma2000_czone.dta
+-rw-r--r--@ 1 jesse-local  staff  74470 Oct  6 14:54 cw_puma2010_czone.dta
+
+./portion1_prepforcensus/origdata/minwages:
+total 0
+drwxr-xr-x@ 7 jesse-local  staff  224 Oct  6 14:55 mw_state_stata
+drwxr-xr-x@ 7 jesse-local  staff  224 Oct  6 14:54 mw_substate_stata
+
+./portion1_prepforcensus/origdata/minwages/mw_state_stata:
+total 924288
+-rw-r--r--@ 1 jesse-local  staff     157963 Oct  6 14:55 mw_state_annual.dta
+-rw-r--r--@ 1 jesse-local  staff     654905 Oct  6 14:54 mw_state_changes.dta
+-rw-r--r--@ 1 jesse-local  staff  456448015 Oct  6 14:55 mw_state_daily.dta
+-rw-r--r--@ 1 jesse-local  staff    1788127 Oct  6 14:54 mw_state_monthly.dta
+-rw-r--r--@ 1 jesse-local  staff     602836 Oct  6 14:54 mw_state_quarterly.dta
+
+./portion1_prepforcensus/origdata/minwages/mw_substate_stata:
+total 298864
+-rw-r--r--@ 1 jesse-local  staff      92549 Oct  6 14:54 mw_substate_annual.dta
+-rw-r--r--@ 1 jesse-local  staff     293729 Oct  6 14:54 mw_substate_changes.dta
+-rw-r--r--@ 1 jesse-local  staff  135977533 Oct  6 14:55 mw_substate_daily.dta
+-rw-r--r--@ 1 jesse-local  staff    1022555 Oct  6 14:54 mw_substate_monthly.dta
+-rw-r--r--@ 1 jesse-local  staff     346187 Oct  6 14:54 mw_substate_quarterly.dta
+
+./portion1_prepforcensus/origdata/rawacs:
+total 0
+
+./portion1_prepforcensus/tmp:
+total 0
+
+./portion1_prepforcensus/tocensus:
+total 112
+-rw-r--r--@ 1 jesse-local  staff  17285 Oct  6 14:54 cw_cz_state.dta
+-rw-r--r--@ 1 jesse-local  staff   3961 Oct  6 14:54 cw_cz_state_top50.dta
+-rw-r--r--@ 1 jesse-local  staff   6633 Oct  6 14:54 cz_minwage.dta
+-rw-r--r--@ 1 jesse-local  staff   6469 Oct  6 14:54 cz_unionization.dta
+-rw-r--r--@ 1 jesse-local  staff  16295 Oct  6 14:54 czranking6_alt-wage.dta
+
+./portion2_atcensus:
+total 0
+drwxr-xr-x@ 14 jesse-local  staff  448 Oct  6 14:55 code
+
+./portion2_atcensus/code:
+total 240
+-rw-r--r--@ 1 jesse-local  staff  46471 Sep 26 09:08 3_disc1-2_rep.do
+drwxr-xr-x@ 8 jesse-local  staff    256 Oct  6 14:55 M1-M8
+drwxr-xr-x@ 7 jesse-local  staff    224 Oct  6 14:55 M9
+drwxr-xr-x@ 5 jesse-local  staff    160 Oct  6 14:55 M9_2step
+-rw-r--r--@ 1 jesse-local  staff   5241 Sep 26 09:08 ind_clean1.sas
+-rw-r--r--@ 1 jesse-local  staff  18745 Oct  2 09:27 ind_clean2.do
+-rw-r--r--@ 1 jesse-local  staff  20181 Sep 26 09:08 ind_disclosure2.do
+-rw-r--r--@ 1 jesse-local  staff   6571 Sep 26 09:08 ind_disclosure3.do
+-rw-r--r--@ 1 jesse-local  staff   3504 Sep 26 09:08 ind_disclosure_p2.do
+-rw-r--r--@ 1 jesse-local  staff   1080 Sep 26 09:08 ind_path.sas
+-rw-r--r--@ 1 jesse-local  staff    307 Sep 26 09:08 ind_paths.do
+-rw-r--r--@ 1 jesse-local  staff   1455 Sep 30 15:46 main_atcensus.do
+
+./portion2_atcensus/code/M1-M8:
+total 96
+-rw-r--r--@ 1 jesse-local  staff  7227 Sep 26 09:10 M1_AKM_top59A.m
+-rw-r--r--@ 1 jesse-local  staff  7412 Sep 26 09:10 M3_AKM_top59A.m
+-rw-r--r--@ 1 jesse-local  staff  7783 Sep 26 09:10 M4_AKM_top59A.m
+-rw-r--r--@ 1 jesse-local  staff  7022 Sep 26 09:10 M6_AKM_top59A.m
+-rw-r--r--@ 1 jesse-local  staff  7252 Sep 26 09:10 M7_AKM_top59A.m
+-rw-r--r--@ 1 jesse-local  staff  6883 Sep 26 09:10 M8_AKM_top59A.m
+
+./portion2_atcensus/code/M9:
+total 64
+-rw-r--r--@ 1 jesse-local  staff  11981 Sep 26 09:09 akm_pcg.m
+-rw-r--r--@ 1 jesse-local  staff   2286 Sep 26 09:09 firmAKM_callable.m
+-rw-r--r--@ 1 jesse-local  staff   1746 Sep 26 09:09 m9_cjmeans.do
+-rw-r--r--@ 1 jesse-local  staff   2443 Sep 26 09:09 m9_firmvardecomp.do
+-rw-r--r--@ 1 jesse-local  staff   6964 Sep 26 09:09 m9_runakm.do
+
+./portion2_atcensus/code/M9_2step:
+total 48
+-rw-r--r--@ 1 jesse-local  staff  8057 Sep 26 09:09 akm_pcg_spelldata.m
+-rw-r--r--@ 1 jesse-local  staff  2208 Sep 26 09:09 firmAKM_spelldata_callable.m
+-rw-r--r--@ 1 jesse-local  staff  8924 Oct  2 09:27 runakm_2step_rep.do
+
+./portion3_postdisclosure:
+total 0
+drwxr-xr-x@ 37 jesse-local  staff  1184 Oct  6 14:53 code
+drwxr-xr-x@  6 jesse-local  staff   192 Oct  6 15:23 disclosed
+drwxr-xr-x@  4 jesse-local  staff   128 Oct  6 14:53 intermediate
+drwxr-xr-x@  5 jesse-local  staff   160 Oct  6 14:53 origdata
+drwxr-xr-x@ 37 jesse-local  staff  1184 Oct  6 14:53 results
+
+./portion3_postdisclosure/code:
+total 808
+-rw-r--r--@ 1 jesse-local  staff    1525 Oct  6 14:53 appfig1.do
+-rw-r--r--@ 1 jesse-local  staff    4182 Oct  6 14:53 appfig1.log
+-rw-r--r--@ 1 jesse-local  staff     643 Oct  6 14:53 apptab2.do
+-rw-r--r--@ 1 jesse-local  staff    7397 Oct  6 14:53 apptab2.log
+-rw-r--r--@ 1 jesse-local  staff    1600 Oct  6 14:53 f1.do
+-rw-r--r--@ 1 jesse-local  staff    4489 Oct  6 14:53 f1.log
+-rw-r--r--@ 1 jesse-local  staff    1020 Oct  6 14:53 f2.do
+-rw-r--r--@ 1 jesse-local  staff    2801 Oct  6 14:53 f2.log
+-rw-r--r--@ 1 jesse-local  staff    1652 Oct  6 14:53 f3.do
+-rw-r--r--@ 1 jesse-local  staff    4590 Oct  6 14:53 f3.log
+-rw-r--r--@ 1 jesse-local  staff    4071 Oct  6 14:53 f4.do
+-rw-r--r--@ 1 jesse-local  staff    5262 Oct  6 14:53 f4.log
+-rw-r--r--@ 1 jesse-local  staff    2202 Oct  6 14:53 f5.do
+-rw-r--r--@ 1 jesse-local  staff    7032 Oct  6 14:53 f5.log
+-rw-r--r--@ 1 jesse-local  staff    1337 Oct  6 14:53 f6.do
+-rw-r--r--@ 1 jesse-local  staff    3504 Oct  6 14:53 f6.log
+-rw-r--r--@ 1 jesse-local  staff    1486 Oct  6 14:53 f7.do
+-rw-r--r--@ 1 jesse-local  staff    3852 Oct  6 14:53 f7.log
+-rw-r--r--@ 1 jesse-local  staff    3506 Oct  6 14:53 f89.do
+-rw-r--r--@ 1 jesse-local  staff    9099 Oct  6 14:53 f89.log
+-rw-r--r--@ 1 jesse-local  staff    1498 Oct  6 14:53 main_postdisclosure.do
+-rw-r--r--@ 1 jesse-local  staff  157322 Oct  6 14:53 main_postdisclosure.log
+-rw-r--r--@ 1 jesse-local  staff     591 Oct  6 14:53 make_ind_data.do
+-rw-r--r--@ 1 jesse-local  staff    1637 Oct  6 14:53 make_ind_data.log
+-rw-r--r--@ 1 jesse-local  staff     689 Oct  6 14:53 merge_acs_lehd.do
+-rw-r--r--@ 1 jesse-local  staff    6502 Oct  6 14:53 merge_acs_lehd.log
+-rw-r--r--@ 1 jesse-local  staff    1528 Oct  6 14:53 t2.do
+-rw-r--r--@ 1 jesse-local  staff   27440 Oct  6 14:53 t2.log
+-rw-r--r--@ 1 jesse-local  staff    1472 Oct  6 14:53 t3.do
+-rw-r--r--@ 1 jesse-local  staff   20577 Oct  6 14:53 t3.log
+-rw-r--r--@ 1 jesse-local  staff    1875 Oct  6 14:53 t4.do
+-rw-r--r--@ 1 jesse-local  staff   19589 Oct  6 14:53 t4.log
+-rw-r--r--@ 1 jesse-local  staff    8279 Oct  6 14:53 t4.txt
+-rw-r--r--@ 1 jesse-local  staff     959 Oct  6 14:53 t6.do
+-rw-r--r--@ 1 jesse-local  staff   10328 Oct  6 14:53 t6.log
+
+./portion3_postdisclosure/disclosed:
+total 512
+-rw-r--r--@ 1 jesse-local  staff   10991 Oct  6 09:27 L3disclosure7-2.xlsx
+-rw-r--r--@ 1 jesse-local  staff   15348 Oct  6 14:53 Yi_1_tabs_T13T26_2_edited.xlsx
+-rw-r--r--@ 1 jesse-local  staff   42170 Oct  6 14:53 Yi_1_tabs_T13T26_3_edited.xlsx
+-rw-r--r--@ 1 jesse-local  staff  186702 Oct  6 14:53 Yi_1_tabs_T13T26_edited.xlsx
+
+./portion3_postdisclosure/intermediate:
+total 304
+-rw-r--r--@ 1 jesse-local  staff  51953 Oct  6 14:53 ind_data.dta
+-rw-r--r--@ 1 jesse-local  staff  99796 Oct  6 14:53 merge_acs_lehd.dta
+
+./portion3_postdisclosure/origdata:
+total 248
+-rw-r--r--@ 1 jesse-local  staff  11441 Oct  6 14:53 Yehetal markdowns.xlsx
+-rw-r--r--@ 1 jesse-local  staff  82768 Oct  6 14:53 naics2017.xlsx
+-rw-r--r--@ 1 jesse-local  staff  25178 Oct  6 14:53 naics_lehd.dta
+
+./portion3_postdisclosure/results:
+total 3384
+-rw-r--r--@ 1 jesse-local  staff   60504 Oct  6 14:53 appfig1.eps
+-rw-r--r--@ 1 jesse-local  staff    8301 Oct  6 14:53 appfig1.gph
+-rw-r--r--@ 1 jesse-local  staff   19325 Oct  6 14:53 appfig1.png
+-rw-r--r--@ 1 jesse-local  staff   33654 Oct  6 14:53 apptab2.csv
+-rw-r--r--@ 1 jesse-local  staff   81436 Oct  6 14:53 f1.eps
+-rw-r--r--@ 1 jesse-local  staff   26182 Oct  6 14:53 f1.gph
+-rw-r--r--@ 1 jesse-local  staff   56102 Oct  6 14:53 f1.png
+-rw-r--r--@ 1 jesse-local  staff   36949 Oct  6 14:53 f2.eps
+-rw-r--r--@ 1 jesse-local  staff    5870 Oct  6 14:53 f2.gph
+-rw-r--r--@ 1 jesse-local  staff   23722 Oct  6 14:53 f2.png
+-rw-r--r--@ 1 jesse-local  staff   99978 Oct  6 14:53 f3.eps
+-rw-r--r--@ 1 jesse-local  staff   31512 Oct  6 14:53 f3.gph
+-rw-r--r--@ 1 jesse-local  staff   52964 Oct  6 14:53 f3.png
+-rw-r--r--@ 1 jesse-local  staff   98221 Oct  6 14:53 f4.eps
+-rw-r--r--@ 1 jesse-local  staff   56385 Oct  6 14:53 f4.gph
+-rw-r--r--@ 1 jesse-local  staff   39601 Oct  6 14:53 f4.png
+-rw-r--r--@ 1 jesse-local  staff  108008 Oct  6 14:53 f5.eps
+-rw-r--r--@ 1 jesse-local  staff   68306 Oct  6 14:53 f5.gph
+-rw-r--r--@ 1 jesse-local  staff   39933 Oct  6 14:53 f5.png
+-rw-r--r--@ 1 jesse-local  staff  111066 Oct  6 14:53 f6.eps
+-rw-r--r--@ 1 jesse-local  staff   20421 Oct  6 14:53 f6.gph
+-rw-r--r--@ 1 jesse-local  staff   50161 Oct  6 14:53 f6.png
+-rw-r--r--@ 1 jesse-local  staff  110711 Oct  6 14:53 f7.eps
+-rw-r--r--@ 1 jesse-local  staff   21621 Oct  6 14:53 f7.gph
+-rw-r--r--@ 1 jesse-local  staff   38531 Oct  6 14:53 f7.png
+-rw-r--r--@ 1 jesse-local  staff  106059 Oct  6 14:53 f8.eps
+-rw-r--r--@ 1 jesse-local  staff   31435 Oct  6 14:53 f8.gph
+-rw-r--r--@ 1 jesse-local  staff   41109 Oct  6 14:53 f8.png
+-rw-r--r--@ 1 jesse-local  staff   95135 Oct  6 14:53 f9.eps
+-rw-r--r--@ 1 jesse-local  staff   31613 Oct  6 14:53 f9.gph
+-rw-r--r--@ 1 jesse-local  staff   51502 Oct  6 14:53 f9.png
+-rw-r--r--@ 1 jesse-local  staff    3383 Oct  6 14:53 t2.csv
+-rw-r--r--@ 1 jesse-local  staff    3119 Oct  6 14:53 t3.csv
+-rw-r--r--@ 1 jesse-local  staff     875 Oct  6 14:53 t4.csv
+-rw-r--r--@ 1 jesse-local  staff     805 Oct  6 14:53 t6.csv

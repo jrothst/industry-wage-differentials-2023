@@ -1,0 +1,27 @@
+Process PUMA-CZ files and create data sets to merge to ACS
+
+
+1.  input files were downloaded from David Dorn's website
+
+cw_pum2000_czone (created Oct 15, 2012 by Dorn)
+  - has 3 vars: puma2000  czone   afactor = share of puma in czone
+  - uses 2000 puma codes for ACS in 2010 and 2011
+
+cw_pum2000_czone (created Jan 22, 2017 by Dorn)
+  - has 3 vars: puma2010  czone   afactor = share of puma in czone
+  - uses 2010 puma codes for ACS in 2012+
+
+
+
+2. Processing progams:
+
+a) puma2000_prep.do read cw_pum2000_czone and creates a file with one record per puma
+   (pumas are identified by state + puma) 
+   has 2071 records and up to 10 CZ's (czX) that the puma is allocated to, with shares afX
+   ncz is number of CZ's for the puma (range 1-10, mean = 1.340415)
+
+
+a) puma2010_prep.do read cw_pum2010_czone and creates a file with one record per puma
+   (pumas are identified by state + puma) 
+   has 2351 records and up to 9 CZ's (czX) that the puma is allocated to, with shares afX
+   ncz is number of CZ's for the puma (range 1-9, mean = 1.918758)

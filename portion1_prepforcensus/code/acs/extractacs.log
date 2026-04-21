@@ -1,0 +1,614 @@
+-------------------------------------------------------------------------------
+      name:  extractacs
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/acs/extractacs.log
+  log type:  text
+ opened on:   5 Oct 2023, 17:08:56
+
+. 
+. local fyear=2010
+
+. local lyear=2018
+
+. 
+. *Extract ACS data from CSV to SAS format (because Census programs to read dat
+> a
+. * are in SAS format only), process/clean, and then convert to Stata
+. forvalues yy=`fyear'/`lyear' {
+  2.   local y=`yy'-2000
+  3.   ! \rm ${tmp}/ss*.csv
+  4.   ! \rm ${tmp}/psam*.csv
+  5.   ! \rm ${tmp}/acs*.*
+  6.   ! \rm ${tmp}/extract`yy'.sas7bdat
+  7.   ! \rm ${tmp}/ACS`yy'_PUMS_README.pdf
+  8.   
+.   di "Starting unzip for `yy'" // Need some displays, as Stata is not verbose
+>  about shell commands.
+  9.   ! unzip ${acsraw}/csv_pus_`yy'.zip -d ${tmp}
+ 10. ! ls ${tmp}
+ 11.   di "Finished unzip for `yy' - starting concatenation"
+ 12.   if `yy'<=2016 {
+ 13.     ! cat ${tmp}/ss`y'pusa.csv ${tmp}/ss`y'pusb.csv > ${tmp}/acs`yy'.csv
+ 14.     ! \rm ${tmp}/ss`y'pus?.csv 
+ 15.   }
+ 16.   else {
+ 17.     ! cat ${tmp}/psam_pusa.csv ${tmp}/psam_pusb.csv > ${tmp}/acs`yy'.csv
+ 18.     ! \rm ${tmp}/psam_pus?.csv 
+ 19.   }
+ 20. ! ls ${tmp}
+ 21.   di "Finished concatenation for `yy' - starting StatTransfer to SAS"
+ 22.   ! \rm ${tmp}/acs`yy'.sas7bdat
+ 23.   ! st ${tmp}/acs`yy'.csv ${tmp}/acs`yy'.sas7bdat
+ 24. ! ls ${tmp}
+ 25.   di "Finished StatTransfer to SAS for `yy' - starting SAS extract program
+> "
+ 26.   ! sas extract`y'.sas
+ 27. ! ls ${tmp}
+ 28.   di "Finished SAS extract program for `yy' - starting StatTransfer to Sta
+> ta"
+ 29.   ! \rm ${scratch}/extract`yy'.dta
+ 30.   ! st ${tmp}/extract`yy'.sas7bdat ${scratch}/extract`yy'.dta
+ 31.   di "Finished StatTransfer to Stata for `yy' - cleaning up"
+ 32.   ! \rm ${tmp}/acs`yy'.csv
+ 33.   ! \rm ${tmp}/acs`yy'.sas7bdat
+ 34.   ! \rm ${tmp}/ACS`yy'_PUMS_README.pdf
+ 35.   ! \rm ${tmp}/extract`yy'.sas7bdat
+ 36. }
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2010_PUMS_README.pdf': No such file or directory
+Starting unzip for 2010
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2010.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss10pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss10pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2010_PUMS_README.pdf  
+
+ACS2010_PUMS_README.pdf
+ss10pusa.csv
+ss10pusb.csv
+Finished unzip for 2010 - starting concatenation
+
+
+
+acs2010.csv
+ACS2010_PUMS_README.pdf
+Finished concatenation for 2010 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2010.sas7bdat': No such file or directory
+
+
+acs2010.csv
+ACS2010_PUMS_README.pdf
+acs2010.sas7bdat
+Finished StatTransfer to SAS for 2010 - starting SAS extract program
+
+
+acs2010.csv
+ACS2010_PUMS_README.pdf
+acs2010.sas7bdat
+extract2010.sas7bdat
+Finished SAS extract program for 2010 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2010.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2010 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2011.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2011_PUMS_README.pdf': No such file or directory
+Starting unzip for 2011
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2011.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss11pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss11pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2011_PUMS_README.pdf  
+
+ACS2011_PUMS_README.pdf
+ss11pusa.csv
+ss11pusb.csv
+Finished unzip for 2011 - starting concatenation
+
+
+
+acs2011.csv
+ACS2011_PUMS_README.pdf
+Finished concatenation for 2011 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2011.sas7bdat': No such file or directory
+
+
+acs2011.csv
+ACS2011_PUMS_README.pdf
+acs2011.sas7bdat
+Finished StatTransfer to SAS for 2011 - starting SAS extract program
+
+
+acs2011.csv
+ACS2011_PUMS_README.pdf
+acs2011.sas7bdat
+extract2011.sas7bdat
+Finished SAS extract program for 2011 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2011.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2011 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2012.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2012_PUMS_README.pdf': No such file or directory
+Starting unzip for 2012
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2012.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss12pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss12pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2012_PUMS_README.pdf  
+
+ACS2012_PUMS_README.pdf
+ss12pusa.csv
+ss12pusb.csv
+Finished unzip for 2012 - starting concatenation
+
+
+
+acs2012.csv
+ACS2012_PUMS_README.pdf
+Finished concatenation for 2012 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2012.sas7bdat': No such file or directory
+
+
+acs2012.csv
+ACS2012_PUMS_README.pdf
+acs2012.sas7bdat
+Finished StatTransfer to SAS for 2012 - starting SAS extract program
+
+
+acs2012.csv
+ACS2012_PUMS_README.pdf
+acs2012.sas7bdat
+extract2012.sas7bdat
+Finished SAS extract program for 2012 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2012.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2012 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2013.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2013_PUMS_README.pdf': No such file or directory
+Starting unzip for 2013
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2013.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss13pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss13pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2013_PUMS_README.pdf  
+
+ACS2013_PUMS_README.pdf
+ss13pusa.csv
+ss13pusb.csv
+Finished unzip for 2013 - starting concatenation
+
+
+
+acs2013.csv
+ACS2013_PUMS_README.pdf
+Finished concatenation for 2013 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2013.sas7bdat': No such file or directory
+
+
+acs2013.csv
+ACS2013_PUMS_README.pdf
+acs2013.sas7bdat
+Finished StatTransfer to SAS for 2013 - starting SAS extract program
+
+
+acs2013.csv
+ACS2013_PUMS_README.pdf
+acs2013.sas7bdat
+extract2013.sas7bdat
+Finished SAS extract program for 2013 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2013.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2013 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2014.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2014_PUMS_README.pdf': No such file or directory
+Starting unzip for 2014
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2014.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss14pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss14pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2014_PUMS_README.pdf  
+
+ACS2014_PUMS_README.pdf
+ss14pusa.csv
+ss14pusb.csv
+Finished unzip for 2014 - starting concatenation
+
+
+
+acs2014.csv
+ACS2014_PUMS_README.pdf
+Finished concatenation for 2014 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2014.sas7bdat': No such file or directory
+
+
+acs2014.csv
+ACS2014_PUMS_README.pdf
+acs2014.sas7bdat
+Finished StatTransfer to SAS for 2014 - starting SAS extract program
+
+
+acs2014.csv
+ACS2014_PUMS_README.pdf
+acs2014.sas7bdat
+extract2014.sas7bdat
+Finished SAS extract program for 2014 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2014.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2014 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2015.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2015_PUMS_README.pdf': No such file or directory
+Starting unzip for 2015
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2015.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss15pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss15pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2015_PUMS_README.pdf  
+
+ACS2015_PUMS_README.pdf
+ss15pusa.csv
+ss15pusb.csv
+Finished unzip for 2015 - starting concatenation
+
+
+
+acs2015.csv
+ACS2015_PUMS_README.pdf
+Finished concatenation for 2015 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2015.sas7bdat': No such file or directory
+
+
+acs2015.csv
+ACS2015_PUMS_README.pdf
+acs2015.sas7bdat
+Finished StatTransfer to SAS for 2015 - starting SAS extract program
+
+
+acs2015.csv
+ACS2015_PUMS_README.pdf
+acs2015.sas7bdat
+extract2015.sas7bdat
+Finished SAS extract program for 2015 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2015.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2015 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2016.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2016_PUMS_README.pdf': No such file or directory
+Starting unzip for 2016
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2016.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss16pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ss16pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2016_PUMS_README.pdf  
+
+ACS2016_PUMS_README.pdf
+ss16pusa.csv
+ss16pusb.csv
+Finished unzip for 2016 - starting concatenation
+
+
+
+acs2016.csv
+ACS2016_PUMS_README.pdf
+Finished concatenation for 2016 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2016.sas7bdat': No such file or directory
+
+
+acs2016.csv
+ACS2016_PUMS_README.pdf
+acs2016.sas7bdat
+Finished StatTransfer to SAS for 2016 - starting SAS extract program
+
+
+acs2016.csv
+ACS2016_PUMS_README.pdf
+acs2016.sas7bdat
+extract2016.sas7bdat
+Finished SAS extract program for 2016 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2016.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2016 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2017.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2017_PUMS_README.pdf': No such file or directory
+Starting unzip for 2017
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2017.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/psam_pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/psam_pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2017_PUMS_README.pdf  
+
+ACS2017_PUMS_README.pdf
+psam_pusa.csv
+psam_pusb.csv
+Finished unzip for 2017 - starting concatenation
+
+
+
+acs2017.csv
+ACS2017_PUMS_README.pdf
+Finished concatenation for 2017 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2017.sas7bdat': No such file or directory
+
+
+acs2017.csv
+ACS2017_PUMS_README.pdf
+acs2017.sas7bdat
+Finished StatTransfer to SAS for 2017 - starting SAS extract program
+
+
+acs2017.csv
+ACS2017_PUMS_README.pdf
+acs2017.sas7bdat
+extract2017.sas7bdat
+Finished SAS extract program for 2017 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2017.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2017 - cleaning up
+
+
+
+
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ss*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/psam*.csv': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs*.*': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/extract2018.sas7bdat': No such file or directory
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/ACS2018_PUMS_README.pdf': No such file or directory
+Starting unzip for 2018
+
+Archive:  /accounts/projects/card/hurricane/replication/industries/portion1_pre
+> pforcensus/origdata/rawacs/csv_pus_2018.zip
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/psam_pusa.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/psam_pusb.csv  
+  inflating: /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/tmp/ACS2018_PUMS_README.pdf  
+
+ACS2018_PUMS_README.pdf
+psam_pusa.csv
+psam_pusb.csv
+Finished unzip for 2018 - starting concatenation
+
+
+
+acs2018.csv
+ACS2018_PUMS_README.pdf
+Finished concatenation for 2018 - starting StatTransfer to SAS
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/tmp/acs2018.sas7bdat': No such file or directory
+
+
+acs2018.csv
+ACS2018_PUMS_README.pdf
+acs2018.sas7bdat
+Finished StatTransfer to SAS for 2018 - starting SAS extract program
+
+
+acs2018.csv
+ACS2018_PUMS_README.pdf
+acs2018.sas7bdat
+extract2018.sas7bdat
+Finished SAS extract program for 2018 - starting StatTransfer to Stata
+
+rm: cannot remove '/accounts/projects/card/hurricane/replication/industries/por
+> tion1_prepforcensus/intermediate/extract2018.dta': No such file or directory
+
+Finished StatTransfer to Stata for 2018 - cleaning up
+
+
+
+
+
+. 
+. 
+. 
+. log close extractacs
+      name:  extractacs
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/acs/extractacs.log
+  log type:  text
+ closed on:   5 Oct 2023, 18:31:04
+-------------------------------------------------------------------------------

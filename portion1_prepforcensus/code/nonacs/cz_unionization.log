@@ -1,0 +1,1070 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/nonacs/cz_unionization.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:07:43
+
+. 
+. // Read in CZ definitions
+. import excel using "${raw}/cz-codes-1990.xls", clear firstrow sheet(CZLMA903)
+>  // County-CZ crosswalk
+(6 vars, 3,141 obs)
+
+. rename NameoflargestplaceinCommuti CZname
+
+. destring CountyFIPSCode, gen(fips) force
+CountyFIPSCode: all characters numeric; fips generated as long
+
+. drop CountyFIPSCode
+
+. *keep fips CZ90 CountyName Population1990
+. replace fips=12086 if fips==12025 // Miami-Dade
+(1 real change made)
+
+. replace fips=02232 if fips==02231 // Skagway-Yakutat-Angoon, AK
+(1 real change made)
+
+. destring CZ90, gen(cz)
+CZ90: all characters numeric; cz generated as long
+
+. drop CZ90
+
+. tempfile CZs
+
+. save `CZs'
+file /tmp/St2381900.000001 saved as .dta format
+
+. // And get CZ names
+.  sort cz fips
+
+.  isid cz fips
+
+.  by cz: keep if _n==1
+(2,400 observations deleted)
+
+.  keep cz CZname
+
+.  tempfile CZnames
+
+.  save `CZnames'
+file /tmp/St2381900.000002 saved as .dta format
+
+. 
+. // Read in top 50 CZs
+. use ${raw}/cw_cz_division_nottop50, clear
+
+. keep cz division top50
+
+. gen cz59=cz if top50==1
+(640 missing values generated)
+
+. replace cz59=division if top50==0
+(640 real changes made)
+
+. merge 1:1 cz using `CZnames', keep(1 3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               690  (_merge==3)
+    -----------------------------------------
+
+. assert _merge==3 if top50==1
+
+. drop _merge
+
+. replace CZname="Rest of division"+string(division) if top50==0
+(640 real changes made)
+
+. sort cz59 cz
+
+. by cz59: assert _n==1 if top50==1
+
+. *by cz59: drop if _n>1
+. tempfile topczs
+
+. save `topczs'
+file /tmp/St2381900.000003 saved as .dta format
+
+. 
+. 
+. // Read in county-MSA crosswalk for 2003 definitions
+. import excel using "${raw}/cbsa03_msa99.xls", clear firstrow
+(17 vars, 3,225 obs)
+
+. keep FIPS State County_Name CBSA_2003_Code CSA_2003_Code CSA_2003_Title
+
+. destring FIPS, gen(fips) force
+FIPS: contains nonnumeric characters; fips generated as long
+(5 missing values generated)
+
+. drop if fips==.
+(5 observations deleted)
+
+. replace fips=12086 if fips==12025 // Miami-Dade
+(0 real changes made)
+
+. replace fips=02232 if fips==02231 // Skagway-Yakutat-Angoon, AK
+(0 real changes made)
+
+. drop if fips>56999
+(78 observations deleted)
+
+. drop FIPS
+
+. tempfile msas03
+
+. save `msas03'
+file /tmp/St2381900.000004 saved as .dta format
+
+. 
+. // Read in county-MSA crosswalk for 2013 definitions
+. import excel using "${raw}/CBSA2013.xlsx", clear firstrow cellrange(A3:L1885)
+(12 vars, 1,882 obs)
+
+. gen FIPS=FIPSStateCode+FIPSCountyCode
+
+. destring FIPS, gen(fips) force
+FIPS: all characters numeric; fips generated as long
+
+. rename CBSACode CBSA_2013_Code
+
+. rename CSACode CSA_2013_Code
+
+. rename CBSATitle CBSA_2013_Title
+
+. rename CSATitle CSA_2013_Title
+
+. rename CountyCountyEquivalent County_Name
+
+. rename StateName State
+
+. keep fips State County_Name *_2013_*
+
+. drop if fips==.
+(0 observations deleted)
+
+. replace fips=12086 if fips==12025 // Miami-Dade
+(0 real changes made)
+
+. replace fips=02232 if fips==02231 // Skagway-Yakutat-Angoon, AK
+(0 real changes made)
+
+. drop if fips>56999
+(74 observations deleted)
+
+. tempfile msas13
+
+. save `msas13'
+file /tmp/St2381900.000005 saved as .dta format
+
+. 
+. 
+. // Read in unionization from 2010-2018
+. local rangeA "A5:I933"
+
+. local rangeB "A5:I1001"
+
+. forvalues y=10/18 {
+  2.         if `y'<=14 local range "`rangeA'"
+  3.         if `y'>=15 local range "`rangeB'"
+  4.         import excel using "${raw}/Hirsch/Met_1`y'.xlsx", cellrange(`range
+> ') clear firstrow
+  5.         keep if Sector=="Total"
+  6.         drop Sector
+  7.         gen len=length(Code)
+  8.         gen type="CSA" if len==3
+  9.         replace type="MSA" if len==5
+ 10.         drop len
+ 11.         keep Code MetropolitanArea Obs Employment Mem Cov type
+ 12.         foreach v of varlist Obs Employment Mem Cov {
+ 13.                 rename `v' `v'_20`y'
+ 14.         }
+ 15.         tempfile union20`y'
+ 16.         save `union20`y''
+ 17. }
+(9 vars, 928 obs)
+(638 observations deleted)
+(264 missing values generated)
+(264 real changes made)
+file /tmp/St2381900.000006 saved as .dta format
+(9 vars, 928 obs)
+(638 observations deleted)
+(264 missing values generated)
+(264 real changes made)
+file /tmp/St2381900.000007 saved as .dta format
+(9 vars, 928 obs)
+(638 observations deleted)
+(264 missing values generated)
+(264 real changes made)
+file /tmp/St2381900.000008 saved as .dta format
+(9 vars, 928 obs)
+(638 observations deleted)
+(264 missing values generated)
+(264 real changes made)
+file /tmp/St2381900.000009 saved as .dta format
+(9 vars, 928 obs)
+(638 observations deleted)
+(264 missing values generated)
+(264 real changes made)
+file /tmp/St2381900.00000a saved as .dta format
+(9 vars, 996 obs)
+(694 observations deleted)
+(260 missing values generated)
+(260 real changes made)
+file /tmp/St2381900.00000b saved as .dta format
+(9 vars, 996 obs)
+(694 observations deleted)
+(260 missing values generated)
+(260 real changes made)
+file /tmp/St2381900.00000c saved as .dta format
+(9 vars, 996 obs)
+(694 observations deleted)
+(260 missing values generated)
+(260 real changes made)
+file /tmp/St2381900.00000d saved as .dta format
+(9 vars, 996 obs)
+(694 observations deleted)
+(260 missing values generated)
+(260 real changes made)
+file /tmp/St2381900.00000e saved as .dta format
+
+. // Make two merged versions of the unionization data: One for 2010-2014, the 
+> other 2015-2018
+. use `union2010'
+
+. merge 1:1 type Code using `union2011', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               290  
+    -----------------------------------------
+
+. merge 1:1 type Code using `union2012', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               290  
+    -----------------------------------------
+
+. merge 1:1 type Code using `union2013', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               290  
+    -----------------------------------------
+
+. merge 1:1 type Code using `union2014', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               290  
+    -----------------------------------------
+
+. tempfile unionsA unionsB
+
+. save `unionsA'
+file /tmp/St2381900.00000f saved as .dta format
+
+. use `union2015'
+
+. merge 1:1 type Code using `union2016', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               302  
+    -----------------------------------------
+
+. merge 1:1 type Code using `union2017', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               302  
+    -----------------------------------------
+
+. merge 1:1 type Code using `union2018', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               302  
+    -----------------------------------------
+
+. save `unionsB'
+file /tmp/St2381900.00000g saved as .dta format
+
+. 
+. // Read in state unionization from 2010-2018
+. forvalues y=2010/2018 {
+  2.         import excel using "${raw}/Hirsch/State_U_2010.xlsx", cellrange(A4
+> :I259) clear firstrow
+  3.         keep if Sector=="Total"
+  4.         drop Sector
+  5.         keep Code State Obs Employment Mem Cov 
+  6.         foreach v of varlist Obs Employment Mem Cov {
+  7.                 rename `v' `v'_`y'
+  8.         }
+  9.         tempfile unionst`y'
+ 10.         save `unionst`y''
+ 11. }
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000h saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000i saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000j saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000k saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000l saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000m saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000n saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000o saved as .dta format
+(9 vars, 255 obs)
+(204 observations deleted)
+file /tmp/St2381900.00000p saved as .dta format
+
+. use `unionst2010'
+
+. merge 1:1 Code State using `unionst2011', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. merge 1:1 Code State using `unionst2012', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. merge 1:1 Code State using `unionst2013', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. merge 1:1 Code State using `unionst2014', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. merge 1:1 Code State using `unionst2015', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. merge 1:1 Code State using `unionst2016', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. merge 1:1 Code State using `unionst2017', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. merge 1:1 Code State using `unionst2018', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                51  
+    -----------------------------------------
+
+. gen division=1 if inlist(State,"Connecticut","Massachusetts","Maine","New Ham
+> pshire","Rhode Island","Vermont")
+(45 missing values generated)
+
+. replace division=2 if inlist(State,"New Jersey", "New York", "Pennsylvania")
+(3 real changes made)
+
+. replace division=3 if inlist(State,"Illinois","Indiana","Ohio","Michigan","Wi
+> sconsin")
+(5 real changes made)
+
+. replace division=4 if inlist(State,"North Dakota","South Dakota","Nebraska","
+> Kansas","Minnesota","Iowa","Missouri")
+(7 real changes made)
+
+. replace division=5 if inlist(State,"West Virginia","Maryland","Delaware","D.C
+> .","Virginia","North Carolina","South Carolina","Georgia","Florida")
+(9 real changes made)
+
+. replace division=6 if inlist(State,"Kentucky","Tennessee","Alabama","Mississi
+> ppi")
+(4 real changes made)
+
+. replace division=7 if inlist(State,"Arkansas","Louisiana","Oklahoma","Texas")
+(4 real changes made)
+
+. replace division=8 if inlist(State,"Montana","Idaho","Wyoming","Nevada","Utah
+> ","Colorado","New Mexico","Arizona")
+(8 real changes made)
+
+. replace division=9 if inlist(State,"California","Oregon","Washington","Alaska
+> ","Hawaii")
+(5 real changes made)
+
+. tempfile unionst
+
+. save `unionst'
+file /tmp/St2381900.00000q saved as .dta format
+
+. 
+. //Start with counties in our list of CZs. Link to CZ defs, then to unionizati
+> on data. 
+. //Figure out how many we are missing (not in MSAs reported in CPS), weighted 
+> by population.
+. //Then aggregate what we have.
+. use cz fips CountyName Population1990 using `CZs'
+
+. merge m:1 cz using `topczs', assert(1 3) keepusing(cz division top50 cz59 CZn
+> ame)
+(variable cz was long, now double to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            77
+        from master                        77  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                             3,064  (_merge==3)
+    -----------------------------------------
+
+. // fix some up
+. gen stfips=floor(fips/1000)
+
+. // Alaska
+.  replace cz59=9 if stfips==2
+(25 real changes made)
+
+. // North Dakota -- note that one county is in an MT MSA so gets the wrong div
+> ision
+.  replace cz59=4 if stfips==38 & (cz59<10 | cz59==.)
+(12 real changes made)
+
+. // A bunch of other CZs that have to be done by hand 
+.  replace cz59=8 if inlist(cz, 28402, 28501) // stfips 8-CO
+(2 real changes made)
+
+.  replace cz59=4 if inlist(cz,29002,29008) // stfips 20-KS
+(3 real changes made)
+
+.  replace cz59=8 if inlist(cz,26402,26405,26407,34306,34309) // State 30-MT
+(6 real changes made)
+
+.  replace cz59=4 if inlist(cz,28303,28606,29102) // state 31-NE
+(5 real changes made)
+
+.  replace cz59=8 if cz==37902 // state 32-NV
+(1 real change made)
+
+.  replace cz59=8 if inlist(cz,30702,34804) // state 35-NM
+(3 real changes made)
+
+.  replace cz59=7 if cz==33603 // state 40-OK
+(1 real change made)
+
+.  replace cz59=9 if cz==39204 // state 41-OR
+(2 real changes made)
+
+.  replace cz59=4 if inlist(cz,26404, 26603,27010,27012,27604) // state 46-SD
+(6 real changes made)
+
+.  replace cz59=7 if inlist(cz,30605,30905,30907,31304,32502,32603) // state 48
+> -TX
+(8 real changes made)
+
+.  replace cz59=8 if cz==35905 // state 49-UT
+(1 real change made)
+
+.  replace cz59=8 if cz==34604 // state 56-WY
+(1 real change made)
+
+.  replace cz59=4 if cz==26401 // split between 30 and 46 (MT, SD)- give to SD 
+> for slightly larger pop.
+(2 real changes made)
+
+. assert cz59<.
+
+. drop _merge
+
+. tempfile counties
+
+. save `counties'
+file /tmp/St2381900.00000r saved as .dta format
+
+. 
+. // This part will be done separately for 2010-2014 and 2015-2018. This is par
+> t A
+.   //Now, for each county, we merge on the CBSA and CSA codes, when they have 
+> them
+.   use `counties'
+
+.   merge 1:1 fips using `msas03'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             5
+        from master                         2  (_merge==1)
+        from using                          3  (_merge==2)
+
+    Matched                             3,139  (_merge==3)
+    -----------------------------------------
+
+.   list fips CountyName Population1990 cz59 if _merge==1
+
+      +-----------------------------------------------------+
+      |  fips                  CountyName   Pop~1990   cz59 |
+      |-----------------------------------------------------|
+1650. | 30113   Yellowstone National Park         52      8 |
+2946. | 51780           South Boston city       6997      5 |
+      +-----------------------------------------------------+
+
+.   list fips County_Name -CSA_2003_Title if _merge==2
+
+      +---------------------------------------------------------------------+
+      | fips   County_N~e   CBSA_2~e   CSA_2~de              CSA_2003_Title |
+      |---------------------------------------------------------------------|
+3142. | 2068       Denali                                                   |
+3143. | 2282      Yakutat                                                   |
+3144. | 8014   Broomfield      19740        216   Denver-Aurora-Boulder, CO |
+      +---------------------------------------------------------------------+
+
+.    // Note: Broomfield CO (fips 8014) didn't exist in older data / MSA codes
+.   drop if _merge!=3
+(5 observations deleted)
+
+.   drop _merge
+
+. 
+.   // Merge to MSA data
+.   gen Code=CBSA_2003_Code
+(1,376 missing values generated)
+
+.   // Fix some New England areas
+.    replace Code="77200" if Code=="39300" // Providence
+(6 real changes made)
+
+.    replace Code="71650" if Code=="14460" // Boston
+(7 real changes made)
+
+.    replace Code="715" if Code=="31700" // Use the Boston-Worcester-Manchester
+>  CBSA, since Manchester isn't broken out
+(1 real change made)
+
+.    replace Code="73450" if Code=="25540" // Hartford
+(3 real changes made)
+
+.   merge m:1 Code using `unionsA'
+(variable Code was str5, now str75 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,291
+        from master                     2,253  (_merge==1)
+        from using                         38  (_merge==2)
+
+    Matched                               886  (_merge==3)
+    -----------------------------------------
+
+.   drop if _merge==2 & type=="CSA"
+(25 observations deleted)
+
+.   tab _merge 
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        Master only (1) |      2,253       71.48       71.48
+         Using only (2) |         13        0.41       71.89
+            Matched (3) |        886       28.11      100.00
+------------------------+-----------------------------------
+                  Total |      3,152      100.00
+
+.   list Code MetropolitanArea if _merge==2 // All New England areas, which wil
+> l need to be done by hand
+
+      +------------------------------------------+
+      |  Code                   MetropolitanArea |
+      |------------------------------------------|
+3140. | 70750                         Bangor, ME |
+3141. | 70900                Barnstable Town, MA |
+3142. | 71950    Bridgeport-Stamford-Norwalk, CT |
+3143. | 72400    Burlington-South Burlington, VT |
+3144. | 72850                        Danbury, CT |
+      |------------------------------------------|
+3145. | 74500   Leominster-Fitchburg-Gardner, MA |
+3146. | 75700                      New Haven, CT |
+3147. | 76450          Norwich-New London, CT-RI |
+3148. | 76750        Portland-South Portland, ME |
+3149. | 77350             Rochester-Dover, NH-ME |
+      |------------------------------------------|
+3150. | 78100                 Springfield, MA-CT |
+3151. | 78700                      Waterbury, CT |
+3152. | 79600                   Worcester, MA-CT |
+      +------------------------------------------+
+
+.   gen ne=inlist(stfips,9,23,25,33,44,50)
+
+.   tab top50 _merge [aw=Population1990] // About 95% of counties (pop weighted
+> ) in top 50 CZs merge
+
+           | Matching result from
+           |         merge
+     top50 | Master on  Matched ( |     Total
+-----------+----------------------+----------
+         0 | 658.84141 724.781555 | 1,383.623 
+         1 | 76.253749  1,602.123 | 1,678.377 
+-----------+----------------------+----------
+     Total | 735.09516  2,326.905 |     3,062 
+
+.   tab top50 _merge [aw=Population1990] if !ne, row // Outside NE, this is 98%
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+           | Matching result from
+           |         merge
+     top50 | Master on  Matched ( |     Total
+-----------+----------------------+----------
+         0 |  646.5577  748.80349 | 1,395.361 
+           |     46.34      53.66 |    100.00 
+-----------+----------------------+----------
+         1 |35.0364591  1,564.602 | 1,599.639 
+           |      2.19      97.81 |    100.00 
+-----------+----------------------+----------
+     Total | 681.59416  2,313.406 |     2,995 
+           |     22.76      77.24 |    100.00 
+
+.   tempfile czunionA
+
+.   save `czunionA'
+file /tmp/St2381900.00000s saved as .dta format
+
+. 
+.   // Construct CZ means for top-50, ignoring unmatched CZs
+.   keep if top50==1
+(2,732 observations deleted)
+
+.   keep if Cov_2010<.
+(85 observations deleted)
+
+.   collapse (rawsum) Population1990 (mean) Mem_20?? Cov_20?? [aw=Population199
+> 0], by(division cz59 CZname)
+
+.   forvalues y=2010/2014 {
+  2.     replace Mem_`y'=Mem_`y'/100
+  3.     replace Cov_`y'=Cov_`y'/100
+  4.   }
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+
+.   tempfile czcovA
+
+.   save `czcovA'
+file /tmp/St2381900.00000t saved as .dta format
+
+.   
+. // This part will be done separately for 2010-2014 and 2015-2018. This is par
+> t B
+.   //Now, for each county, we merge on the CBSA and CSA codes, when they have 
+> them
+.   use `counties'
+
+.   merge 1:1 fips using `msas13'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,335
+        from master                     1,334  (_merge==1)
+        from using                          1  (_merge==2)
+
+    Matched                             1,807  (_merge==3)
+    -----------------------------------------
+
+.   list fips County_Name CBSA* if _merge==2 
+
+      +------------------------------------------------------------------+
+      | fips         County_Name   CBSA_~de              CBSA_2013_Title |
+      |------------------------------------------------------------------|
+3142. | 8014   Broomfield County      19740   Denver-Aurora-Lakewood, CO |
+      +------------------------------------------------------------------+
+
+.    // Note: Broomfield CO (fips 8014) didn't exist in older data / MSA codes
+.   tab top50 _merge, row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+           | Matching result from
+           |         merge
+     top50 | Master on  Matched ( |     Total
+-----------+----------------------+----------
+         0 |     1,234      1,410 |     2,644 
+           |     46.67      53.33 |    100.00 
+-----------+----------------------+----------
+         1 |        29        391 |       420 
+           |      6.90      93.10 |    100.00 
+-----------+----------------------+----------
+     Total |     1,263      1,801 |     3,064 
+           |     41.22      58.78 |    100.00 
+
+.   tab top50 _merge [aw=Population1990], row
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+           | Matching result from
+           |         merge
+     top50 | Master on  Matched ( |     Total
+-----------+----------------------+----------
+         0 | 206.47137  1,178.103 | 1,384.574 
+           |     14.91      85.09 |    100.00 
+-----------+----------------------+----------
+         1 |6.84914633  1,672.576 | 1,679.426 
+           |      0.41      99.59 |    100.00 
+-----------+----------------------+----------
+     Total | 213.32052  2,850.679 |     3,064 
+           |      6.96      93.04 |    100.00 
+
+.    // We get 93% of top-50 CZ counties with >99% of population
+.   drop if _merge!=3
+(1,335 observations deleted)
+
+.   drop _merge
+
+. 
+.   // Merge to MSA data - don't need to fix New England in 2013 defs
+.   gen Code=CBSA_2013_Code
+
+.   merge m:1 Code using `unionsB'
+(variable Code was str5, now str75 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           901
+        from master                       859  (_merge==1)
+        from using                         42  (_merge==2)
+
+    Matched                               948  (_merge==3)
+    -----------------------------------------
+
+.   drop if _merge==2 & type=="CSA"
+(42 observations deleted)
+
+.   tab _merge 
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        Master only (1) |        859       47.54       47.54
+            Matched (3) |        948       52.46      100.00
+------------------------+-----------------------------------
+                  Total |      1,807      100.00
+
+.   gen ne=inlist(stfips,9,23,25,33,44,50)
+
+.   tab top50 _merge [aw=Population1990], row // About 98% of counties (pop wei
+> ghted) in top 50 CZs merge
+
++----------------+
+| Key            |
+|----------------|
+|   frequency    |
+| row percentage |
++----------------+
+
+           | Matching result from
+           |         merge
+     top50 | Master on  Matched ( |     Total
+-----------+----------------------+----------
+         0 | 268.15177  476.14925 | 744.30102 
+           |     36.03      63.97 |    100.00 
+-----------+----------------------+----------
+         1 |21.4468475  1,035.252 | 1,056.699 
+           |      2.03      97.97 |    100.00 
+-----------+----------------------+----------
+     Total |289.598618  1,511.401 |     1,801 
+           |     16.08      83.92 |    100.00 
+
+.   drop _merge
+
+.   tempfile czunionB
+
+.   save `czunionB'
+file /tmp/St2381900.00000u saved as .dta format
+
+. 
+.   // Construct CZ means for top-50, ignoring unmatched CZs
+.   keep if top50==1
+(1,416 observations deleted)
+
+.   keep if Cov_2015<.
+(45 observations deleted)
+
+.   collapse (rawsum) Population1990 (mean) Mem_20?? Cov_20?? [aw=Population199
+> 0], by(division cz59 CZname)
+
+.   forvalues y=2015/2018 {
+  2.     replace Mem_`y'=Mem_`y'/100
+  3.     replace Cov_`y'=Cov_`y'/100
+  4.   }
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+(50 real changes made)
+
+.   tempfile czcovB
+
+.   save `czcovB'
+file /tmp/St2381900.00000v saved as .dta format
+
+. 
+. // Now we can bring together the 2010-2014 and 2015-2018 data
+.  use `czcovA'
+
+.  rename Population1990 PopA
+
+.  merge 1:1 division cz59 using `czcovB', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                50  
+    -----------------------------------------
+
+.  rename Population1990 PopB
+
+.  tempfile czcov
+
+.  save `czcov', replace
+(file /tmp/St2381900.00000w not found)
+file /tmp/St2381900.00000w saved as .dta format
+
+. 
+. // Now we need to go back to get coverage rates for the 9 rest-of-division "C
+> Zs",
+. // which weren't well represented in the CPS MSA tabulations. Strategy:
+. // Compute total population and coverage rate of the entire states and add up
+>  
+. // to divisions, then subtract off the population and coverage in the top-50 
+> CZs 
+. // to get the rest-of-division part
+. use `counties'
+
+. replace division=cz59 if division==. & cz59<10
+(77 real changes made)
+
+. assert division<. & Population1990<.
+
+. collapse (sum) Population1990, by(division)
+
+. tempfile divpops
+
+. save `divpops'
+file /tmp/St2381900.00000x saved as .dta format
+
+. 
+. use `unionst'
+
+. // compute division mean coverage weighting by average state employment (not 
+> exactly population)
+. egen avgemp=rowmean(Employment_20??)
+
+. collapse (mean) Mem_* Cov_* [aw=avgemp], by(division)
+
+. merge 1:1 division using `divpops', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 9  
+    -----------------------------------------
+
+. rename Population1990 div_Pop
+
+. forvalues y=2010/2018 {
+  2.         gen div_Mem`y'=Mem_`y'*div_Pop/100
+  3.         gen div_Cov`y'=Cov_`y'*div_Pop/100
+  4. }
+
+. drop Mem_20?? Cov_20??
+
+. tempfile divcov
+
+. save `divcov'
+file /tmp/St2381900.000010 saved as .dta format
+
+. 
+. use `czcov'
+
+. forvalues y=2010/2018 {
+  2.   if `y'<=2014 local pop "PopA"
+  3.   else local pop "PopB"
+  4.   gen czmembers`y'=Mem_`y'*`pop'
+  5.   gen czcoverage`y'=Cov_`y'*`pop'
+  6. }
+
+. collapse (sum) PopA PopB czmembers20?? czcoverage20??, by(division)
+
+. merge 1:1 division using `divcov'
+(variable division was byte, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 9  (_merge==3)
+    -----------------------------------------
+
+. gen rod_PopA=div_Pop-PopA
+
+. gen rod_PopB=div_Pop-PopB
+
+. forvalues y=2010/2018 {
+  2.         if `y'<=2014 local pop "PopA"
+  3.         else local pop "PopB"
+  4.         gen rod_Mem`y'=div_Mem`y'-czmembers`y'
+  5.         gen rod_Cov`y'=div_Cov`y'-czcoverage`y'
+  6.         gen Mem_`y'=rod_Mem`y'/rod_`pop'
+  7.         gen Cov_`y'=rod_Cov`y'/rod_`pop'
+  8.         gen czMem`y'=czmembers`y'/`pop'
+  9.         gen czCov`y'=czcoverage`y'/`pop'
+ 10. }
+
+. keep division rod_PopA rod_PopB Mem_20?? Cov_20??
+
+. gen cz59=division
+
+. rename rod_PopA PopA
+
+. rename rod_PopB PopB
+
+. append using `czcov'
+(variable PopA was float, now double to accommodate using data's values)
+(variable Mem_2010 was float, now double to accommodate using data's values)
+(variable Mem_2011 was float, now double to accommodate using data's values)
+(variable Mem_2012 was float, now double to accommodate using data's values)
+(variable Mem_2013 was float, now double to accommodate using data's values)
+(variable Mem_2014 was float, now double to accommodate using data's values)
+(variable Cov_2010 was float, now double to accommodate using data's values)
+(variable Cov_2011 was float, now double to accommodate using data's values)
+(variable Cov_2012 was float, now double to accommodate using data's values)
+(variable Cov_2013 was float, now double to accommodate using data's values)
+(variable Cov_2014 was float, now double to accommodate using data's values)
+(variable PopB was float, now double to accommodate using data's values)
+(variable Mem_2015 was float, now double to accommodate using data's values)
+(variable Mem_2016 was float, now double to accommodate using data's values)
+(variable Mem_2017 was float, now double to accommodate using data's values)
+(variable Mem_2018 was float, now double to accommodate using data's values)
+(variable Cov_2015 was float, now double to accommodate using data's values)
+(variable Cov_2016 was float, now double to accommodate using data's values)
+(variable Cov_2017 was float, now double to accommodate using data's values)
+(variable Cov_2018 was float, now double to accommodate using data's values)
+
+. // Now we will take simple averages
+.  egen membership=rowmean(Mem_????)
+
+.  egen coverage=rowmean(Cov_????)
+
+.  keep division cz59 membership coverage
+
+.  tempfile unionization
+
+.  save `unionization'
+file /tmp/St2381900.000011 saved as .dta format
+
+. //And grab CZ names
+.  use `topczs'
+
+.  sort cz59 cz
+
+.  by cz59: assert CZname==CZname[1]
+
+.  by cz59: keep if _n==1
+(631 observations deleted)
+
+.  keep cz59 CZname
+
+.  merge 1:1 cz59 using `unionization', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                59  
+    -----------------------------------------
+
+.  save "${tocensus}/cz_unionization.dta", replace
+file
+    ~/replication/industries/portion1_prepforcensus/tocensus/cz_unionization.
+    > dta saved
+
+.  
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/nonacs/cz_unionization.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:07:50
+-------------------------------------------------------------------------------

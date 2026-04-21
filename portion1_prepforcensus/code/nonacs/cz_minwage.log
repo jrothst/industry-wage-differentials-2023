@@ -1,0 +1,403 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/nonacs/cz_minwage.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:07:50
+
+. 
+. use "${raw}/minwages/mw_substate_stata/mw_substate_daily", clear
+
+. egen oneper=tag(statefips locality)
+
+. sort statefips
+
+. 
+. gen cz59=38300 if locality=="Los Angeles" | locality=="Los Angeles County"
+(387,925 missing values generated)
+
+. replace cz59=37800 if locality=="San Francisco"
+(6,575 real changes made)
+
+. replace cz59=37500 if locality=="San Jose"
+(6,575 real changes made)
+
+. replace cz59=38000 if locality=="San Diego"
+(6,575 real changes made)
+
+. replace cz59=28900 if locality=="Denver"
+(6,575 real changes made)
+
+. replace cz59=11304 if locality=="Washington" & statename=="District of Columb
+> ia"
+(6,575 real changes made)
+
+. replace cz59=24300 if locality=="Chicago" | locality=="Cook County"
+(13,150 real changes made)
+
+. replace cz59=21501 if locality=="Minneapolis"
+(6,575 real changes made)
+
+. replace cz59=19400 if locality=="New York City"
+(6,575 real changes made)
+
+. replace cz59=38801 if locality=="Portland" & statename=="Oregon"
+(6,575 real changes made)
+
+. replace cz59=39400 if locality=="Seattle"
+(6,575 real changes made)
+
+. list statename locality cz59 if oneper==1
+
+        +------------------------------------------------------------+
+        |            statename                      locality    cz59 |
+        |------------------------------------------------------------|
+  5195. |              Arizona                     Flagstaff       . |
+  7641. |           California                       Alameda       . |
+ 16909. |           California                       Belmont       . |
+ 39104. |           California                     Los Altos       . |
+ 44721. |           California                       Fremont       . |
+        |------------------------------------------------------------|
+ 62832. |           California                    El Cerrito       . |
+ 67673. |           California                   Los Angeles   38300 |
+ 78170. |           California                        Sonoma       . |
+ 83315. |           California                      Pasadena       . |
+ 85601. |           California                      Richmond       . |
+        |------------------------------------------------------------|
+ 87133. |           California                        Malibu       . |
+ 90173. |           California                        Novato       . |
+ 95869. |           California                      Milpitas       . |
+ 96147. |           California                     Palo Alto       . |
+ 98316. |           California                      Petaluma       . |
+        |------------------------------------------------------------|
+140940. |           California                  Redwood City       . |
+144892. |           California                    Santa Rosa       . |
+151906. |           California                       Oakland       . |
+155209. |           California                  Santa Monica       . |
+164434. |           California                      Berkeley       . |
+        |------------------------------------------------------------|
+177659. |           California                 San Francisco   37800 |
+180634. |           California                     San Mateo       . |
+184646. |           California                      San Jose   37500 |
+190474. |           California                   San Leandro       . |
+192651. |           California                     Cupertino       . |
+        |------------------------------------------------------------|
+196390. |           California                    Emeryville       . |
+198405. |           California                East Palo Alto       . |
+201412. |           California                 Mountain View       . |
+203307. |           California                       Hayward       . |
+205949. |           California                     Sunnyvale       . |
+        |------------------------------------------------------------|
+208514. |           California                     San Diego   38000 |
+213500. |           California                   Santa Clara       . |
+214693. |           California            Los Angeles County   38300 |
+221219. |             Colorado                        Denver   28900 |
+226857. | District of Columbia                    Washington   11304 |
+        |------------------------------------------------------------|
+232878. |             Illinois                   Cook County   24300 |
+235301. |             Illinois                       Chicago   24300 |
+246171. |                 Iowa                Johnson County       . |
+247766. |                 Iowa                Wapello County       . |
+254490. |                 Iowa                   Linn County       . |
+        |------------------------------------------------------------|
+269132. |             Kentucky                    Louisville       . |
+273948. |             Kentucky                     Lexington       . |
+279901. |                Maine                      Portland       . |
+283597. |             Maryland        Prince George's County       . |
+288777. |             Maryland             Montgomery County       . |
+        |------------------------------------------------------------|
+296436. |            Minnesota                      St. Paul       . |
+298360. |            Minnesota                   Minneapolis   21501 |
+310417. |           New Mexico                    Las Cruces       . |
+316860. |           New Mexico             Bernalillo County       . |
+327701. |           New Mexico                      Santa Fe       . |
+        |------------------------------------------------------------|
+334535. |           New Mexico               Santa Fe County       . |
+337489. |           New Mexico                   Albuquerque       . |
+354598. |             New York   Remainder of New York State       . |
+358497. |             New York                 New York City   19400 |
+359807. |             New York     Long Island & Westchester       . |
+        |------------------------------------------------------------|
+363306. |               Oregon             Nonurban counties       . |
+370178. |               Oregon           Remainder of Oregon       . |
+373729. |               Oregon                      Portland   38801 |
+389622. |           Washington                        SeaTac       . |
+392461. |           Washington                       Seattle   39400 |
+        |------------------------------------------------------------|
+399836. |           Washington                        Tacoma       . |
+        +------------------------------------------------------------+
+
+. keep if cz59<.
+(315,600 observations deleted)
+
+. tab locality
+
+                City/County |      Freq.     Percent        Cum.
+----------------------------+-----------------------------------
+                    Chicago |      6,575        7.69        7.69
+                Cook County |      6,575        7.69       15.38
+                     Denver |      6,575        7.69       23.08
+                Los Angeles |      6,575        7.69       30.77
+         Los Angeles County |      6,575        7.69       38.46
+                Minneapolis |      6,575        7.69       46.15
+              New York City |      6,575        7.69       53.85
+                   Portland |      6,575        7.69       61.54
+                  San Diego |      6,575        7.69       69.23
+              San Francisco |      6,575        7.69       76.92
+                   San Jose |      6,575        7.69       84.62
+                    Seattle |      6,575        7.69       92.31
+                 Washington |      6,575        7.69      100.00
+----------------------------+-----------------------------------
+                      Total |     85,475      100.00
+
+. sort cz59 locality date
+
+. by cz59 locality: assert _N==6575
+
+. collapse (max) mw, by(cz59 date)
+
+. keep if date>=mdy(1,1,2010) & date<=mdy(12,31,2018)
+(36,168 observations deleted)
+
+. collapse (mean) mw, by(cz59)
+
+. tempfile czlevel
+
+. save `czlevel'
+file /tmp/St2381900.000001 saved as .dta format
+
+. 
+. // Now we need to pull state level MWs
+. use "${raw}/minwages/mw_state_stata/mw_state_daily", clear
+
+. keep if date>=mdy(1,1,2010) & date<=mdy(12,31,2018)
+(720,375 observations deleted)
+
+. collapse (mean) mw, by(statefips statename)
+
+. tempfile statelevel
+
+. save `statelevel'
+file /tmp/St2381900.000002 saved as .dta format
+
+. 
+. // For CZs without their own MWs, we need to average the relevant states. 
+. // For that, we need county-CZ crosswalk, with pops.
+. 
+. 
+. // Read in CZ definitions
+. import excel using "${raw}/cz-codes-1990.xls", clear firstrow sheet(CZLMA903)
+>  // County-CZ crosswalk
+(6 vars, 3,141 obs)
+
+. rename NameoflargestplaceinCommuti CZname
+
+. destring CountyFIPSCode, gen(fips) force
+CountyFIPSCode: all characters numeric; fips generated as long
+
+. drop CountyFIPSCode
+
+. *keep fips CZ90 CountyName Population1990
+. replace fips=12086 if fips==12025 // Miami-Dade
+(1 real change made)
+
+. replace fips=02232 if fips==02231 // Skagway-Yakutat-Angoon, AK
+(1 real change made)
+
+. destring CZ90, gen(cz)
+CZ90: all characters numeric; cz generated as long
+
+. drop CZ90
+
+. tempfile CZs
+
+. save `CZs'
+file /tmp/St2381900.000003 saved as .dta format
+
+. // And get CZ names
+.  sort cz fips
+
+.  isid cz fips
+
+.  by cz: keep if _n==1
+(2,400 observations deleted)
+
+.  keep cz CZname
+
+.  tempfile CZnames
+
+.  save `CZnames'
+file /tmp/St2381900.000004 saved as .dta format
+
+. 
+. // Read in top 50 CZs
+. use ${raw}/cw_cz_division_nottop50, clear
+
+. keep cz division top50
+
+. gen cz59=cz if top50==1
+(640 missing values generated)
+
+. replace cz59=division if top50==0
+(640 real changes made)
+
+. merge 1:1 cz using `CZnames', keep(1 3)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               690  (_merge==3)
+    -----------------------------------------
+
+. assert _merge==3 if top50==1
+
+. drop _merge
+
+. replace CZname="Rest of division"+string(division) if top50!=1
+(640 real changes made)
+
+. sort cz59 cz
+
+. by cz59: assert _n==1 if top50==1
+
+. *by cz59: drop if _n>1
+. tempfile topczs
+
+. save `topczs'
+file /tmp/St2381900.000005 saved as .dta format
+
+. 
+. 
+. merge 1:m cz using `CZs', assert(2 3) nogen keepusing(fips cz Population1990)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            77
+        from master                         0  
+        from using                         77  
+
+    Matched                             3,064  
+    -----------------------------------------
+
+. gen stfips=floor(fips/1000)
+
+. // Alaska
+.  replace cz59=9 if cz59==. & stfips==2
+(25 real changes made)
+
+. // North Dakota -- note that one county is in an MT MSA so gets the wrong div
+> ision
+.  replace cz59=4 if cz59==. & stfips==38 & (cz59<10 | cz59==.)
+(11 real changes made)
+
+. // A bunch of other CZs that have to be done by hand 
+.  replace cz59=8 if cz59==. & inlist(cz, 28402, 28501) // stfips 8-CO
+(2 real changes made)
+
+.  replace cz59=4 if cz59==. & inlist(cz,29002,29008) // stfips 20-KS
+(3 real changes made)
+
+.  replace cz59=8 if cz59==. & inlist(cz,26402,26405,26407,34306,34309) // Stat
+> e 30-MT
+(6 real changes made)
+
+.  replace cz59=4 if cz59==. & inlist(cz,28303,28606,29102) // state 31-NE
+(5 real changes made)
+
+.  replace cz59=8 if cz59==. & cz==37902 // state 32-NV
+(1 real change made)
+
+.  replace cz59=8 if cz59==. & inlist(cz,30702,34804) // state 35-NM
+(3 real changes made)
+
+.  replace cz59=7 if cz59==. & cz==33603 // state 40-OK
+(1 real change made)
+
+.  replace cz59=9 if cz59==. & cz==39204 // state 41-OR
+(2 real changes made)
+
+.  replace cz59=4 if cz59==. & inlist(cz,26404, 26603,27010,27012,27604) // sta
+> te 46-SD
+(6 real changes made)
+
+.  replace cz59=7 if cz59==. & inlist(cz,30605,30905,30907,31304,32502,32603) /
+> / state 48-TX
+(8 real changes made)
+
+.  replace cz59=8 if cz59==. & cz==35905 // state 49-UT
+(1 real change made)
+
+.  replace cz59=8 if cz59==. & cz==34604 // state 56-WY
+(1 real change made)
+
+.  replace cz59=4 if cz59==. & cz==26401 // split between 30 and 46 (MT, SD)- g
+> ive to SD for 
+(2 real changes made)
+
+. assert cz59<.
+
+. gen statefips=floor(fips/1000)
+
+. merge m:1 statefips using `statelevel', assert(2 3) keep(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             3,141  
+    -----------------------------------------
+
+. rename mw st_mw
+
+. merge m:1 cz59 using `czlevel', assert(1 3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,050
+        from master                     3,050  
+        from using                          0  
+
+    Matched                                91  
+    -----------------------------------------
+
+. replace mw=st_mw if mw==.
+(3,050 real changes made)
+
+. collapse (mean) mw [aw=Population1990], by(cz59)
+
+. tempfile mw
+
+. save `mw'
+file /tmp/St2381900.000006 saved as .dta format
+
+. //And grab CZ names
+.  use `topczs'
+
+.  sort cz59 cz
+
+.  by cz59: assert CZname==CZname[1]
+
+.  by cz59: keep if _n==1
+(631 observations deleted)
+
+.  keep cz59 CZname
+
+.  merge 1:1 cz59 using `mw', assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                59  
+    -----------------------------------------
+
+. save "${tocensus}/cz_minwage.dta", replace
+file ~/replication/industries/portion1_prepforcensus/tocensus/cz_minwage.dta
+    saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion1_
+> prepforcensus/code/nonacs/cz_minwage.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:07:53
+-------------------------------------------------------------------------------
