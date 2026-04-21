@@ -1,0 +1,114 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f7.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:57
+
+. 
+. import excel using "$disclosure1", sheet("2") cellrange(A3:E314) firstrow cle
+> ar
+(5 vars, 311 obs)
+
+. set scheme plotplain 
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. tempfile t2
+
+. save `t2'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. import excel using "${disclosure1}", sheet("3") cellrange(A3:D314) firstrow c
+> lear
+(4 vars, 311 obs)
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t3
+
+. tempfile t3
+
+. save `t3'
+file /tmp/St2401399.000002 saved as .dta format
+
+. 
+. use `t2'
+
+. merge 1:1 naics4 using `t3'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               311  (_merge==3)
+    -----------------------------------------
+
+. 
+. preserve        
+
+. qui sum alternative_psi_j_m7 if naics4 ==7225
+
+. replace alternative_psi_j_m7=alternative_psi_j_m7-r(mean)       
+(311 real changes made)
+
+. reg alternative_psi_j_m7 psi_j [aw=Npq_t2] , robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =     956.19
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9245
+                                                Root MSE          =     .02165
+
+------------------------------------------------------------------------------
+             |               Robust
+alternativ~7 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .6184343   .0199996    30.92   0.000     .5790818    .6577869
+       _cons |   .0209811   .0060393     3.47   0.001     .0090977    .0328645
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi_j]
+
+. local se : display %4.2f _se[psi_j]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. scatter alternative_psi_j_m7 psi_j [aw=Npq_t2], msymbol(oh)  || ///
+>   lfit alternative_psi_j_m7 psi_j [aw=Npq_t2], range(-0.1 0.8) || ///
+>   function y=x, range(-0.1 0.8 ) || ///
+>   , ylabel(-0.1 (0.1) 0.8) xlabel(-0.1 (0.1) 0.8) legend(off) ///
+>     text(0.38 0.75 "Fitted line" "Slope = `b'" "R-sq = `r2'", just(left) size
+> (small)) ///
+>         text(0.54 0.45 "45 degree line", size(small)) ///
+>         xtitle("Estimated industry effect" "based on ground-up firm-level AKM
+> ") ///
+>         ytitle("Estimated industry effect" "based on industry movers model") 
+> ///
+>         /*  title("Figure 7. Industry movers effects vs. ground-up from AKM (
+> LEHD)", */ ///
+>         /*       pos(11) justification(left) span) */ ///
+>     saving(${results}/f7.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f7.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f7.gph saved
+
+. graph export ${results}/f7.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f7.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f7.png written in
+>  PNG format
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f7.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:59
+-------------------------------------------------------------------------------

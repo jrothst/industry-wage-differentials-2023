@@ -1,0 +1,91 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f6.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:57
+
+. 
+. use ${scratch}/merge_acs_lehd, clear
+
+. *import excel using lehd_acs_bynaics2.xlsx, sheet(Data) clear firstrow
+. set scheme plotplain
+
+. 
+.  //Industry effects should be .038937 on average in 72 (based on LEHD)
+.  gen naics2=floor(naics/100)
+
+.  su ind_effects_m3 if naics2==72 [aw=wcount]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~3 |       6   177107167   -.2413392   .0247513  -.2767684  -.1634685
+
+.  gen ind_effects_adj=ind_effects_m3-r(mean) + 0.038937
+
+. 
+. reg ind_effects_adj psi [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     417.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7101
+                                                Root MSE          =     .09126
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         psi |   1.165872   .0570716    20.43   0.000     1.053573    1.278172
+       _cons |    .041195   .0156121     2.64   0.009     .0104751    .0719148
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi]
+
+. local se : display %4.2f _se[psi]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. su psi, meanonly
+
+. local min=r(min)
+
+. local max=r(max)
+
+. 
+. scatter ind_effects_adj psi [aw=npq], msymbol(oh)  || ///
+>   lfit ind_effects_adj psi [aw=npq], range(-0.1 0.7) || ///
+>   function y=x, range(-0.1 0.8 ) || ///
+>   , ylabel(-0.1 (0.1) 0.8) xlabel(-0.1 (0.1) 0.8) legend(off) ///
+>     text(0.8 0.54 "Fitted line" "Slope = `b' (`se')"  "R-sq = `r2'", just(lef
+> t) size(small)) ///
+>         text(0.54 0.63 "45 degree line", size(small)) ///
+>         xtitle("Estimated industry effect" "based on ground-up firm-level AKM
+> ") ///
+>         ytitle("Estimated industry effect" "based on cross-sectional model") 
+> ///
+>         /*  title("Figure 6. Cross-sectional industry effects (ACS) vs. groun
+> d-up from AKM (LEHD)", */ ///
+>         /*        pos(11) justification(left) span) */ ///
+>     saving(${results}/f6.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f6.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f6.gph saved
+
+. graph export ${results}/f6.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f6.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f6.png written in
+>  PNG format
+
+.    
+. log close 
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f6.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:57
+-------------------------------------------------------------------------------

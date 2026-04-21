@@ -1,0 +1,173 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/postdisclosure/code/t4.txt
+  log type:  text
+ opened on:  28 Aug 2023, 22:32:05
+
+. 
+. clear *
+
+. * Table to relate national-level education, alphabar, ybar, psi
+. local disclosure "Yi_1_tabs_T13T26.xlsx"
+
+. 
+. *Two samples -- one is LEHD only, the other is linked
+. *Sample 1
+. import excel using "${disclosure1}", sheet("2") cellrange(A3:E314) firstrow clear
+(5 vars, 311 obs)
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. tempfile lehdonly
+
+. save `lehdonly'
+file /tmp/St310698.000001 saved as .dta format
+
+. 
+. /*  
+> use "ind_data", clear
+> merge 1:1 naics using "../acs/xwalk/naics_chars", assert(3) nogen
+> gen naics1=floor(naics/1000)
+> tab naics1, gen(naics1d)
+> collapse (mean) ybar alpha psi logwage-wcount naics1d* (rawsum) npq [aw=npq], by(naicsp)
+> */
+. use ${scratch}/merge_acs_lehd, clear
+
+. tempfile lehdacs
+
+. save `lehdacs'
+file /tmp/St310698.000002 saved as .dta format
+
+. 
+. use `lehdonly'
+
+. eststo: reg alpha_j y_j [aw=Npq_t2], robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =    1019.16
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8672
+                                                Root MSE          =     .06746
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         y_j |   .6185426   .0193753    31.92   0.000     .5804184    .6566667
+       _cons |   3.621151   .1828306    19.81   0.000       3.2614    3.980901
+------------------------------------------------------------------------------
+(est1 stored)
+
+. eststo: reg psi_j y_j [aw=Npq_t2], robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =     414.67
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7168
+                                                Root MSE          =      .0652
+
+------------------------------------------------------------------------------
+             |               Robust
+       psi_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         y_j |   .3721727   .0182765    20.36   0.000     .3362106    .4081348
+       _cons |  -3.275356   .1725906   -18.98   0.000    -3.614957   -2.935754
+------------------------------------------------------------------------------
+(est2 stored)
+
+. eststo: reg alpha_j psi_j [aw=Npq_t2], robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      54.02
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3557
+                                                Root MSE          =     .14861
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .9011561   .1226036     7.35   0.000     .6599125      1.1424
+       _cons |   9.243958   .0357066   258.89   0.000     9.173699    9.314217
+------------------------------------------------------------------------------
+(est3 stored)
+
+. 
+. use `lehdacs', clear
+
+. err
+invalid syntax
+r(197);
+
+end of do-file
+
+r(197);
+
+. d
+
+Contains data from /tmp/St310698.000002
+ Observations:           310                  
+    Variables:            20                  28 Aug 2023 22:32
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+naics           long    %10.0g                Industry (4 digit NAICS)
+ybar            double  %10.0g                y_j
+alpha           double  %10.0g                alpha_j
+psi             double  %10.0g                psi_j
+npq             long    %10.0gc               Number of person-quarters
+title           str119  %119s                 title
+naicsp          str8    %9s                   
+C3              strL    %99s                  
+logwage         float   %9.0g                 (mean) logwage
+female          float   %9.0g                 (mean) female
+educ            float   %9.0g                 (mean) educ
+ind_effects_m1  float   %9.0g                 (mean) ind_effects_m1
+ind_effects_m2  float   %9.0g                 (mean) ind_effects_m2
+ind_effects_m3  float   %9.0g                 (mean) ind_effects_m3
+skill_m1        float   %9.0g                 (mean) skill_m1
+skill_m2        float   %9.0g                 (mean) skill_m2
+skill_m3        float   %9.0g                 (mean) skill_m3
+count           double  %9.0g                 (sum) iw
+wcount          double  %9.0g                 (sum) c
+_merge          byte    %23.0g     _merge     Matching result from merge
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+
+. su
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       naics |        310    4514.571    1798.497       1111       9281
+        ybar |        310    9.421065    .2870119      8.827      10.34
+       alpha |        310    9.418803    .1852541      9.022      10.12
+         psi |        310    .2619655    .1414792    -.08727       .796
+         npq |        310     8078316    1.59e+07      17500   1.81e+08
+-------------+---------------------------------------------------------
+       title |          0
+      naicsp |          0
+          C3 |          0
+     logwage |        310    2.886814    .2808326   2.329254   3.687602
+      female |        310    .3772445    .1903093   .0666933    .943859
+-------------+---------------------------------------------------------
+        educ |        310    13.23278    1.181236   10.18396   16.42142
+ind_effect~1 |        310    .0189917    .1849706  -.3844451   .5662112
+ind_effect~2 |        310    .0227055    .1754897  -.3506368   .5042526
+ind_effect~3 |        310    .0268974    .1736854  -.3937314    .492512
+    skill_m1 |        310    2.867822    .1092121      2.601   3.121391
+-------------+---------------------------------------------------------
+    skill_m2 |        310    2.864108    .1198177   2.580022    3.18335
+    skill_m3 |        310    2.859916    .1287495   2.576645   3.235756
+       count |        310    74042.46    144522.5       1235     801594
+      wcount |        310     7956518    1.59e+07     127384   7.96e+07
+      _merge |        310           3           0          3          3
+
+. do t4
+
+. cap log close

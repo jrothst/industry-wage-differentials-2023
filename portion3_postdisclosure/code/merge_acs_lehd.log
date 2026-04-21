@@ -1,0 +1,153 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/merge_acs_lehd.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:29
+
+. 
+. * this is the public release summary file of data by industry
+. * extracted from main sheet from industryeffects.xlsx (dc may 2023)
+. 
+. use ${scratch}/ind_data, clear
+
+. desc
+
+Contains data from ~/replication/industries/portion3_postdisclosure/intermediat
+> e/ind_data.dta
+ Observations:           311                  
+    Variables:             6                  6 Oct 2023 12:36
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+naics           long    %10.0g                Industry (4 digit NAICS)
+ybar            double  %10.0g                y_j
+alpha           double  %10.0g                alpha_j
+psi             double  %10.0g                psi_j
+npq             long    %10.0gc               Number of person-quarters
+title           str119  %119s                 title
+-------------------------------------------------------------------------------
+Sorted by: naics
+
+. sum
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       naics |        311     4516.81    1796.028       1111       9281
+        ybar |        311    9.423023    .2886216      8.827      10.34
+       alpha |        311    9.420293    .1868107      9.022      10.12
+         psi |        311    .2624425     .141501    -.08727       .796
+         npq |        311     8054071    1.58e+07      17500   1.81e+08
+-------------+---------------------------------------------------------
+       title |          0
+
+. 
+. * next pull in naics_lehd -- this has naics and naicsp (lehd version)
+. 
+. merge 1:1 naics using ${raw}/naics_lehd, assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               311  
+    -----------------------------------------
+
+. 
+. desc
+
+Contains data from ~/replication/industries/portion3_postdisclosure/intermediat
+> e/ind_data.dta
+ Observations:           311                  
+    Variables:             8                  6 Oct 2023 12:36
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+naics           long    %10.0g                Industry (4 digit NAICS)
+ybar            double  %10.0g                y_j
+alpha           double  %10.0g                alpha_j
+psi             double  %10.0g                psi_j
+npq             long    %10.0gc               Number of person-quarters
+title           str119  %119s                 title
+naicsp          str7    %7s                   
+C3              strL    %99s                  
+-------------------------------------------------------------------------------
+Sorted by: naics
+     Note: Dataset has changed since last saved.
+
+. 
+. * now pull in data from indeffects_naicsp -- created by phi_acs.do
+. merge m:1 naicsp using ${acsoutput}/indeffects_naicsp
+(variable naicsp was str7, now str8 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             1
+        from master                         1  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                               310  (_merge==3)
+    -----------------------------------------
+
+. 
+. // Note: NAICS 5211 is central banking - not in ACS.
+. tab naics if _merge==1
+
+Industry (4 |
+      digit |
+     NAICS) |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       5211 |          1      100.00      100.00
+------------+-----------------------------------
+      Total |          1      100.00
+
+. drop if _merge==1
+(1 observation deleted)
+
+. 
+. 
+. sum [w=npq]
+(analytic weights assumed)
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       naics |     310  2.5043e+09    5323.071   1667.481       1111       9281
+        ybar |     310  2.5043e+09    9.433515   .2781855      8.827      10.34
+       alpha |     310  2.5043e+09    9.456169    .184759      9.022      10.12
+         psi |     310  2.5043e+09    .2355514   .1223172    -.08727       .796
+         npq |     310  2.5043e+09    3.91e+07   4.93e+07      17500   1.81e+08
+-------------+-----------------------------------------------------------------
+       title |       0           0
+      naicsp |       0           0
+          C3 |       0           0
+     logwage |     310  2.5043e+09    2.933487   .2918077   2.329254   3.687602
+      female |     310  2.5043e+09    .4843039   .2232473   .0666933    .943859
+-------------+-----------------------------------------------------------------
+        educ |     310  2.5043e+09    13.82876   1.322902   10.18396   16.42142
+ind_effect~1 |     310  2.5043e+09    .0394629   .1886512  -.3844449   .5662113
+ind_effect~2 |     310  2.5043e+09    .0357532   .1736753  -.3506376   .5042526
+ind_effect~3 |     310  2.5043e+09    .0355416   .1692268  -.3936082   .4924877
+    skill_m1 |     310  2.5043e+09    2.894024   .1229217   2.600999   3.121391
+-------------+-----------------------------------------------------------------
+    skill_m2 |     310  2.5043e+09    2.897734   .1423028   2.580021    3.18335
+    skill_m3 |     310  2.5043e+09    2.897945   .1497517    2.57663    3.23566
+       count |     310  2.5043e+09      211582   258099.9       1235     801594
+      wcount |     310  2.5043e+09    2.21e+07   2.68e+07     127384   7.96e+07
+      _merge |     310  2.5043e+09           3          0          3          3
+
+. 
+. 
+. save ${scratch}/merge_acs_lehd, replace
+file
+    ~/replication/industries/portion3_postdisclosure/intermediate/merge_acs_l
+    > ehd.dta saved
+
+. 
+end of do-file
+
+. 
+. do f1
+
+. 
+. cap log close

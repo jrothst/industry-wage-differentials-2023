@@ -1,0 +1,232 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t6.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:10
+
+. 
+. clear *
+
+. estimates clear
+
+. 
+. 
+. use ${scratch}/merge_acs_lehd, clear
+
+. assert educ<. 
+
+. rename psi psi_j
+
+. 
+. 
+. estimates clear
+
+. su psi_j [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       psi_j |     310  2.5043e+09    .2355514   .1223172    -.08727       .796
+
+. local sdpsi=r(sd)
+
+. su ind_effects_m1 [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~1 |     310  2.5043e+09    .0394629   .1886512  -.3844449   .5662113
+
+. local sd1=r(sd)
+
+. su ind_effects_m2 [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~2 |     310  2.5043e+09    .0357532   .1736753  -.3506376   .5042526
+
+. local sd2=r(sd)
+
+. su ind_effects_m3 [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~3 |     310  2.5043e+09    .0355416   .1692268  -.3936082   .4924877
+
+. local sd3=r(sd)
+
+. eststo, add(sdy `sd1' sdpsi `sdpsi'): reg ind_effects_m1 psi_j [aw=npq], robu
+> st
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     289.79
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6454
+                                                Root MSE          =     .11252
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.239026   .0727846    17.02   0.000     1.095808    1.382244
+       _cons |  -.2523914   .0172982   -14.59   0.000     -.286429   -.2183539
+------------------------------------------------------------------------------
+(e(sdy) = .18865122 added)
+(e(sdpsi) = .12231723 added)
+(est1 stored)
+
+. eststo, add(sdy `sd2' sdpsi `sdpsi'): reg ind_effects_m2 psi_j [aw=npq], robu
+> st
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     334.69
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6774
+                                                Root MSE          =      .0988
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.168636   .0638788    18.29   0.000     1.042942     1.29433
+       _cons |  -.2395208   .0162723   -14.72   0.000    -.2715398   -.2075018
+------------------------------------------------------------------------------
+(e(sdy) = .17367534 added)
+(e(sdpsi) = .12231723 added)
+(est2 stored)
+
+. eststo, add(sdy `sd3' sdpsi `sdpsi'): reg ind_effects_m3 psi_j [aw=npq], robu
+> st
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     417.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7101
+                                                Root MSE          =     .09126
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.165872   .0570716    20.43   0.000     1.053573    1.278172
+       _cons |  -.2390813   .0156121   -15.31   0.000    -.2698011   -.2083614
+------------------------------------------------------------------------------
+(e(sdy) = .1692268 added)
+(e(sdpsi) = .12231723 added)
+(est3 stored)
+
+. // without robust to get adjusted r2
+. eststo, add(sdy `sd1' sdpsi `sdpsi'): reg ind_effects_m1 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    560.54
+       Model |  7.09731894         1  7.09731894   Prob > F        =    0.0000
+    Residual |  3.89976941       308  .012661589   R-squared       =    0.6454
+-------------+----------------------------------   Adj R-squared   =    0.6442
+       Total |  10.9970883       309  .035589283   Root MSE        =    .11252
+
+------------------------------------------------------------------------------
+ind_effect~1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.239026   .0523332    23.68   0.000      1.13605    1.342001
+       _cons |  -.2523914   .0138853   -18.18   0.000    -.2797135   -.2250693
+------------------------------------------------------------------------------
+(e(sdy) = .18865122 added)
+(e(sdpsi) = .12231723 added)
+(est4 stored)
+
+. eststo, add(sdy `sd2' sdpsi `sdpsi'): reg ind_effects_m2 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    646.80
+       Model |  6.31382407         1  6.31382407   Prob > F        =    0.0000
+    Residual |  3.00658109       308  .009761627   R-squared       =    0.6774
+-------------+----------------------------------   Adj R-squared   =    0.6764
+       Total |  9.32040516       309  .030163123   Root MSE        =     .0988
+
+------------------------------------------------------------------------------
+ind_effect~2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.168636   .0459509    25.43   0.000     1.078219    1.259054
+       _cons |  -.2395208    .012192   -19.65   0.000    -.2635109   -.2155307
+------------------------------------------------------------------------------
+(e(sdy) = .17367534 added)
+(e(sdpsi) = .12231723 added)
+(est5 stored)
+
+. eststo, add(sdy `sd3' sdpsi `sdpsi'): reg ind_effects_m3 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    754.55
+       Model |  6.28399067         1  6.28399067   Prob > F        =    0.0000
+    Residual |  2.56506165       308  .008328122   R-squared       =    0.7101
+-------------+----------------------------------   Adj R-squared   =    0.7092
+       Total |  8.84905232       309   .02863771   Root MSE        =    .09126
+
+------------------------------------------------------------------------------
+ind_effect~3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.165872   .0424431    27.47   0.000     1.082357    1.249387
+       _cons |  -.2390813   .0112612   -21.23   0.000      -.26124   -.2169226
+------------------------------------------------------------------------------
+(e(sdy) = .1692268 added)
+(e(sdpsi) = .12231723 added)
+(est6 stored)
+
+. 
+. esttab, b(4) se nostar r2 ar2 scalars(sdy sdpsi)
+
+-------------------------------------------------------------------------------
+> -----------
+                      (1)          (2)          (3)          (4)          (5)  
+>         (6)
+             ind_effect~1 ind_effect~2 ind_effect~3 ind_effect~1 ind_effect~2 i
+> nd_effect~3
+-------------------------------------------------------------------------------
+> -----------
+psi_j              1.2390       1.1686       1.1659       1.2390       1.1686  
+>      1.1659
+                 (0.0728)     (0.0639)     (0.0571)     (0.0523)     (0.0460)  
+>    (0.0424)
+
+_cons             -0.2524      -0.2395      -0.2391      -0.2524      -0.2395  
+>     -0.2391
+                 (0.0173)     (0.0163)     (0.0156)     (0.0139)     (0.0122)  
+>    (0.0113)
+-------------------------------------------------------------------------------
+> -----------
+N                     310          310          310          310          310  
+>         310
+R-sq                0.645        0.677        0.710        0.645        0.677  
+>       0.710
+adj. R-sq           0.644        0.676        0.709        0.644        0.676  
+>       0.709
+sdy                0.1887       0.1737       0.1692       0.1887       0.1737  
+>      0.1692
+sdpsi              0.1223       0.1223       0.1223       0.1223       0.1223  
+>      0.1223
+-------------------------------------------------------------------------------
+> -----------
+Standard errors in parentheses
+
+. esttab using ${results}/t6.csv, b(4) se nostar r2 ar2 scalars(sdy sdpsi) repl
+> ace
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/t6.csv not found)
+(output written to ~/replication/industries/portion3_postdisclosure/results/t6.
+> csv)
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t6.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:11
+-------------------------------------------------------------------------------

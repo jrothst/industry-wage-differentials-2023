@@ -1,0 +1,122 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f3.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:38
+
+. 
+. import excel using "$disclosure1", sheet("2") cellrange(A3:E314) firstrow cle
+> ar
+(5 vars, 311 obs)
+
+. set scheme plotplain
+
+. 
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. tempfile t2
+
+. save `t2'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. 
+. reg y_j psi_j [aw=Npq_t2] , robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =     234.78
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7168
+                                                Root MSE          =     .14833
+
+------------------------------------------------------------------------------
+             |               Robust
+         y_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.926094   .1257041    15.32   0.000     1.678749    2.173438
+       _cons |   8.979876   .0372615   241.00   0.000     8.906558    9.053195
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi_j]
+
+. local se : display %4.2f _se[psi_j]
+
+. local r2: display %4.2f e(r2)
+
+. scatter y_j psi_j [aw=Npq_t2], msymbol(oh) || ///
+>   lfit y_j psi_j [aw=Npq_t2] || ///
+>   , xtitle("Estimated industry effect ({it:{&psi}})") ///
+>     ytitle("Mean log quarterly earnings in industry") ylabel(9 (0.5) 10.5) //
+> /
+>     text(10.1 0.1 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left))
+>  ///
+>     legend(off) ///
+>     title("A. Industry differentials and average industry earnings",  pos(11)
+>  span) ///
+>     name(f3a, replace) 
+
+.         
+. reg alpha_j psi_j [aw=Npq_t2] , robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      54.02
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3557
+                                                Root MSE          =     .14861
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .9011561   .1226036     7.35   0.000     .6599125      1.1424
+       _cons |   9.243958   .0357066   258.89   0.000     9.173699    9.314217
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi_j]
+
+. local se : display %4.2f _se[psi_j]
+
+. local r2: display %4.2f e(r2)
+
+. scatter alpha_j psi_j [aw=Npq_t2], msymbol(oh) || ///
+>   lfit alpha_j psi_j [aw=Npq_t2] || ///
+>   , xtitle("Estimated industry effect ({it:{&psi}})") ///
+>     ytitle("Average person effect ({it:{&alpha}}) in industry") ylabel(9 (0.5
+> ) 10.5) ///
+>     text(10.1 0.1 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left))
+>  ///
+>     legend(off) ///
+>     title("B. Industry differentials and average worker effects", pos(11) spa
+> n) ///
+>     name(f3b, replace) 
+
+. 
+. graph combine f3a f3b, xcommon ycommon ///
+>   /*  title("Figure 3. Industry wage differentials, mean wages, and average w
+> orker effects", span pos(11)) */ ///
+>   saving(${results}/f3, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f3.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f3.gph saved
+
+. graph export ${results}/f3.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f3.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f3.png written in
+>  PNG format
+
+. 
+.   
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f3.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:42
+-------------------------------------------------------------------------------

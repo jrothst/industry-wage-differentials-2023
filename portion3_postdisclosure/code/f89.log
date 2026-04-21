@@ -1,0 +1,234 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f89.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:59
+
+. 
+. *local disclosure "../output_asof20220908.xlsx"
+. import excel using "${disclosure1}", sheet("2") cellrange(A3:E314) firstrow c
+> lear
+(5 vars, 311 obs)
+
+. set scheme plotplain
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. rename psi_j psi_2
+
+. rename alpha_j alpha_2
+
+. tempfile t2
+
+. save `t2'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. import excel using "${disclosure1}", sheet("4") cellrange(A3:E625) firstrow c
+> lear
+(5 vars, 622 obs)
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t4
+
+. rename psi_j psi_4
+
+. rename alpha_j alpha_4
+
+. tempfile t4
+
+. save `t4'
+file /tmp/St2401399.000002 saved as .dta format
+
+. 
+. use `t2'
+
+. merge 1:m naics4 using `t4'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               622  (_merge==3)
+    -----------------------------------------
+
+. 
+. reg alpha_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], robust
+(sum of wgt is 108,155,800)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      84.63
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2963
+                                                Root MSE          =     .11901
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   .6156961   .0669261     9.20   0.000     .4840076    .7473846
+       _cons |   9.115714   .0208881   436.41   0.000     9.074613    9.156815
+------------------------------------------------------------------------------
+
+. local b0 : display %4.2f _b[psi_2]
+
+. local se0 : display %4.2f _se[psi_2]
+
+. local r20: display %4.2f e(r2)
+
+. reg alpha_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], robust
+(sum of wgt is 257,262,500)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      54.33
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3614
+                                                Root MSE          =     .14339
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   .9073336   .1230966     7.37   0.000     .6651201    1.149547
+       _cons |    9.42465    .034019   277.04   0.000     9.357712    9.491588
+------------------------------------------------------------------------------
+
+. local b1 : display %4.2f _b[psi_2]
+
+. local se1 : display %4.2f _se[psi_2]
+
+. local r21: display %4.2f e(r2)
+
+. scatter alpha_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>   lfit alpha_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], || ///
+>   , xtitle("") ytitle("") ylabel(9 (0.5) 10.5) ///
+>     text(10 0.2 "Slope = `b0' (`se0')" "R{sup:2} = `r20'", just(left) size(sm
+> all)) ///
+>     legend(off)  ///
+>     title("A. Non-college", pos(11) span size(small)) ///
+>     name(ed0, replace) 
+
+. scatter alpha_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>  lfit alpha_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4] || ///
+>   , xtitle("") ytitle("") ylabel(9 (0.5) 10.5) ///
+>     text(9.1 0.6 "Slope = `b1' (`se1')" "R{sup:2} = `r21'", just(left) size(s
+> mall)) ///
+>     legend(off) ///
+>     title("B. College", pos(11) span size(small)) ///
+>     name(ed1, replace) 
+
+. 
+. graph combine ed0 ed1, xcommon ycommon ///
+>   b1title("Industry differential") l1title("Average worker effect") ///
+>   /* title("Figure 9. Average worker effects by education and industry", pos(
+> 11) span) */ ///
+>   saving(${results}/f9.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f9.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f9.gph saved
+
+. graph export ${results}/f9.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f9.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f9.png written in
+>  PNG format
+
+. 
+. reg psi_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], robust
+(sum of wgt is 108,155,800)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =    8819.68
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9744
+                                                Root MSE          =     .01954
+
+------------------------------------------------------------------------------
+             |               Robust
+       psi_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   .9609983   .0102328    93.91   0.000     .9408635    .9811332
+       _cons |   -.004481   .0023478    -1.91   0.057    -.0091007    .0001387
+------------------------------------------------------------------------------
+
+. local b0 : display %4.2f _b[psi_2]
+
+. local se0 : display %4.2f _se[psi_2]
+
+. local r20: display %4.2f e(r2)
+
+. reg psi_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], robust
+(sum of wgt is 257,262,500)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =   12142.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9926
+                                                Root MSE          =     .01056
+
+------------------------------------------------------------------------------
+             |               Robust
+       psi_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   1.028243   .0093314   110.19   0.000     1.009882    1.046604
+       _cons |  -.0000734   .0030351    -0.02   0.981    -.0060455    .0058987
+------------------------------------------------------------------------------
+
+. local b1 : display %4.2f _b[psi_2]
+
+. local se1 : display %4.2f _se[psi_2]
+
+. local r21: display %4.2f e(r2)
+
+. scatter psi_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>   lfit psi_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], || ///
+>   , xtitle("") ytitle("")  ///
+>     text(0 0.5 "Slope = `b0' (`se0')" "R{sup:2} = `r20'", just(left) size(sma
+> ll)) ///
+>     legend(off)  ///
+>     title("A. Non-college", pos(11) span size(small)) ///
+>     name(ed0, replace) 
+
+. scatter psi_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>  lfit psi_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4] || ///
+>   , xtitle("") ytitle("")  ///
+>     text(0 0.6 "Slope = `b1' (`se1')" "R{sup:2} = `r21'", just(left) size(sma
+> ll)) ///
+>     legend(off) ///
+>     title("B. College", pos(11) span size(small)) ///
+>     name(ed1, replace) 
+
+. 
+. graph combine ed0 ed1, xcommon ycommon ///
+>   b1title("Industry differential (pooled)") l1title("Industry differential (b
+> y education)") ///
+>   /* title("Figure 8. Pooled vs. separate estimates of industry premiums by e
+> ducation", pos(11) span) */ ///
+>   saving(${results}/f8.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f8.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f8.gph saved
+
+. graph export ${results}/f8.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f8.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f8.png written in
+>  PNG format
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f89.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:06
+-------------------------------------------------------------------------------

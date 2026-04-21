@@ -1,0 +1,111 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f1.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:29
+
+. 
+. *use "../acs/xwalk/naics_chars", clear
+. *use "indeffs.dta", clear
+. use ${acsoutput}/indeffects_naicsp
+
+. 
+. set scheme plotplain 
+
+. *set scheme cleanplots
+. 
+. reg logwage educ [aw=wcount], robust
+(sum of wgt is 1,233,366,916)
+
+Linear regression                               Number of obs     =        222
+                                                F(1, 220)         =      24.61
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4717
+                                                Root MSE          =     .22639
+
+------------------------------------------------------------------------------
+             |               Robust
+     logwage | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        educ |    .156856     .03162     4.96   0.000     .0945392    .2191729
+       _cons |   .7284819   .4369232     1.67   0.097    -.1326088    1.589573
+------------------------------------------------------------------------------
+
+. local b : display %5.3f _b[educ]
+
+. local se : display %5.3f _se[educ]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. scatter logwage educ [aw=wcount], msymbol(oh) scheme(plotplain) || ///
+>   lfit logwage educ [aw=wcount] || ///
+>   , text(3.75 12 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left)) 
+> ///
+>     xtitle("Mean Education of Workers in Industry") ///
+>         ytitle("Mean Log Hourly Wage") ///
+>         title("A. Mean log wage vs. education", pos(11) span) ///
+>         legend(off) name(fig1A, replace)
+
+. 
+. reg ind_effects_m3 educ [aw=wcount], robust
+(sum of wgt is 1,233,366,916)
+
+Linear regression                               Number of obs     =        222
+                                                F(1, 220)         =       6.25
+                                                Prob > F          =     0.0132
+                                                R-squared         =     0.1858
+                                                Root MSE          =     .16142
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        educ |   .0565452   .0226241     2.50   0.013     .0119574    .1011329
+       _cons |  -.7698605   .3037594    -2.53   0.012    -1.368511   -.1712098
+------------------------------------------------------------------------------
+
+. local b : display %5.3f _b[educ]
+
+. local se : display %5.3f _se[educ]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. scatter ind_effects_m3 educ [aw=wcount], msymbol(oh) scheme(plotplain) || ///
+>   lfit ind_effects_m3 educ [aw=wcount] || ///
+>   , text(0.5 12 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left)) /
+> //
+>     xtitle("Mean Education of Workers in Industry") ///
+>         ytitle("Estimated Industry Wage Premium (Normalized)") ///
+>         title("B. Estimated industry premium vs. education", pos(11) span) //
+> /
+>         legend(off) name(fig1B, replace)
+
+. 
+. graph combine fig1A fig1B, xcommon ///
+>   /*  title("Figure 1. Relationship of mean log wage and industry wage premiu
+> m to mean education " */ ///
+>   /*        "of workers in industry (ACS 2010-2018)", pos(11) justification(l
+> eft)) */ ///
+>   saving(${results}/f1.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f1.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f1.gph saved
+
+. graph export ${results}/f1.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f1.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f1.png written in
+>  PNG format
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f1.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:36
+-------------------------------------------------------------------------------

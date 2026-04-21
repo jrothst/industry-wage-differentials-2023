@@ -1,0 +1,86 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f2.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:36
+
+. 
+. 
+. use "${scratch}/ind_data", clear
+
+. 
+. set scheme cleanplots
+
+. 
+. 
+. 
+. su psi, meanonly
+
+. 
+. local min=r(min)
+
+. local max=r(max)
+
+. gen bin=floor(psi*10)/10 + 0.05
+
+. gen naics1=floor(naics/1000)
+
+. tab naics1, gen(naics1d)
+
+     naics1 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |         19        6.11        6.11
+          2 |         18        5.79       11.90
+          3 |         86       27.65       39.55
+          4 |         75       24.12       63.67
+          5 |         52       16.72       80.39
+          6 |         25        8.04       88.42
+          7 |         15        4.82       93.25
+          8 |         14        4.50       97.75
+          9 |          7        2.25      100.00
+------------+-----------------------------------
+      Total |        311      100.00
+
+. 
+. su npq, meanonly
+
+. gen share=npq/r(sum)
+
+. graph bar (sum) share, ///
+>       over(naics1, relabel(1 "Agriculture" 2 "Mining/Util./Cons." 3 "Manufact
+> uring" ///
+>                                4 "Trade/Transport" 5 "FIRE/Admin" 6 "Educ/Hea
+> lth" ///
+>                                                    7 "Arts/Ent./Accom." 8 "Ot
+> her Svcs" 9 "Pub. Admin") ///
+>                                    descending) ///
+>           over(bin, relabel(1 "-0.1-0" 2 "0-0.1" 3 "0.1-0.2" 4 "0.2-0.3" 5 "0
+> .3-0.4" ///
+>                             6 "0.4-0.5" 7 "0.5-0.6" 8 "0.6-0.7" 9 "0.7-0.8"))
+>  asyvars stack  ///
+>           ytitle("Share of workers")  ///
+>           b1title("Industry wage premium ({it:{&psi}})") ///
+>           /* title("Figure 2. Histogram of estimated 4-digit industry wage pr
+> emiums", span pos(11)) */ ///
+>           saving(${results}/f2.gph, replace)
+(note:  named style i not found in class symbol, default attributes used)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f2.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f2.gph saved
+
+. graph export ${results}/f2.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f2.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f2.png written in
+>  PNG format
+
+.           
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f2.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:38
+-------------------------------------------------------------------------------

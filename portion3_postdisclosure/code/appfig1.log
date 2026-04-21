@@ -1,0 +1,126 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/appfig1.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:06
+
+. 
+. clear
+
+. 
+. *import excel using "../industryeffects.xlsx", clear firstrow sheet("naics3-a
+> dj")
+. use ${scratch}/ind_data, clear
+
+. *import excel using ../f6/lehd_acs_bynaics2.xlsx, sheet(Data) clear firstrow
+. set scheme plotplain
+
+. gen naics3=floor(naics/10)
+
+. keep if naics3>=300 & naics3<=400
+(225 observations deleted)
+
+. replace naics3=naics3-1 if inlist(naics3, 312, 314, 316)
+(7 real changes made)
+
+. collapse (mean) ybar alpha psi (rawsum) npq [fw=npq], by(naics3)
+
+. tempfile psis
+
+. save `psis'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. import excel using "${raw}/Yehetal markdowns.xlsx", clear firstrow
+(11 vars, 19 obs)
+
+. drop A
+
+. rename NAICSA naics3
+
+. drop if naics3==.
+(1 observation deleted)
+
+. rename T1C1 t1c1
+
+. rename T1C2 t1c2
+
+. destring t?c?, force replace
+t1c1: all characters numeric; replaced as double
+t1c2: all characters numeric; replaced as double
+t4c1: all characters numeric; replaced as double
+t4c2: all characters numeric; replaced as double
+t4c3: all characters numeric; replaced as double
+t4c4: all characters numeric; replaced as double
+
+. 
+. merge 1:1 naics3 using `psis', assert(3) nogen
+(variable naics3 was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                18  
+    -----------------------------------------
+
+. 
+. set scheme plotplain
+
+. 
+. gen logmarkdown=ln(1/t1c1)
+
+. 
+. reg psi logmarkdown , robust
+
+Linear regression                               Number of obs     =         18
+                                                F(1, 16)          =      14.39
+                                                Prob > F          =     0.0016
+                                                R-squared         =     0.4706
+                                                Root MSE          =     .09044
+
+------------------------------------------------------------------------------
+             |               Robust
+         psi | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ logmarkdown |  -.3511357   .0925705    -3.79   0.002    -.5473764    -.154895
+       _cons |   .2056099   .0352642     5.83   0.000      .130853    .2803667
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[logmarkdown]
+
+. local se : display %4.2f _se[logmarkdown]
+
+. local r2: display %4.2f e(r2)
+
+. scatter psi logmarkdown ,  msymbol(o) || ///
+> lfit psi logmarkdown , range(-1 0) ||, ///
+>   xlabel(-1 (0.2) 0) ylabel(0 (0.1) 0.7) legend(off) ///
+>   xtitle("Log of median industry markdown (Yeh et al., 2023)") ///
+>   ytitle("Industry wage premium") ///
+>   text(0.35 -0.73 "Fitted line" "Slope = `b' (`se')" "R-sq = `r2'", justifica
+> tion(left) size(small)) ///
+>   /*  title("Appendix Figure 1. Relationships between markdowns and industry 
+> pay premiums" "(3-digit manufacturing)", */ ///
+>   /*        span pos(11) justification(left)) */ ///
+>   saving(${results}/appfig1, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/appfig1.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/appfig1.gph saved
+
+. graph export ${results}/appfig1.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/appfig1.png not 
+> found)
+file ~/replication/industries/portion3_postdisclosure/results/appfig1.png writt
+> en in PNG format
+
+. 
+.   
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/appfig1.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:07
+-------------------------------------------------------------------------------

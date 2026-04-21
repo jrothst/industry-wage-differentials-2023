@@ -1,0 +1,164 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/apptab2.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:11
+
+. 
+. use ${scratch}/ind_data, clear
+
+. 
+. su npq, meanonly
+
+. gen share=npq/r(sum)
+
+. 
+. // Normalize
+.  su alpha [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       alpha |     311  2.5048e+09     9.45626   .1848439      9.022      10.12
+
+.  gen alpha_adj=alpha-r(mean)
+
+. 
+. gen order=naics
+
+. tempfile list mean sd
+
+. save `list'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. collapse (mean) ybar alpha psi [aw=npq]
+
+. gen title="Mean" 
+
+. gen order=0
+
+. rename alpha alpha_adj
+
+. save `mean'
+file /tmp/St2401399.000002 saved as .dta format
+
+. use `list'
+
+. collapse (sd) ybar alpha_adj psi [aw=npq]
+
+. gen title="SD" 
+
+. gen order=1
+
+. save `sd'
+file /tmp/St2401399.000003 saved as .dta format
+
+. 
+. use `mean'
+
+. append using `sd'
+
+. append using `list'
+(variable title was str4, now str119 to accommodate using data's values)
+
+. list naics title ybar alpha_adj psi share in 1/10
+
+     +----------------------------------------------------------------------+
+  1. | naics |                                            title |      ybar |
+     |     . |                                             Mean | 9.4336428 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |       9.4562602       |       .23558897       |              .       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  2. | naics |                                            title |      ybar |
+     |     . |                                               SD | .27829195 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |       .18484385       |       .12233035       |              .       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  3. | naics |                                            title |      ybar |
+     |  1111 |                        Oilseed and Grain Farming |     9.216 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.14526024       |           .1524       |       .0003014       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  4. | naics |                                            title |      ybar |
+     |  1112 |                      Vegetable and Melon Farming |      9.12 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.21326025       |           .1545       |       .0004248       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  5. | naics |                                            title |      ybar |
+     |  1113 |                       Fruit and Tree Nut Farming |     9.013 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.27026024       |           .1043       |       .0006088       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  6. | naics |                                            title |      ybar |
+     |  1114 | Greenhouse, Nursery, and Floriculture Production |     9.032 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.26326025       |           .1021       |       .0008096       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  7. | naics |                                            title |      ybar |
+     |  1119 |                               Other Crop Farming |     9.113 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.21526025       |           .1306       |       .0003374       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  8. | naics |                                            title |      ybar |
+     |  1121 |                      Cattle Ranching and Farming |     9.108 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.27126026       |           .1771       |       .0007965       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  9. | naics |                                            title |      ybar |
+     |  1122 |                              Hog and Pig Farming |     9.159 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.32026026       |           .2593       |       .0002252       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+ 10. | naics |                                            title |      ybar |
+     |  1123 |                       Poultry and Egg Production |     9.143 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.30726025       |           .2355       |       .0002942       |
+     +----------------------------------------------------------------------+
+
+. keep naics title ybar alpha_adj psi share
+
+. 
+. export delimited using "${results}/apptab2.csv", replace
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/apptab2.csv not found)
+file /accounts/projects/card/hurricane/replication/industries/portion3_postdisc
+> losure/results/apptab2.csv saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/apptab2.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:11
+-------------------------------------------------------------------------------

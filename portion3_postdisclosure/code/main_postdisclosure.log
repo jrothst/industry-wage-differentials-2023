@@ -1,0 +1,3649 @@
+-------------------------------------------------------------------------------
+      name:  postlog
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/main_postdisclosure.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:28
+
+. clear *
+
+. 
+. // Stop Stata from looking to site archive for (sometimes outdated) extension
+> s
+. sysdir set SITE "~"
+
+. creturn list
+
+System values
+-------------
+
+    ---------------------------------------------------------------------------
+        c(current_date) = " 6 Oct 2023"
+        c(current_time) = "12:36:28"
+           c(rmsg_time) = 0                          (seconds, from set rmsg)
+    ---------------------------------------------------------------------------
+       c(stata_version) = 18
+             c(version) = 18                         (version)
+         c(userversion) = 18                         (version)
+      c(dyndoc_version) = 2                          (dyndoc)
+    ---------------------------------------------------------------------------
+           c(born_date) = "15 May 2023"
+             c(edition) = "BE"
+        c(edition_real) = "MP"
+                 c(bit) = 64
+                  c(SE) = 1
+                  c(MP) = 1
+          c(processors) = 8                          (Stata/MP, set processors)
+      c(processors_lic) = 8
+     c(processors_mach) = 16
+      c(processors_max) = 8
+                c(mode) = "batch"
+             c(console) = "console"
+    ---------------------------------------------------------------------------
+                  c(os) = "Unix"
+               c(osdtl) = ""
+            c(hostname) = "laffont"
+        c(machine_type) = "PC (64-bit x86-64)"
+           c(byteorder) = "lohi"
+            c(username) = "hurricane"
+    ---------------------------------------------------------------------------
+
+Directories and paths
+---------------------
+
+    ---------------------------------------------------------------------------
+        c(sysdir_stata) = "/system/linux/sta.."      (sysdir)
+         c(sysdir_base) = "/system/linux/sta.."      (sysdir)
+         c(sysdir_site) = "~/"                       (sysdir)
+         c(sysdir_plus) = "~/ado/plus/"              (sysdir)
+     c(sysdir_personal) = "~/ado/personal/"          (sysdir)
+     c(sysdir_oldplace) = "~/ado/"                   (sysdir)
+              c(tmpdir) = "/tmp"
+    ---------------------------------------------------------------------------
+             c(adopath) = "BASE;SITE;.;PERSO.."      (adopath)
+                 c(pwd) = "/accounts/project.."      (cd)
+              c(dirsep) = "/"
+    ---------------------------------------------------------------------------
+
+System limits
+-------------
+
+    ---------------------------------------------------------------------------
+        c(max_N_theory) = 1099511627775
+        c(max_k_theory) = 5000                       (set maxvar)
+    c(max_width_theory) = 1048576                    (set maxvar)
+    ---------------------------------------------------------------------------
+          c(max_matdim) = 65534
+    ---------------------------------------------------------------------------
+        c(max_it_cvars) = 64
+        c(max_it_fvars) = 8
+    ---------------------------------------------------------------------------
+        c(max_macrolen) = 15480200
+            c(macrolen) = 645200                     (set maxvar)
+             c(charlen) = 67783
+          c(max_cmdlen) = 15480216
+              c(cmdlen) = 645216                     (set maxvar)
+         c(namelenbyte) = 128
+         c(namelenchar) = 32
+               c(eqlen) = 1337
+    ---------------------------------------------------------------------------
+
+Numerical and string limits
+---------------------------
+
+    ---------------------------------------------------------------------------
+           c(mindouble) = -8.9884656743e+307
+           c(maxdouble) = 8.9884656743e+307
+           c(epsdouble) = 2.22044604925e-16
+      c(smallestdouble) = 2.2250738585e-308
+    ---------------------------------------------------------------------------
+            c(minfloat) = -1.70141173319e+38
+            c(maxfloat) = 1.70141173319e+38
+            c(epsfloat) = 1.19209289551e-07
+    ---------------------------------------------------------------------------
+             c(minlong) = -2147483647
+             c(maxlong) = 2147483620
+    ---------------------------------------------------------------------------
+              c(minint) = -32767
+              c(maxint) = 32740
+    ---------------------------------------------------------------------------
+             c(minbyte) = -127
+             c(maxbyte) = 100
+    ---------------------------------------------------------------------------
+        c(maxstrvarlen) = 2045
+       c(maxstrlvarlen) = 2000000000
+        c(maxvlabellen) = 32000
+    ---------------------------------------------------------------------------
+
+Current dataset
+---------------
+
+    ---------------------------------------------------------------------------
+               c(frame) = "default"
+                   c(N) = 0
+                   c(k) = 0
+               c(width) = 0
+             c(changed) = 0
+            c(filename) = ""
+            c(filedate) = ""
+    ---------------------------------------------------------------------------
+
+Memory settings
+---------------
+
+    ---------------------------------------------------------------------------
+              c(memory) = 33554432
+              c(maxvar) = 5000                       (set maxvar)
+            c(niceness) = 5                          (set niceness)
+          c(min_memory) = 0                          (set min_memory)
+          c(max_memory) = .                          (set max_memory)
+         c(segmentsize) = 33554432                   (set segmentsize)
+             c(adosize) = 1000                       (set adosize)
+     c(max_preservemem) = 1073741824                 (set max_preservemem)
+    ---------------------------------------------------------------------------
+
+Output settings
+---------------
+
+    ---------------------------------------------------------------------------
+                c(more) = "off"                      (set more)
+                c(rmsg) = "off"                      (set rmsg)
+                  c(dp) = "period"                   (set dp)
+            c(linesize) = 79                         (set linesize)
+            c(pagesize) = 23                         (set pagesize)
+             c(logtype) = "smcl"                     (set logtype)
+              c(logmsg) = "on"                       (set logmsg)
+             c(noisily) = 1
+    ---------------------------------------------------------------------------
+             c(iterlog) = "on"                       (set iterlog)
+    ---------------------------------------------------------------------------
+               c(level) = 95                         (set level)
+              c(clevel) = 95                         (set clevel)
+    ---------------------------------------------------------------------------
+      c(showbaselevels) = ""                         (set showbaselevels)
+      c(showemptycells) = ""                         (set showemptycells)
+         c(showomitted) = ""                         (set showomitted)
+             c(fvlabel) = "on"                       (set fvlabel)
+              c(fvwrap) = 1                          (set fvwrap)
+            c(fvwrapon) = "word"                     (set fvwrapon)
+            c(lstretch) = ""                         (set lstretch)
+    ---------------------------------------------------------------------------
+             c(cformat) = ""                         (set cformat)
+             c(sformat) = ""                         (set sformat)
+             c(pformat) = ""                         (set pformat)
+    ---------------------------------------------------------------------------
+      c(coeftabresults) = "on"                       (set coeftabresults)
+                c(dots) = "on"                       (set dots)
+    ---------------------------------------------------------------------------
+       c(collect_label) = "default"                  (set collect_label)
+       c(collect_style) = "default"                  (set collect_style)
+         c(table_style) = "table"                    (set table_style)
+        c(etable_style) = "etable"                   (set etable_style)
+        c(dtable_style) = "dtable"                   (set dtable_style)
+        c(collect_warn) = "on"                       (set collect_warn)
+    ---------------------------------------------------------------------------
+
+Interface settings
+------------------
+
+    ---------------------------------------------------------------------------
+             c(linegap) = .                          (set linegap)
+       c(scrollbufsize) = .                          (set scrollbufsize)
+               c(maxdb) = 50                         (set maxdb)
+    ---------------------------------------------------------------------------
+
+Graphics settings
+-----------------
+
+    ---------------------------------------------------------------------------
+            c(graphics) = "on"                       (set graphics)
+              c(scheme) = "stcolor"                  (set scheme)
+          c(printcolor) = "asis"                     (set printcolor)
+       c(min_graphsize) = 1                          (region_options)
+       c(max_graphsize) = 100                        (region_options)
+    ---------------------------------------------------------------------------
+
+Network settings
+----------------
+
+    ---------------------------------------------------------------------------
+           c(httpproxy) = "off"                      (set httpproxy)
+       c(httpproxyhost) = ""                         (set httpproxyhost)
+       c(httpproxyport) = 80                         (set httpproxyport)
+    ---------------------------------------------------------------------------
+       c(httpproxyauth) = "off"                      (set httpproxyauth)
+       c(httpproxyuser) = ""                         (set httpproxyuser)
+         c(httpproxypw) = ""                         (set httpproxypw)
+    ---------------------------------------------------------------------------
+
+Trace (program debugging) settings
+----------------------------------
+
+    ---------------------------------------------------------------------------
+               c(trace) = "off"                      (set trace)
+          c(tracedepth) = 32000                      (set tracedepth)
+            c(tracesep) = "on"                       (set tracesep)
+         c(traceindent) = "on"                       (set traceindent)
+         c(traceexpand) = "on"                       (set traceexpand)
+         c(tracenumber) = "off"                      (set tracenumber)
+         c(tracehilite) = ""                         (set tracehilite)
+    ---------------------------------------------------------------------------
+
+Mata settings
+-------------
+
+    ---------------------------------------------------------------------------
+          c(matastrict) = "off"                      (set matastrict)
+            c(matalnum) = "off"                      (set matalnum)
+        c(mataoptimize) = "on"                       (set mataoptimize)
+           c(matafavor) = "space"                    (set matafavor)
+           c(matacache) = 2000                       (set matacache)
+            c(matalibs) = "lmatabase;lmatabm.."      (set matalibs)
+         c(matamofirst) = "off"                      (set matamofirst)
+        c(matasolvetol) = .                          (set matasolvetol)
+    ---------------------------------------------------------------------------
+
+Java settings
+-------------
+
+    ---------------------------------------------------------------------------
+        c(java_heapmax) = "4096m"                    (set java_heapmax)
+           c(java_home) = "/system/linux/sta.."      (set java_home)
+    ---------------------------------------------------------------------------
+
+LAPACK settings
+---------------
+
+    ---------------------------------------------------------------------------
+          c(lapack_mkl) = "on"                       (set lapack_mkl)
+      c(lapack_mkl_cnr) = "default"                  (set lapack_mkl_cnr)
+    ---------------------------------------------------------------------------
+
+putdocx settings
+----------------
+
+    ---------------------------------------------------------------------------
+      c(docx_hardbreak) = "off"                      (set docx_hardbreak)
+       c(docx_paramode) = "off"                      (set docx_paramode)
+    ---------------------------------------------------------------------------
+
+Python settings
+---------------
+
+    ---------------------------------------------------------------------------
+         c(python_exec) = ""                         (set python_exec)
+     c(python_userpath) = ""                         (set python_userpath)
+    ---------------------------------------------------------------------------
+
+RNG settings
+------------
+
+    ---------------------------------------------------------------------------
+                 c(rng) = "default"                  (set rng)
+         c(rng_current) = "mt64"
+            c(rngstate) = "XAA00000000000000.."      (set rngstate)
+       c(rngseed_mt64s) = 123456789
+           c(rngstream) = 1                          (set rngstream)
+    ---------------------------------------------------------------------------
+
+sort settings
+-------------
+
+    ---------------------------------------------------------------------------
+          c(sortmethod) = "default"                  (set sortmethod)
+        c(sort_current) = "fsort"
+        c(sortrngstate) = "1001XZA112210f4b1.."      (set sortrngstate)
+    ---------------------------------------------------------------------------
+
+Unicode settings
+----------------
+
+    ---------------------------------------------------------------------------
+           c(locale_ui) = ""                         (set locale_ui)
+    c(locale_functions) = "en_US"                    (set locale_functions)
+      c(locale_icudflt) = "en_US"                    (unicode locale)
+    ---------------------------------------------------------------------------
+
+Other settings
+--------------
+
+    ---------------------------------------------------------------------------
+                c(type) = "float"                    (set type)
+             c(maxiter) = 300                        (set maxiter)
+       c(searchdefault) = "all"                      (set searchdefault)
+           c(varabbrev) = "on"                       (set varabbrev)
+          c(emptycells) = "keep"                     (set emptycells)
+             c(fvtrack) = "term"                     (set fvtrack)
+              c(fvbase) = "on"                       (set fvbase)
+             c(odbcmgr) = "iodbc"                    (set odbcmgr)
+          c(odbcdriver) = "unicode"                  (set odbcdriver)
+             c(fredkey) = ""                         (set fredkey)
+      c(collect_double) = "on"                       (set collect_double)
+       c(dtascomplevel) = 1                          (set dtascomplevel)
+    ---------------------------------------------------------------------------
+
+Other system values
+-------------------
+
+    ---------------------------------------------------------------------------
+                  c(pi) = 3.141592653589793
+               c(alpha) = "a b c d e f g h i.."
+               c(ALPHA) = "A B C D E F G H I.."
+                c(Mons) = "Jan Feb Mar Apr M.."
+              c(Months) = "January February .."
+               c(Wdays) = "Sun Mon Tue Wed T.."
+            c(Weekdays) = "Sunday Monday Tue.."
+               c(obs_t) = "byte"
+                  c(rc) = 198                        (capture)
+    ---------------------------------------------------------------------------
+
+. global mainhome "~/replication/industries"
+
+. global home "${mainhome}/portion3_postdisclosure" // change to reflect local 
+> settings
+
+. global code "${home}/code"
+
+. global results "${home}/results"
+
+. global raw "${home}/origdata"
+
+. global disclosed "${home}/disclosed"
+
+. global scratch "${home}/intermediate" // For intermediate files that we might
+>  want 
+
+. 
+. global acsraw "${mainhome}/portion1_prepforcensus/origdata"
+
+. global acsoutput "${mainhome}/portion1_prepforcensus/intermediate" // data fi
+> les created by phase 1 of the project
+
+. 
+. global disclosure1 "${disclosed}/Yi_1_tabs_T13T26_edited.xlsx"
+
+. global disclosure2 "${disclosed}/Yi_1_tabs_T13T26_2_edited.xlsx"
+
+. global disclosure3 "${disclosed}/Yi_1_tabs_T13T26_3_edited.xlsx"
+
+. 
+. /* 
+>   
+> Uses Stata packages:
+> cleanplots:  <net install cleanplots, from(http://fmwww.bc.edu/RePEc/bocode/c
+> )>
+> plotplain:   <net install gr0070>
+> grc1leg2:    <net install grc1leg2, from(http://digital.cgdev.org/doc/stata/M
+> O/Misc)
+> esttab:      <ssc install estout, replace>
+> */
+. which grc1leg2
+/accounts/projects/card/hurricane/ado/plus/g/grc1leg2.ado
+*! version 2.24 (14May2023), by Mead Over
+*! Enhanced version of -grc1leg- version 1.0.5  02jun2010, by Vince Wiggins
+
+. which esttab
+/accounts/projects/card/hurricane/ado/plus/e/esttab.ado
+*! version 2.1.1  10jun2022  Ben Jann
+*! wrapper for estout
+
+. 
+. do make_ind_data
+
+. *Makes a Stata data set of main industry estimates
+. 
+. cap log close
+
+. log using make_ind_data.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/make_ind_data.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:28
+
+. 
+. * Prepare industry names
+. import excel using "${raw}/naics2017.xlsx", clear firstrow
+(6 vars, 2,196 obs)
+
+. keep naics title
+
+. destring naics, force replace
+naics: contains nonnumeric characters; replaced as long
+(3 missing values generated)
+
+. keep if naics>=1000 & naics<=9999
+(1,885 observations deleted)
+
+. tempfile names
+
+. save `names'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. import excel using "${disclosure1}", clear sheet(2) firstrow cellrange(A3:E31
+> 4)
+(5 vars, 311 obs)
+
+. rename Industry4digitNAICS naics
+
+. rename y_j ybar
+
+. rename alpha_j alpha
+
+. rename psi_j psi
+
+. rename Numberofpersonquarters npq
+
+. 
+. merge 1:1 naics using `names', keep(1 3) nogen
+(variable naics was int, now long to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             4
+        from master                         4  
+        from using                          0  
+
+    Matched                               307  
+    -----------------------------------------
+
+. 
+. save ${scratch}/ind_data, replace
+file
+    ~/replication/industries/portion3_postdisclosure/intermediate/ind_data.dt
+    > a saved
+
+. 
+. 
+. 
+. 
+. 
+end of do-file
+
+. do merge_acs_lehd
+
+. *merge acs psis and worker skills to LEHD summary data 
+. 
+. cap log close
+
+. log using merge_acs_lehd.log, replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/merge_acs_lehd.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:29
+
+. 
+. * this is the public release summary file of data by industry
+. * extracted from main sheet from industryeffects.xlsx (dc may 2023)
+. 
+. use ${scratch}/ind_data, clear
+
+. desc
+
+Contains data from ~/replication/industries/portion3_postdisclosure/intermediat
+> e/ind_data.dta
+ Observations:           311                  
+    Variables:             6                  6 Oct 2023 12:36
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+naics           long    %10.0g                Industry (4 digit NAICS)
+ybar            double  %10.0g                y_j
+alpha           double  %10.0g                alpha_j
+psi             double  %10.0g                psi_j
+npq             long    %10.0gc               Number of person-quarters
+title           str119  %119s                 title
+-------------------------------------------------------------------------------
+Sorted by: naics
+
+. sum
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       naics |        311     4516.81    1796.028       1111       9281
+        ybar |        311    9.423023    .2886216      8.827      10.34
+       alpha |        311    9.420293    .1868107      9.022      10.12
+         psi |        311    .2624425     .141501    -.08727       .796
+         npq |        311     8054071    1.58e+07      17500   1.81e+08
+-------------+---------------------------------------------------------
+       title |          0
+
+. 
+. * next pull in naics_lehd -- this has naics and naicsp (lehd version)
+. 
+. merge 1:1 naics using ${raw}/naics_lehd, assert(3) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               311  
+    -----------------------------------------
+
+. 
+. desc
+
+Contains data from ~/replication/industries/portion3_postdisclosure/intermediat
+> e/ind_data.dta
+ Observations:           311                  
+    Variables:             8                  6 Oct 2023 12:36
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+naics           long    %10.0g                Industry (4 digit NAICS)
+ybar            double  %10.0g                y_j
+alpha           double  %10.0g                alpha_j
+psi             double  %10.0g                psi_j
+npq             long    %10.0gc               Number of person-quarters
+title           str119  %119s                 title
+naicsp          str7    %7s                   
+C3              strL    %99s                  
+-------------------------------------------------------------------------------
+Sorted by: naics
+     Note: Dataset has changed since last saved.
+
+. 
+. * now pull in data from indeffects_naicsp -- created by phi_acs.do
+. merge m:1 naicsp using ${acsoutput}/indeffects_naicsp
+(variable naicsp was str7, now str8 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             1
+        from master                         1  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                               310  (_merge==3)
+    -----------------------------------------
+
+. 
+. // Note: NAICS 5211 is central banking - not in ACS.
+. tab naics if _merge==1
+
+Industry (4 |
+      digit |
+     NAICS) |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       5211 |          1      100.00      100.00
+------------+-----------------------------------
+      Total |          1      100.00
+
+. drop if _merge==1
+(1 observation deleted)
+
+. 
+. 
+. sum [w=npq]
+(analytic weights assumed)
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       naics |     310  2.5043e+09    5323.071   1667.481       1111       9281
+        ybar |     310  2.5043e+09    9.433515   .2781855      8.827      10.34
+       alpha |     310  2.5043e+09    9.456169    .184759      9.022      10.12
+         psi |     310  2.5043e+09    .2355514   .1223172    -.08727       .796
+         npq |     310  2.5043e+09    3.91e+07   4.93e+07      17500   1.81e+08
+-------------+-----------------------------------------------------------------
+       title |       0           0
+      naicsp |       0           0
+          C3 |       0           0
+     logwage |     310  2.5043e+09    2.933487   .2918077   2.329254   3.687602
+      female |     310  2.5043e+09    .4843039   .2232473   .0666933    .943859
+-------------+-----------------------------------------------------------------
+        educ |     310  2.5043e+09    13.82876   1.322902   10.18396   16.42142
+ind_effect~1 |     310  2.5043e+09    .0394629   .1886512  -.3844449   .5662113
+ind_effect~2 |     310  2.5043e+09    .0357532   .1736753  -.3506376   .5042526
+ind_effect~3 |     310  2.5043e+09    .0355416   .1692268  -.3936082   .4924877
+    skill_m1 |     310  2.5043e+09    2.894024   .1229217   2.600999   3.121391
+-------------+-----------------------------------------------------------------
+    skill_m2 |     310  2.5043e+09    2.897734   .1423028   2.580021    3.18335
+    skill_m3 |     310  2.5043e+09    2.897945   .1497517    2.57663    3.23566
+       count |     310  2.5043e+09      211582   258099.9       1235     801594
+      wcount |     310  2.5043e+09    2.21e+07   2.68e+07     127384   7.96e+07
+      _merge |     310  2.5043e+09           3          0          3          3
+
+. 
+. 
+. save ${scratch}/merge_acs_lehd, replace
+file
+    ~/replication/industries/portion3_postdisclosure/intermediate/merge_acs_l
+    > ehd.dta saved
+
+. 
+end of do-file
+
+. 
+. do f1
+
+. 
+. cap log close
+
+. log using f1.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f1.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:29
+
+. 
+. *use "../acs/xwalk/naics_chars", clear
+. *use "indeffs.dta", clear
+. use ${acsoutput}/indeffects_naicsp
+
+. 
+. set scheme plotplain 
+
+. *set scheme cleanplots
+. 
+. reg logwage educ [aw=wcount], robust
+(sum of wgt is 1,233,366,916)
+
+Linear regression                               Number of obs     =        222
+                                                F(1, 220)         =      24.61
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4717
+                                                Root MSE          =     .22639
+
+------------------------------------------------------------------------------
+             |               Robust
+     logwage | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        educ |    .156856     .03162     4.96   0.000     .0945392    .2191729
+       _cons |   .7284819   .4369232     1.67   0.097    -.1326088    1.589573
+------------------------------------------------------------------------------
+
+. local b : display %5.3f _b[educ]
+
+. local se : display %5.3f _se[educ]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. scatter logwage educ [aw=wcount], msymbol(oh) scheme(plotplain) || ///
+>   lfit logwage educ [aw=wcount] || ///
+>   , text(3.75 12 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left)) 
+> ///
+>     xtitle("Mean Education of Workers in Industry") ///
+>         ytitle("Mean Log Hourly Wage") ///
+>         title("A. Mean log wage vs. education", pos(11) span) ///
+>         legend(off) name(fig1A, replace)
+
+. 
+. reg ind_effects_m3 educ [aw=wcount], robust
+(sum of wgt is 1,233,366,916)
+
+Linear regression                               Number of obs     =        222
+                                                F(1, 220)         =       6.25
+                                                Prob > F          =     0.0132
+                                                R-squared         =     0.1858
+                                                Root MSE          =     .16142
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        educ |   .0565452   .0226241     2.50   0.013     .0119574    .1011329
+       _cons |  -.7698605   .3037594    -2.53   0.012    -1.368511   -.1712098
+------------------------------------------------------------------------------
+
+. local b : display %5.3f _b[educ]
+
+. local se : display %5.3f _se[educ]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. scatter ind_effects_m3 educ [aw=wcount], msymbol(oh) scheme(plotplain) || ///
+>   lfit ind_effects_m3 educ [aw=wcount] || ///
+>   , text(0.5 12 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left)) /
+> //
+>     xtitle("Mean Education of Workers in Industry") ///
+>         ytitle("Estimated Industry Wage Premium (Normalized)") ///
+>         title("B. Estimated industry premium vs. education", pos(11) span) //
+> /
+>         legend(off) name(fig1B, replace)
+
+. 
+. graph combine fig1A fig1B, xcommon ///
+>   /*  title("Figure 1. Relationship of mean log wage and industry wage premiu
+> m to mean education " */ ///
+>   /*        "of workers in industry (ACS 2010-2018)", pos(11) justification(l
+> eft)) */ ///
+>   saving(${results}/f1.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f1.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f1.gph saved
+
+. graph export ${results}/f1.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f1.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f1.png written in
+>  PNG format
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f1.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:36
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do f2
+
+. 
+. cap log close
+
+. log using f2.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f2.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:36
+
+. 
+. 
+. use "${scratch}/ind_data", clear
+
+. 
+. set scheme cleanplots
+
+. 
+. 
+. 
+. su psi, meanonly
+
+. 
+. local min=r(min)
+
+. local max=r(max)
+
+. gen bin=floor(psi*10)/10 + 0.05
+
+. gen naics1=floor(naics/1000)
+
+. tab naics1, gen(naics1d)
+
+     naics1 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |         19        6.11        6.11
+          2 |         18        5.79       11.90
+          3 |         86       27.65       39.55
+          4 |         75       24.12       63.67
+          5 |         52       16.72       80.39
+          6 |         25        8.04       88.42
+          7 |         15        4.82       93.25
+          8 |         14        4.50       97.75
+          9 |          7        2.25      100.00
+------------+-----------------------------------
+      Total |        311      100.00
+
+. 
+. su npq, meanonly
+
+. gen share=npq/r(sum)
+
+. graph bar (sum) share, ///
+>       over(naics1, relabel(1 "Agriculture" 2 "Mining/Util./Cons." 3 "Manufact
+> uring" ///
+>                                4 "Trade/Transport" 5 "FIRE/Admin" 6 "Educ/Hea
+> lth" ///
+>                                                    7 "Arts/Ent./Accom." 8 "Ot
+> her Svcs" 9 "Pub. Admin") ///
+>                                    descending) ///
+>           over(bin, relabel(1 "-0.1-0" 2 "0-0.1" 3 "0.1-0.2" 4 "0.2-0.3" 5 "0
+> .3-0.4" ///
+>                             6 "0.4-0.5" 7 "0.5-0.6" 8 "0.6-0.7" 9 "0.7-0.8"))
+>  asyvars stack  ///
+>           ytitle("Share of workers")  ///
+>           b1title("Industry wage premium ({it:{&psi}})") ///
+>           /* title("Figure 2. Histogram of estimated 4-digit industry wage pr
+> emiums", span pos(11)) */ ///
+>           saving(${results}/f2.gph, replace)
+(note:  named style i not found in class symbol, default attributes used)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f2.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f2.gph saved
+
+. graph export ${results}/f2.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f2.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f2.png written in
+>  PNG format
+
+.           
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f2.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:38
+-------------------------------------------------------------------------------
+
+. 
+. 
+end of do-file
+
+. do f3
+
+. cap log close
+
+. log using f3.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f3.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:38
+
+. 
+. import excel using "$disclosure1", sheet("2") cellrange(A3:E314) firstrow cle
+> ar
+(5 vars, 311 obs)
+
+. set scheme plotplain
+
+. 
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. tempfile t2
+
+. save `t2'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. 
+. reg y_j psi_j [aw=Npq_t2] , robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =     234.78
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7168
+                                                Root MSE          =     .14833
+
+------------------------------------------------------------------------------
+             |               Robust
+         y_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.926094   .1257041    15.32   0.000     1.678749    2.173438
+       _cons |   8.979876   .0372615   241.00   0.000     8.906558    9.053195
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi_j]
+
+. local se : display %4.2f _se[psi_j]
+
+. local r2: display %4.2f e(r2)
+
+. scatter y_j psi_j [aw=Npq_t2], msymbol(oh) || ///
+>   lfit y_j psi_j [aw=Npq_t2] || ///
+>   , xtitle("Estimated industry effect ({it:{&psi}})") ///
+>     ytitle("Mean log quarterly earnings in industry") ylabel(9 (0.5) 10.5) //
+> /
+>     text(10.1 0.1 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left))
+>  ///
+>     legend(off) ///
+>     title("A. Industry differentials and average industry earnings",  pos(11)
+>  span) ///
+>     name(f3a, replace) 
+
+.         
+. reg alpha_j psi_j [aw=Npq_t2] , robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      54.02
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3557
+                                                Root MSE          =     .14861
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .9011561   .1226036     7.35   0.000     .6599125      1.1424
+       _cons |   9.243958   .0357066   258.89   0.000     9.173699    9.314217
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi_j]
+
+. local se : display %4.2f _se[psi_j]
+
+. local r2: display %4.2f e(r2)
+
+. scatter alpha_j psi_j [aw=Npq_t2], msymbol(oh) || ///
+>   lfit alpha_j psi_j [aw=Npq_t2] || ///
+>   , xtitle("Estimated industry effect ({it:{&psi}})") ///
+>     ytitle("Average person effect ({it:{&alpha}}) in industry") ylabel(9 (0.5
+> ) 10.5) ///
+>     text(10.1 0.1 "Slope = `b' (`se')" "R{superscript:2} = `r2'", just(left))
+>  ///
+>     legend(off) ///
+>     title("B. Industry differentials and average worker effects", pos(11) spa
+> n) ///
+>     name(f3b, replace) 
+
+. 
+. graph combine f3a f3b, xcommon ycommon ///
+>   /*  title("Figure 3. Industry wage differentials, mean wages, and average w
+> orker effects", span pos(11)) */ ///
+>   saving(${results}/f3, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f3.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f3.gph saved
+
+. graph export ${results}/f3.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f3.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f3.png written in
+>  PNG format
+
+. 
+.   
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f3.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:42
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do f4
+
+. cap log close
+
+. log using f4.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f4.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:42
+
+. 
+. 
+. import excel using "$disclosure3", sheet("2") cellrange(A5:F165) firstrow cle
+> ar
+(6 vars, 160 obs)
+
+. set scheme cleanplots
+
+. rename Quartileoforigin origin
+
+. rename Quartileofdestination destination
+
+. rename Eventtime eventtime
+
+. 
+. sort origin destination eventtime
+
+. line y_m_xb eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line y_m_xb eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line y_m_xb eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line y_m_xb eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line y_m_xb eventtime if origin==4 & destination==1, lstyle(p1) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==2, lstyle(p2) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==3, lstyle(p3) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==4, lstyle(p4) lpattern(dash
+> ) || ///
+>  , legend(order(4 "1-4" 8 "4-4" 3 "1-3" 7 "4-3" 2 "1-2" 6 "4-2" 1 "1-1" 5 "4-
+> 1" ) ///
+>           cols(2) ring(0) pos(12) title("Origin-destination quartiles") regio
+> n(lstyle(foreground)) ) ///
+>    ylabel(9.4 9.8 10.2) xlabel(-5 (1) 4) ///
+>    xline(0) ytitle("Log earnings") title("A. Log earnings (age adjusted)", po
+> s(11) span) ///
+>    name(y_legend, replace) 
+
+. 
+.    
+. sort origin destination eventtime
+
+. line y_m_xb eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line y_m_xb eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line y_m_xb eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line y_m_xb eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line y_m_xb eventtime if origin==4 & destination==1, lstyle(p1) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==2, lstyle(p2) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==3, lstyle(p3) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==4, lstyle(p4) lpattern(dash
+> ) || ///
+>  , legend(off) ///
+>    xline(0) ytitle("Age-adjusted log earnings") title("A. Log earnings (age a
+> djusted)", pos(11) span) ///
+>    name(y, replace)
+
+.    
+. line akm_res eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line akm_res eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line akm_res eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line akm_res eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line akm_res eventtime if origin==4 & destination==1, lstyle(p1) lpattern(das
+> h) || ///
+> line akm_res eventtime if origin==4 & destination==2, lstyle(p2) lpattern(das
+> h) || ///
+> line akm_res eventtime if origin==4 & destination==3, lstyle(p3) lpattern(das
+> h) || ///
+> line akm_res eventtime if origin==4 & destination==4, lstyle(p4) lpattern(das
+> h) || ///
+>  , legend(off) ///
+>    ylabel(-0.06 -0.03 0 0.03) xlabel(-5 (1) 4) ///
+>    xline(0) ytitle("AKM residual") title("B. AKM residual ({it:{&epsilon}})",
+>  pos(11) span) ///
+>    name(e, replace)    
+
+. 
+. line df_m_psij eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line df_m_psij eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line df_m_psij eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line df_m_psij eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line df_m_psij eventtime if origin==4 & destination==1, lstyle(p1) lpattern(d
+> ash) || ///
+> line df_m_psij eventtime if origin==4 & destination==2, lstyle(p2) lpattern(d
+> ash) || ///
+> line df_m_psij eventtime if origin==4 & destination==3, lstyle(p3) lpattern(d
+> ash) || ///
+> line df_m_psij eventtime if origin==4 & destination==4, lstyle(p4) lpattern(d
+> ash) || ///
+>  , legend(off) ///
+>    xlabel(-5 (1) 4) ///
+>    xline(0) ytitle("Firm hierarchy effect") title("C. Firm hierarchy effect (
+> {it:h})", pos(11) span) ///
+>    name(delta, replace)    
+
+. 
+. grc1leg2 y_legend e delta , xcommon ///
+>   /* title("Figure 4. Event studies for workers moving from top- and bottom-q
+> uartile industries", pos(11) span) */ ///
+>   legendfrom(y_legend) ring(0) pos(4) lxoffset(-8) lyoffset(13) xtob1title //
+> /  
+>   saving(${results}/f4.gph, replace)
+-grc1leg2- working...
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f4.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f4.gph saved
+To view and verify the .gph file saved to disk, click here.
+
+. graph export ${results}/f4.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f4.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f4.png written in
+>  PNG format
+
+.    
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f4.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:49
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do f5
+
+. cap log close
+
+. log using f5.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f5.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:49
+
+. 
+. import excel using "$disclosure3", sheet("3") cellrange(A6:F406) firstrow cle
+> ar
+(6 vars, 400 obs)
+
+. set scheme plotplain
+
+. 
+. gen dpsi = d_y_m_xb - d_df_m_psij - d_akm_res
+
+. 
+. reg d_y_m_xb dpsi
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =   2896.59
+       Model |  3.58983569         1  3.58983569   Prob > F        =    0.0000
+    Residual |  .493254384       398  .001239333   R-squared       =    0.8792
+-------------+----------------------------------   Adj R-squared   =    0.8789
+       Total |  4.08309007       399  .010233308   Root MSE        =     .0352
+
+------------------------------------------------------------------------------
+    d_y_m_xb | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        dpsi |   .4906008   .0091156    53.82   0.000     .4726801    .5085215
+       _cons |  -.0114499   .0017602    -6.50   0.000    -.0149104   -.0079894
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[dpsi]
+
+. local se : display %4.2f _se[dpsi]
+
+. local r2: display %4.2f e(r2)
+
+. scatter d_y_m_xb dpsi, msymbol(p) || function y=x, range(-0.5 0.5)  || , ///
+>  legend(off) scale(1.5)  ///
+>  text(0.3 -0.3 "Slope = `b' (`se')", size(vsmall)) ///
+>  title("A. Age-adjusted log earnings ({it:y-X{&theta}})", pos(11) span size(s
+> mall)) name(dy, replace) 
+
+. 
+. reg d_akm_res dpsi
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =    407.04
+       Model |  .208781343         1  .208781343   Prob > F        =    0.0000
+    Residual |  .204143659       398  .000512924   R-squared       =    0.5056
+-------------+----------------------------------   Adj R-squared   =    0.5044
+       Total |  .412925002       399    .0010349   Root MSE        =    .02265
+
+------------------------------------------------------------------------------
+   d_akm_res | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        dpsi |  -.1183142   .0058643   -20.18   0.000    -.1298431   -.1067853
+       _cons |  -.0274498   .0011324   -24.24   0.000     -.029676   -.0252236
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[dpsi]
+
+. local se : display %4.2f _se[dpsi]
+
+. local r2: display %4.2f e(r2)
+
+. scatter d_akm_res dpsi, msymbol(p) || function y=x, range(-0.5 0.5) ///
+>  legend(off) scheme(plotplain) scale(1.5)  ///
+>  text(0.3 -0.3 "Slope = `b' (`se')", size(vsmall)) ///
+>  title("B. AKM residual ({it:{&epsilon}})", pos(11) span size(small)) name(de
+> , replace)
+
+. 
+. reg d_df_m_psij dpsi
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =   3059.00
+       Model |  2.28118503         1  2.28118503   Prob > F        =    0.0000
+    Residual |  .296800202       398  .000745729   R-squared       =    0.8849
+-------------+----------------------------------   Adj R-squared   =    0.8846
+       Total |  2.57798523       399  .006461116   Root MSE        =    .02731
+
+------------------------------------------------------------------------------
+ d_df_m_psij | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        dpsi |   -.391085    .007071   -55.31   0.000    -.4049862   -.3771838
+       _cons |   .0159999   .0013654    11.72   0.000     .0133156    .0186842
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[dpsi]
+
+. local se : display %4.2f _se[dpsi]
+
+. local r2: display %4.2f e(r2)
+
+. scatter d_df_m_psij dpsi, msymbol(p) || function y=x, range(-0.5 0.5) ///
+>  legend(off) scheme(plotplain) scale(1.5)  ///
+>  text(-0.4 0 "Slope = `b' (`se')", size(vsmall)) ///
+>  title("C. Firm hierarchy effect ({it:h})", pos(11) span size(small)) name(dd
+> elta, replace)
+
+. 
+.  gen d_earn_adj=d_y_m_xb-d_df_m_psij
+
+. reg d_earn_adj dpsi
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =  22604.40
+       Model |  11.5943342         1  11.5943342   Prob > F        =    0.0000
+    Residual |  .204143674       398  .000512924   R-squared       =    0.9827
+-------------+----------------------------------   Adj R-squared   =    0.9827
+       Total |  11.7984779       399   .02957012   Root MSE        =    .02265
+
+------------------------------------------------------------------------------
+  d_earn_adj | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        dpsi |   .8816858   .0058643   150.35   0.000     .8701569    .8932147
+       _cons |  -.0274498   .0011324   -24.24   0.000     -.029676   -.0252236
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[dpsi]
+
+. local se : display %4.2f _se[dpsi]
+
+. local r2: display %4.2f e(r2)
+
+. scatter d_earn_adj dpsi, msymbol(p) || function y=x, range(-0.5 0.5) ///
+>  legend(off) scheme(plotplain) scale(1.5)  ///
+>  text(0.3 -0.3 "Slope = `b' (`se')", size(vsmall)) ///
+>  title("D. Earnings net of firm hierarchy effect ({it:y-X{&theta}-h})", pos(1
+> 1) span size(small)) name(dadjy, replace)
+
+.  
+. graph combine dy de ddelta dadjy, xcommon ycommon  ///
+>   /*  title("Figure 5. Changes in earnings components for between-industry mo
+> vers", pos(11) span) */ ///
+>   b1title("Change in industry premium") l1title("Change in earnings component
+> ") ///
+>   note("Note: Slopes are unweighted. Dashed lines are 45-degree lines.") ///
+>   saving(${results}/f5.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f5.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f5.gph saved
+
+. graph export ${results}/f5.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f5.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f5.png written in
+>  PNG format
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f5.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:57
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do f6 
+
+. 
+. cap log close
+
+. log using f6.log, replace text
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f6.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:57
+
+. 
+. use ${scratch}/merge_acs_lehd, clear
+
+. *import excel using lehd_acs_bynaics2.xlsx, sheet(Data) clear firstrow
+. set scheme plotplain
+
+. 
+.  //Industry effects should be .038937 on average in 72 (based on LEHD)
+.  gen naics2=floor(naics/100)
+
+.  su ind_effects_m3 if naics2==72 [aw=wcount]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~3 |       6   177107167   -.2413392   .0247513  -.2767684  -.1634685
+
+.  gen ind_effects_adj=ind_effects_m3-r(mean) + 0.038937
+
+. 
+. reg ind_effects_adj psi [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     417.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7101
+                                                Root MSE          =     .09126
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         psi |   1.165872   .0570716    20.43   0.000     1.053573    1.278172
+       _cons |    .041195   .0156121     2.64   0.009     .0104751    .0719148
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi]
+
+. local se : display %4.2f _se[psi]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. su psi, meanonly
+
+. local min=r(min)
+
+. local max=r(max)
+
+. 
+. scatter ind_effects_adj psi [aw=npq], msymbol(oh)  || ///
+>   lfit ind_effects_adj psi [aw=npq], range(-0.1 0.7) || ///
+>   function y=x, range(-0.1 0.8 ) || ///
+>   , ylabel(-0.1 (0.1) 0.8) xlabel(-0.1 (0.1) 0.8) legend(off) ///
+>     text(0.8 0.54 "Fitted line" "Slope = `b' (`se')"  "R-sq = `r2'", just(lef
+> t) size(small)) ///
+>         text(0.54 0.63 "45 degree line", size(small)) ///
+>         xtitle("Estimated industry effect" "based on ground-up firm-level AKM
+> ") ///
+>         ytitle("Estimated industry effect" "based on cross-sectional model") 
+> ///
+>         /*  title("Figure 6. Cross-sectional industry effects (ACS) vs. groun
+> d-up from AKM (LEHD)", */ ///
+>         /*        pos(11) justification(left) span) */ ///
+>     saving(${results}/f6.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f6.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f6.gph saved
+
+. graph export ${results}/f6.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f6.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f6.png written in
+>  PNG format
+
+.    
+. log close 
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f6.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:57
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do f7
+
+. cap log close
+
+. log using f7.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f7.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:57
+
+. 
+. import excel using "$disclosure1", sheet("2") cellrange(A3:E314) firstrow cle
+> ar
+(5 vars, 311 obs)
+
+. set scheme plotplain 
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. tempfile t2
+
+. save `t2'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. import excel using "${disclosure1}", sheet("3") cellrange(A3:D314) firstrow c
+> lear
+(4 vars, 311 obs)
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t3
+
+. tempfile t3
+
+. save `t3'
+file /tmp/St2401399.000002 saved as .dta format
+
+. 
+. use `t2'
+
+. merge 1:1 naics4 using `t3'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               311  (_merge==3)
+    -----------------------------------------
+
+. 
+. preserve        
+
+. qui sum alternative_psi_j_m7 if naics4 ==7225
+
+. replace alternative_psi_j_m7=alternative_psi_j_m7-r(mean)       
+(311 real changes made)
+
+. reg alternative_psi_j_m7 psi_j [aw=Npq_t2] , robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =     956.19
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9245
+                                                Root MSE          =     .02165
+
+------------------------------------------------------------------------------
+             |               Robust
+alternativ~7 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .6184343   .0199996    30.92   0.000     .5790818    .6577869
+       _cons |   .0209811   .0060393     3.47   0.001     .0090977    .0328645
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[psi_j]
+
+. local se : display %4.2f _se[psi_j]
+
+. local r2: display %4.2f e(r2)
+
+. 
+. scatter alternative_psi_j_m7 psi_j [aw=Npq_t2], msymbol(oh)  || ///
+>   lfit alternative_psi_j_m7 psi_j [aw=Npq_t2], range(-0.1 0.8) || ///
+>   function y=x, range(-0.1 0.8 ) || ///
+>   , ylabel(-0.1 (0.1) 0.8) xlabel(-0.1 (0.1) 0.8) legend(off) ///
+>     text(0.38 0.75 "Fitted line" "Slope = `b'" "R-sq = `r2'", just(left) size
+> (small)) ///
+>         text(0.54 0.45 "45 degree line", size(small)) ///
+>         xtitle("Estimated industry effect" "based on ground-up firm-level AKM
+> ") ///
+>         ytitle("Estimated industry effect" "based on industry movers model") 
+> ///
+>         /*  title("Figure 7. Industry movers effects vs. ground-up from AKM (
+> LEHD)", */ ///
+>         /*       pos(11) justification(left) span) */ ///
+>     saving(${results}/f7.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f7.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f7.gph saved
+
+. graph export ${results}/f7.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f7.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f7.png written in
+>  PNG format
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f7.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:59
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do f89
+
+. 
+. cap log close
+
+. log using f89.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f89.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:59
+
+. 
+. *local disclosure "../output_asof20220908.xlsx"
+. import excel using "${disclosure1}", sheet("2") cellrange(A3:E314) firstrow c
+> lear
+(5 vars, 311 obs)
+
+. set scheme plotplain
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. rename psi_j psi_2
+
+. rename alpha_j alpha_2
+
+. tempfile t2
+
+. save `t2'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. import excel using "${disclosure1}", sheet("4") cellrange(A3:E625) firstrow c
+> lear
+(5 vars, 622 obs)
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t4
+
+. rename psi_j psi_4
+
+. rename alpha_j alpha_4
+
+. tempfile t4
+
+. save `t4'
+file /tmp/St2401399.000002 saved as .dta format
+
+. 
+. use `t2'
+
+. merge 1:m naics4 using `t4'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               622  (_merge==3)
+    -----------------------------------------
+
+. 
+. reg alpha_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], robust
+(sum of wgt is 108,155,800)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      84.63
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2963
+                                                Root MSE          =     .11901
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   .6156961   .0669261     9.20   0.000     .4840076    .7473846
+       _cons |   9.115714   .0208881   436.41   0.000     9.074613    9.156815
+------------------------------------------------------------------------------
+
+. local b0 : display %4.2f _b[psi_2]
+
+. local se0 : display %4.2f _se[psi_2]
+
+. local r20: display %4.2f e(r2)
+
+. reg alpha_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], robust
+(sum of wgt is 257,262,500)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      54.33
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3614
+                                                Root MSE          =     .14339
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   .9073336   .1230966     7.37   0.000     .6651201    1.149547
+       _cons |    9.42465    .034019   277.04   0.000     9.357712    9.491588
+------------------------------------------------------------------------------
+
+. local b1 : display %4.2f _b[psi_2]
+
+. local se1 : display %4.2f _se[psi_2]
+
+. local r21: display %4.2f e(r2)
+
+. scatter alpha_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>   lfit alpha_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], || ///
+>   , xtitle("") ytitle("") ylabel(9 (0.5) 10.5) ///
+>     text(10 0.2 "Slope = `b0' (`se0')" "R{sup:2} = `r20'", just(left) size(sm
+> all)) ///
+>     legend(off)  ///
+>     title("A. Non-college", pos(11) span size(small)) ///
+>     name(ed0, replace) 
+
+. scatter alpha_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>  lfit alpha_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4] || ///
+>   , xtitle("") ytitle("") ylabel(9 (0.5) 10.5) ///
+>     text(9.1 0.6 "Slope = `b1' (`se1')" "R{sup:2} = `r21'", just(left) size(s
+> mall)) ///
+>     legend(off) ///
+>     title("B. College", pos(11) span size(small)) ///
+>     name(ed1, replace) 
+
+. 
+. graph combine ed0 ed1, xcommon ycommon ///
+>   b1title("Industry differential") l1title("Average worker effect") ///
+>   /* title("Figure 9. Average worker effects by education and industry", pos(
+> 11) span) */ ///
+>   saving(${results}/f9.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f9.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f9.gph saved
+
+. graph export ${results}/f9.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f9.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f9.png written in
+>  PNG format
+
+. 
+. reg psi_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], robust
+(sum of wgt is 108,155,800)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =    8819.68
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9744
+                                                Root MSE          =     .01954
+
+------------------------------------------------------------------------------
+             |               Robust
+       psi_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   .9609983   .0102328    93.91   0.000     .9408635    .9811332
+       _cons |   -.004481   .0023478    -1.91   0.057    -.0091007    .0001387
+------------------------------------------------------------------------------
+
+. local b0 : display %4.2f _b[psi_2]
+
+. local se0 : display %4.2f _se[psi_2]
+
+. local r20: display %4.2f e(r2)
+
+. reg psi_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], robust
+(sum of wgt is 257,262,500)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =   12142.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9926
+                                                Root MSE          =     .01056
+
+------------------------------------------------------------------------------
+             |               Robust
+       psi_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_2 |   1.028243   .0093314   110.19   0.000     1.009882    1.046604
+       _cons |  -.0000734   .0030351    -0.02   0.981    -.0060455    .0058987
+------------------------------------------------------------------------------
+
+. local b1 : display %4.2f _b[psi_2]
+
+. local se1 : display %4.2f _se[psi_2]
+
+. local r21: display %4.2f e(r2)
+
+. scatter psi_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>   lfit psi_4 psi_2 if Educationsubgroup=="L" [aw=Npq_t4], || ///
+>   , xtitle("") ytitle("")  ///
+>     text(0 0.5 "Slope = `b0' (`se0')" "R{sup:2} = `r20'", just(left) size(sma
+> ll)) ///
+>     legend(off)  ///
+>     title("A. Non-college", pos(11) span size(small)) ///
+>     name(ed0, replace) 
+
+. scatter psi_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4], ///
+>     scale(1.5) mlwidth(*0.67) msymbol(oh) || ///
+>  lfit psi_4 psi_2 if Educationsubgroup=="H" [aw=Npq_t4] || ///
+>   , xtitle("") ytitle("")  ///
+>     text(0 0.6 "Slope = `b1' (`se1')" "R{sup:2} = `r21'", just(left) size(sma
+> ll)) ///
+>     legend(off) ///
+>     title("B. College", pos(11) span size(small)) ///
+>     name(ed1, replace) 
+
+. 
+. graph combine ed0 ed1, xcommon ycommon ///
+>   b1title("Industry differential (pooled)") l1title("Industry differential (b
+> y education)") ///
+>   /* title("Figure 8. Pooled vs. separate estimates of industry premiums by e
+> ducation", pos(11) span) */ ///
+>   saving(${results}/f8.gph, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f8.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f8.gph saved
+
+. graph export ${results}/f8.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f8.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f8.png written in
+>  PNG format
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f89.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:06
+-------------------------------------------------------------------------------
+
+. 
+. 
+end of do-file
+
+. do appfig1
+
+. cap log close
+
+. log using appfig1.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/appfig1.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:06
+
+. 
+. clear
+
+. 
+. *import excel using "../industryeffects.xlsx", clear firstrow sheet("naics3-a
+> dj")
+. use ${scratch}/ind_data, clear
+
+. *import excel using ../f6/lehd_acs_bynaics2.xlsx, sheet(Data) clear firstrow
+. set scheme plotplain
+
+. gen naics3=floor(naics/10)
+
+. keep if naics3>=300 & naics3<=400
+(225 observations deleted)
+
+. replace naics3=naics3-1 if inlist(naics3, 312, 314, 316)
+(7 real changes made)
+
+. collapse (mean) ybar alpha psi (rawsum) npq [fw=npq], by(naics3)
+
+. tempfile psis
+
+. save `psis'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. import excel using "${raw}/Yehetal markdowns.xlsx", clear firstrow
+(11 vars, 19 obs)
+
+. drop A
+
+. rename NAICSA naics3
+
+. drop if naics3==.
+(1 observation deleted)
+
+. rename T1C1 t1c1
+
+. rename T1C2 t1c2
+
+. destring t?c?, force replace
+t1c1: all characters numeric; replaced as double
+t1c2: all characters numeric; replaced as double
+t4c1: all characters numeric; replaced as double
+t4c2: all characters numeric; replaced as double
+t4c3: all characters numeric; replaced as double
+t4c4: all characters numeric; replaced as double
+
+. 
+. merge 1:1 naics3 using `psis', assert(3) nogen
+(variable naics3 was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                18  
+    -----------------------------------------
+
+. 
+. set scheme plotplain
+
+. 
+. gen logmarkdown=ln(1/t1c1)
+
+. 
+. reg psi logmarkdown , robust
+
+Linear regression                               Number of obs     =         18
+                                                F(1, 16)          =      14.39
+                                                Prob > F          =     0.0016
+                                                R-squared         =     0.4706
+                                                Root MSE          =     .09044
+
+------------------------------------------------------------------------------
+             |               Robust
+         psi | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ logmarkdown |  -.3511357   .0925705    -3.79   0.002    -.5473764    -.154895
+       _cons |   .2056099   .0352642     5.83   0.000      .130853    .2803667
+------------------------------------------------------------------------------
+
+. local b : display %4.2f _b[logmarkdown]
+
+. local se : display %4.2f _se[logmarkdown]
+
+. local r2: display %4.2f e(r2)
+
+. scatter psi logmarkdown ,  msymbol(o) || ///
+> lfit psi logmarkdown , range(-1 0) ||, ///
+>   xlabel(-1 (0.2) 0) ylabel(0 (0.1) 0.7) legend(off) ///
+>   xtitle("Log of median industry markdown (Yeh et al., 2023)") ///
+>   ytitle("Industry wage premium") ///
+>   text(0.35 -0.73 "Fitted line" "Slope = `b' (`se')" "R-sq = `r2'", justifica
+> tion(left) size(small)) ///
+>   /*  title("Appendix Figure 1. Relationships between markdowns and industry 
+> pay premiums" "(3-digit manufacturing)", */ ///
+>   /*        span pos(11) justification(left)) */ ///
+>   saving(${results}/appfig1, replace)
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/appfig1.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/appfig1.gph saved
+
+. graph export ${results}/appfig1.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/appfig1.png not 
+> found)
+file ~/replication/industries/portion3_postdisclosure/results/appfig1.png writt
+> en in PNG format
+
+. 
+.   
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/appfig1.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:07
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. 
+. do t2
+
+. 
+. cap log close
+
+. log using t2.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t2.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:07
+
+. 
+. * Prepare industry names
+. import excel using "${raw}/naics2017.xlsx", clear firstrow
+(6 vars, 2,196 obs)
+
+. keep naics title
+
+. * Fix a couple of aggregated industries
+.  replace naics="31" if naics=="31-33"
+(1 real change made)
+
+.  replace naics="44" if naics=="44-45"
+(1 real change made)
+
+.  replace naics="48" if naics=="48-49"
+(1 real change made)
+
+. destring naics, force replace
+naics: all characters numeric; replaced as long
+
+. keep if naics>=10 & naics<=99
+(2,176 observations deleted)
+
+. rename naics naics2
+
+. tempfile names
+
+. save `names'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. // Gather LEHD measures
+. use ${scratch}/ind_data, clear
+
+. 
+. *Normalize skill
+.  su alpha [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       alpha |     311  2.5048e+09     9.45626   .1848439      9.022      10.12
+
+.  gen skill=alpha-r(mean)
+
+.  
+. gen naics2=floor(naics/100)
+
+. replace naics2=31 if naics2==32 | naics2==33
+(64 real changes made)
+
+. replace naics2=44 if naics2==45
+(11 real changes made)
+
+. replace naics2=48 if naics2==49
+(4 real changes made)
+
+. 
+. collapse (mean) ybar skill psi (rawsum) size=npq [aw=npq], by(naics2)
+
+. su size, meanonly
+
+. gen share=size/r(sum)
+
+. 
+. list naics2 share ybar skill psi
+
+     +-------------------------------------------------------+
+     | naics2      share        ybar       skill         psi |
+     |-------------------------------------------------------|
+  1. |     11   .0057974    9.119638   -.2363949   .16001994 |
+  2. |     21   .0069295   9.9076929    .0782922   .62160186 |
+  3. |     22   .0089416   9.8835471    .1957944   .48822169 |
+  4. |     23   .0512433   9.4804554    .0187357   .25197944 |
+  5. |     31   .1204536   9.4966835   -.0541224   .35077908 |
+     |-------------------------------------------------------|
+  6. |     42   .0521539   9.5765202    .0803363   .29539186 |
+  7. |     44   .0869373   9.1359558   -.1578694   .10734527 |
+  8. |     48   .0401788   9.4009981   -.0455668   .24470794 |
+  9. |     51   .0260183   9.7745929    .1897753   .38970665 |
+ 10. |     52   .0567443   9.6926854    .1748857   .31782429 |
+     |-------------------------------------------------------|
+ 11. |     53   .0151883   9.3916469   -.0275575   .22311722 |
+ 12. |     54    .075251   9.7950068    .2701555   .32803653 |
+ 13. |     55   .0216343       9.721    .1847398       .3368 |
+ 14. |     56   .0462265   9.2324616   -.1420819   .17968353 |
+ 15. |     61   .1049822   9.4037705    .0684878   .13287123 |
+     |-------------------------------------------------------|
+ 16. |     62   .1463988   9.3308918    -.058944   .19171804 |
+ 17. |     71   .0115458   9.2483135    -.062411   .12399914 |
+ 18. |     72   .0422666   8.9529668    -.274028   .03893739 |
+ 19. |     81   .0244844   9.2595723    -.077182   .14395176 |
+ 20. |     92   .0566241   9.4710006   -.0100148    .2789326 |
+     +-------------------------------------------------------+
+
+. 
+. tempfile list2 sds
+
+. save `list2'
+file /tmp/St2401399.000002 saved as .dta format
+
+. 
+. collapse (sd) ybar skill psi [aw=size]
+
+. gen label="SD"
+
+. save `sds'
+file /tmp/St2401399.000003 saved as .dta format
+
+. use `list2'
+
+. append using `sds'
+
+. 
+. tempfile lehd
+
+. save `lehd', replace
+(file /tmp/St2401399.000004 not found)
+file /tmp/St2401399.000004 saved as .dta format
+
+. 
+. // Now gather ACS measures
+. use ${acsoutput}/industry_averages_2digit.dta, clear
+
+. collapse (sd) logwage ind_effects_adj skill_adj educ female [aw=wc]
+
+. gen label="SD"
+
+. tempfile acssds acslist
+
+. save `acssds'
+file /tmp/St2401399.000005 saved as .dta format
+
+. use ${acsoutput}/industry_averages_2digit.dta, clear
+
+. append using `acssds'
+
+. save `acslist'
+file /tmp/St2401399.000006 saved as .dta format
+
+. 
+. use `names'
+
+. merge 1:1 naics2 using `lehd', nogen
+(variable naics2 was long, now double to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             1
+        from master                         0  
+        from using                          1  
+
+    Matched                                20  
+    -----------------------------------------
+
+. merge 1:1 naics2 label using `acslist', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                21  
+    -----------------------------------------
+
+. replace title=label if naics2==.
+(1 real change made)
+
+. drop label
+
+. order naics2 title size share ybar skill psi 
+
+. export delimited using "${results}/t2.csv", replace
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/t2.csv not found)
+file /accounts/projects/card/hurricane/replication/industries/portion3_postdisc
+> losure/results/t2.csv saved
+
+.   
+. list 
+
+     +------------------------------------------------------------------------+
+  1. |                                 naics2                                 |
+     |                                     11                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Agriculture, Forestry, Fishing and Hunting                             |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  14521500 | .0057974 |  9.119638 | -.2363949  | .16001994  | 2.476791  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  10.75129   |  .2501551   |  .0876104   |   -.1998528   |   1.44e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  2. |                                 naics2                                 |
+     |                                     21                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Mining, Quarrying, and Oil and Gas Extraction                          |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  17357000 | .0069295 | 9.9076929 |  .0782922  | .62160186  | 3.191991  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  12.97792   |  .1397139   |  .6229651   |   -.0200075   |    7220964   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  3. |                                 naics2                                 |
+     |                                     22                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Utilities                                                              |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  22397000 | .0089416 | 9.8835471 |  .1957944  | .48822169  | 3.302767  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  13.70364   |   .223561   |  .6044734   |    .1092599   |   1.09e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  4. |                                 naics2                                 |
+     |                                     23                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Construction                                                           |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.284e+08 | .0512433 | 9.4804554 |  .0187357  | .25197944  |  2.88426  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  11.97532   |  .0974801   |  .3537447   |   -.0585176   |   7.65e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  5. |                                 naics2                                 |
+     |                                     31                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Manufacturing                                                          |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 3.017e+08 | .1204536 | 9.4966835 | -.0541224  | .35077908  | 2.978309  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  13.04239   |  .2923328   |  .3731527   |    .0161229   |   1.35e+08   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  6. |                                 naics2                                 |
+     |                                     42                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Wholesale Trade                                                        |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.306e+08 | .0521539 | 9.5765202 |  .0803363  | .29539186  | 2.969146  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  13.22944   |  .3054552   |  .3478182   |    .0322953   |   3.34e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  7. |                                 naics2                                 |
+     |                                     44                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Retail Trade                                                           |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 2.178e+08 | .0869373 | 9.1359558 | -.1578694  | .10734527  | 2.582925  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  12.92186   |  .4962535   |  .1341793   |   -.1402874   |   1.43e+08   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  8. |                                 naics2                                 |
+     |                                     48                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Transportation and Warehousing                                         |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.006e+08 | .0401788 | 9.4009981 | -.0455668  | .24470794  | 2.881074  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  12.77327   |  .2570876   |  .3066306   |     -.01459   |   5.24e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+  9. |                                 naics2                                 |
+     |                                     51                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Information                                                            |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  65171000 | .0260183 | 9.7745929 |  .1897753  | .38970665  | 3.140033  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  14.50657   |  .4115649   |  .4313085   |    .1196913   |   2.64e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 10. |                                 naics2                                 |
+     |                                     52                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Finance and Insurance                                                  |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.421e+08 | .0567443 | 9.6926854 |  .1748857  | .31782429  | 3.227166  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |   14.6604   |  .5886444   |  .5190739   |    .1190592   |   5.84e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 11. |                                 naics2                                 |
+     |                                     53                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Real Estate and Rental and Leasing                                     |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  38044000 | .0151883 | 9.3916469 | -.0275575  | .22311722  | 2.936499  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |   13.6498   |  .4611608   |  .2965806   |    .0508856   |   2.05e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 12. |                                 naics2                                 |
+     |                                     54                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Professional, Scientific, and Technical Services                       |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.885e+08 |  .075251 | 9.7950068 |  .2701555  | .32803653  | 3.324325  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  15.55328   |  .4478554   |  .4774921   |    .2577993   |   7.94e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 13. |                                 naics2                                 |
+     |                                     55                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Management of Companies and Enterprises                                |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  54190000 | .0216343 |     9.721 |  .1847398  |     .3368  | 3.368662  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  14.98748   |  .5286407   |   .569821   |    .2098082   |    1236036   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 14. |                                 naics2                                 |
+     |                                     56                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Administrative and Support and Waste Management and Remediation Serv.. |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.158e+08 | .0462265 | 9.2324616 | -.1420819  | .17968353  | 2.620158  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |   12.3869   |  .3934906   |  .1452286   |   -.1141038   |   5.40e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 15. |                                 naics2                                 |
+     |                                     61                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Educational Services                                                   |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 2.630e+08 | .1049822 | 9.4037705 |  .0684878  | .13287123  | 2.905081  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  15.63448   |  .6931671   |  .1610755   |    .1549719   |   1.16e+08   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 16. |                                 naics2                                 |
+     |                                     62                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Health Care and Social Assistance                                      |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 3.667e+08 | .1463988 | 9.3308918 |  -.058944  | .19171804  | 2.904667  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  14.26282   |  .7899469   |  .2960363   |    .0195977   |   1.71e+08   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 17. |                                 naics2                                 |
+     |                                     71                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Arts, Entertainment, and Recreation                                    |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  28920000 | .0115458 | 9.2483135 |  -.062411  | .12399914  | 2.635969  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  13.47475   |   .463274   |  .1364294   |   -.0894938   |   2.53e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 18. |                                 naics2                                 |
+     |                                     72                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Accommodation and Food Services                                        |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.059e+08 | .0422666 | 8.9529668 |  -.274028  | .03893739  | 2.360909  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  12.19549   |  .5246294   |   .038937   |   -.2670608   |   9.64e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 19. |                                 naics2                                 |
+     |                                     81                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Other Services (except Public Administration)                          |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  61329000 | .0244844 | 9.2595723 |  -.077182  | .14395176  |  2.64375  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  13.06114   |  .5057847   |  .1128398   |   -.0581233   |   5.09e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 20. |                                 naics2                                 |
+     |                                     92                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | Public Administration                                                  |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 1.418e+08 | .0566241 | 9.4710006 | -.0100148  |  .2789326  | 3.140986  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |  14.45152   |  .4396214   |  .4267549   |    .1251978   |   6.13e+07   |
+     +------------------------------------------------------------------------+
+
+     +------------------------------------------------------------------------+
+ 21. |                                 naics2                                 |
+     |                                      .                                 |
+     |------------------------------------------------------------------------|
+     | title                                                                  |
+     | SD                                                                     |
+     |------------------------------------------------------------------------|
+     |      size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |         . |        . | .22078065 |  .1372128  | .10443362  | .2645352  |
+     |------------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |   skill_adj   |         wc   |
+     |   1.22137   |  .1965728   |  .1489278   |    .1377052   |          .   |
+     +------------------------------------------------------------------------+
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t2.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:07
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do t3
+
+. 
+. cap log close
+
+. log using t3.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t3.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:07
+
+. 
+. * Prepare industry names
+. import excel using "${raw}/naics2017.xlsx", clear firstrow
+(6 vars, 2,196 obs)
+
+. keep naics title
+
+. destring naics, force replace
+naics: contains nonnumeric characters; replaced as long
+(3 missing values generated)
+
+. keep if naics>=100 & naics<=999
+(2,097 observations deleted)
+
+. keep if naics>=310 & naics<340
+(78 observations deleted)
+
+. rename naics naics3
+
+. tempfile names
+
+. save `names'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. 
+. // Gather LEHD measures
+. use ${scratch}/ind_data, clear
+
+. 
+. *Normalize skill
+.  su alpha [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       alpha |     311  2.5048e+09     9.45626   .1848439      9.022      10.12
+
+.  gen skill=alpha-r(mean)
+
+.  
+.  keep if naics>=3100 & naics<3400
+(225 observations deleted)
+
+. gen naics3=floor(naics/10)
+
+. replace naics3=311 if naics3==312
+(2 real changes made)
+
+. replace naics3=313 if naics3==314
+(2 real changes made)
+
+. replace naics3=315 if naics3==316
+(3 real changes made)
+
+. 
+. 
+. collapse (mean) ybar skill psi (rawsum) size=npq [aw=npq], by(naics3)
+
+. su size, meanonly
+
+. gen share=size/r(sum)
+
+. 
+. list naics3 share ybar skill psi
+
+     +-------------------------------------------------------+
+     | naics3      share        ybar       skill         psi |
+     |-------------------------------------------------------|
+  1. |    311   .1266961   9.2838179   -.2440736   .32482625 |
+  2. |    313   .0172183   9.1369249   -.2917122   .22304441 |
+  3. |    315   .0098338   9.0988959   -.2289744    .1466246 |
+  4. |    321   .0263925   9.2031955   -.2242447    .2177352 |
+  5. |    322   .0336478   9.5325463   -.0954547   .42831864 |
+     |-------------------------------------------------------|
+  6. |    323   .0350332       9.282   -.1272603       .2163 |
+  7. |    324   .0108348       10.05    .2197398       .6214 |
+  8. |    325   .0712695   9.7771006    .1055247   .46533688 |
+  9. |    326   .0555692   9.3204719   -.1911986   .30308083 |
+ 10. |    327   .0314636   9.4204772   -.1242581   .33743568 |
+     |-------------------------------------------------------|
+ 11. |    331   .0342145    9.565383   -.1168634   .48025375 |
+ 12. |    332      .1126   9.3863793   -.0951076    .2831072 |
+ 13. |    333   .0941057   9.5432986   -.0010662   .34283593 |
+ 14. |    334    .096492      9.8615    .2605822   .42112437 |
+ 15. |    335   .0331904   9.4776484   -.0630043   .34009203 |
+     |-------------------------------------------------------|
+ 16. |    336   .1370006   9.6458606    .0179803   .42505105 |
+ 17. |    337   .0279536    9.187783   -.2102666    .1921963 |
+ 18. |    339   .0464844   9.4247356   -.0545133   .28289634 |
+     +-------------------------------------------------------+
+
+. 
+. tempfile list3 sds
+
+. save `list3'
+file /tmp/St2401399.000002 saved as .dta format
+
+. 
+. collapse (sd) ybar skill psi [aw=size]
+
+. gen label="SD"
+
+. save `sds'
+file /tmp/St2401399.000003 saved as .dta format
+
+. use `list3'
+
+. append using `sds'
+
+. 
+. tempfile lehd
+
+. save `lehd', replace
+(file /tmp/St2401399.000004 not found)
+file /tmp/St2401399.000004 saved as .dta format
+
+. 
+. // Now gather ACS measures
+. use ${acsoutput}/industry_averages_3digit.dta, clear
+
+. collapse (sd) logwage ind_effects_adj skill_adj educ female [aw=wc]
+
+. gen label="SD"
+
+. tempfile acssds acslist
+
+. save `acssds'
+file /tmp/St2401399.000005 saved as .dta format
+
+. use ${acsoutput}/industry_averages_3digit.dta, clear
+
+. append using `acssds'
+
+. save `acslist'
+file /tmp/St2401399.000006 saved as .dta format
+
+. 
+. use `names'
+
+. merge 1:1 naics3 using `lehd', nogen
+(variable naics3 was long, now double to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             4
+        from master                         3  
+        from using                          1  
+
+    Matched                                18  
+    -----------------------------------------
+
+. merge 1:1 naics3 label using `acslist', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             3
+        from master                         3  
+        from using                          0  
+
+    Matched                                19  
+    -----------------------------------------
+
+. drop if size==. & wc==. & label==""
+(3 observations deleted)
+
+. replace title=label if naics3==.
+(1 real change made)
+
+. drop label
+
+. order naics3 title size share ybar skill psi 
+
+. 
+. export delimited using "${results}/t3.csv", replace
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/t3.csv not found)
+file /accounts/projects/card/hurricane/replication/industries/portion3_postdisc
+> losure/results/t3.csv saved
+
+.   
+. list 
+
+     +-----------------------------------------------------------------------+
+  1. | naics3 |                                                        title |
+     |    311 |                                           Food Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 38226000 | .1266961 | 9.2838179 | -.2440736  | .32482625  | 2.733542  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  12.08689   |  .3731993   |  .2741531   |  -.1296439   |   1.73e+07   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  2. | naics3 |                                                        title |
+     |    313 |                                                Textile Mills |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  5195000 | .0172183 | 9.1369249 | -.2917122  | .22304441  | 2.681666  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  11.98953   |   .433508   |  .2288581   |  -.1362257   |    2277409   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  3. | naics3 |                                                        title |
+     |    315 |                                        Apparel Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  2967000 | .0098338 | 9.0988959 | -.2289744  |  .1466246  | 2.606241  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  11.57819   |  .6151146   |   .147164   |   -.129956   |    2601504   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  4. | naics3 |                                                        title |
+     |    321 |                                   Wood Product Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  7963000 | .0263925 | 9.2031955 | -.2242447  |  .2177352  |  2.69434  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  11.92832   |   .161222   |  .2125771   |    -.10727   |    3622780   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  5. | naics3 |                                                        title |
+     |    322 |                                          Paper Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 10152000 | .0336478 | 9.5325463 | -.0954547  | .42831864  | 3.022015  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  12.84605   |   .248675   |  .4368421   |  -.0038604   |    3497460   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  6. | naics3 |                                                        title |
+     |    323 |                      Printing and Related Support Activities |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 10570000 | .0350332 |     9.282 | -.1272603  |     .2163  |  2.84774  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  12.88877   |  .3508196   |  .2605979   |  -.0018906   |    4806987   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  7. | naics3 |                                                        title |
+     |    324 |                    Petroleum and Coal Products Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  3269000 | .0108348 |     10.05 |  .2197398  |     .6214  |  3.38678  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  13.69182   |  .1838756   |  .6935542   |   .1041923   |    1826719   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  8. | naics3 |                                                        title |
+     |    325 |                                       Chemical Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 21503000 | .0712695 | 9.7771006 |  .1055247  | .46533688  | 3.250588  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  14.19655   |  .3543681   |  .5198529   |   .1417021   |   1.16e+07   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+  9. | naics3 |                                                        title |
+     |    326 |                   Plastics and Rubber Products Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 16766000 | .0555692 | 9.3204719 | -.1911986  | .30308083  | 2.832309  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  12.53906   |  .2930179   |  .3048664   |  -.0615907   |    4854441   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 10. | naics3 |                                                        title |
+     |    327 |                    Nonmetallic Mineral Product Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  9493000 | .0314636 | 9.4204772 | -.1242581  | .33743568  | 2.893077  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  12.43926   |  .1952118   |  .3370236   |  -.0329798   |    3661429   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 11. | naics3 |                                                        title |
+     |    331 |                                  Primary Metal Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 10323000 | .0342145 |  9.565383 | -.1168634  | .48025375  | 2.986308  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  12.57959   |  .1441454   |  .4213585   |  -.0240839   |    4589318   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 12. | naics3 |                                                        title |
+     |    332 |                       Fabricated Metal Product Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 33973000 |    .1126 | 9.3863793 | -.0951076  |  .2831072  |   2.8809  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  12.45998   |  .1895817   |  .3218802   |  -.0300138   |   1.05e+07   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 13. | naics3 |                                                        title |
+     |    333 |                                      Machinery Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 28393000 | .0941057 | 9.5432986 | -.0010662  | .34283593  | 3.028615  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  13.24064   |  .2156532   |   .399381   |    .040201   |   1.09e+07   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 14. | naics3 |                                                        title |
+     |    334 |                Computer and Electronic Product Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 29113000 |  .096492 |    9.8615 |  .2605822  | .42112437  | 3.357913  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  14.67595   |  .3050948   |  .5098714   |   .2590083   |   1.06e+07   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 15. | naics3 |                                                        title |
+     |    335 | Electrical Equipment, Appliance, and Component Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 10014000 | .0331904 | 9.4776484 | -.0630043  | .34009203  | 3.009463  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  13.35165   |  .3071537   |  .3780414   |   .0423887   |    3778948   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 16. | naics3 |                                                        title |
+     |    336 |                       Transportation Equipment Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 41335000 | .1370006 | 9.6458606 |  .0179803  | .42505105  |  3.10786  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  13.47577   |  .2454524   |   .458662   |   .0601648   |   2.00e+07   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 17. | naics3 |                                                        title |
+     |    337 |                  Furniture and Related Product Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |  8434000 | .0279536 |  9.187783 | -.2102666  |  .1921963  | 2.705803  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |   12.0628   |  .2562547   |  .2159508   |  -.0991808   |    3715303   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 18. | naics3 |                                                        title |
+     |    339 |                                  Miscellaneous Manufacturing |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     | 14025000 | .0464844 | 9.4247356 | -.0545133  | .28289634  | 2.923829  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  13.09599   |  .3667558   |  .3143533   |   .0204428   |   1.46e+07   |
+     +-----------------------------------------------------------------------+
+
+     +-----------------------------------------------------------------------+
+ 19. | naics3 |                                                        title |
+     |      . |                                                           SD |
+     |-----------------------------------------------------------------------|
+     |     size |    share |      ybar |     skill  |       psi  |  logwage  |
+     |        . |        . | .21787692 |  .1533933  | .08724825  | .2096153  |
+     |-----------------------------------------------------------------------|
+     |      educ   |    female   |  ind_ef~j   |  skill_adj   |         wc   |
+     |  .8339653   |  .0896797   |  .1091491   |   .1094384   |          .   |
+     +-----------------------------------------------------------------------+
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t3.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:08
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do t4
+
+. cap log close
+
+. log using t4.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t4.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:08
+
+. 
+. clear *
+
+. estimates clear
+
+. 
+. * Table to relate national-level education, alphabar, ybar, psi
+. local disclosure "Yi_1_tabs_T13T26.xlsx"
+
+. 
+. *Two samples -- one is LEHD only, the other is linked
+. *Sample 1
+. import excel using "${disclosure1}", sheet("2") cellrange(A3:E314) firstrow c
+> lear
+(5 vars, 311 obs)
+
+. rename Industry4digitNAICS naics4
+
+. rename Numberofpersonquarters Npq_t2
+
+. tempfile lehdonly
+
+. save `lehdonly'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. /*  
+> use "ind_data", clear
+> merge 1:1 naics using "../acs/xwalk/naics_chars", assert(3) nogen
+> gen naics1=floor(naics/1000)
+> tab naics1, gen(naics1d)
+> collapse (mean) ybar alpha psi logwage-wcount naics1d* (rawsum) npq [aw=npq],
+>  by(naicsp)
+> */
+. use ${scratch}/merge_acs_lehd, clear
+
+. tempfile lehdacs
+
+. save `lehdacs'
+file /tmp/St2401399.000002 saved as .dta format
+
+. 
+. use `lehdonly'
+
+. eststo: reg alpha_j y_j [aw=Npq_t2], robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =    1019.16
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8672
+                                                Root MSE          =     .06746
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         y_j |   .6185426   .0193753    31.92   0.000     .5804184    .6566667
+       _cons |   3.621151   .1828306    19.81   0.000       3.2614    3.980901
+------------------------------------------------------------------------------
+(est1 stored)
+
+. eststo: reg psi_j y_j [aw=Npq_t2], robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =     414.67
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7168
+                                                Root MSE          =      .0652
+
+------------------------------------------------------------------------------
+             |               Robust
+       psi_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         y_j |   .3721727   .0182765    20.36   0.000     .3362106    .4081348
+       _cons |  -3.275356   .1725906   -18.98   0.000    -3.614957   -2.935754
+------------------------------------------------------------------------------
+(est2 stored)
+
+. eststo: reg alpha_j psi_j [aw=Npq_t2], robust
+(sum of wgt is 2,504,816,000)
+
+Linear regression                               Number of obs     =        311
+                                                F(1, 309)         =      54.02
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3557
+                                                Root MSE          =     .14861
+
+------------------------------------------------------------------------------
+             |               Robust
+     alpha_j | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .9011561   .1226036     7.35   0.000     .6599125      1.1424
+       _cons |   9.243958   .0357066   258.89   0.000     9.173699    9.314217
+------------------------------------------------------------------------------
+(est3 stored)
+
+. 
+. use `lehdacs', clear
+
+. assert educ<. 
+
+. rename psi psi_j
+
+. eststo: reg alpha psi_j [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =      53.89
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3554
+                                                Root MSE          =     .14858
+
+------------------------------------------------------------------------------
+             |               Robust
+       alpha | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .9004807   .1226642     7.34   0.000     .6591148    1.141847
+       _cons |   9.244059   .0357133   258.84   0.000     9.173786    9.314332
+------------------------------------------------------------------------------
+(est4 stored)
+
+. eststo: reg alpha skill_m3 [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     222.39
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7119
+                                                Root MSE          =     .09933
+
+------------------------------------------------------------------------------
+             |               Robust
+       alpha | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    skill_m3 |   1.040989   .0698057    14.91   0.000     .9036328    1.178345
+       _cons |   6.439439   .1957308    32.90   0.000       6.0543    6.824578
+------------------------------------------------------------------------------
+(est5 stored)
+
+. predict alphahat, xb
+
+. predict alphar, r
+
+. eststo: reg alpha psi_j skill_m3 [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(2, 307)         =     180.55
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7469
+                                                Root MSE          =     .09326
+
+------------------------------------------------------------------------------
+             |               Robust
+       alpha | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .3298863   .0997391     3.31   0.001     .1336276    .5261451
+    skill_m3 |   .9017211   .0838141    10.76   0.000     .7367984    1.066644
+       _cons |   6.765325   .2234252    30.28   0.000     6.325687    7.204964
+------------------------------------------------------------------------------
+(est6 stored)
+
+. eststo: reg alphahat psi_j [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =      18.35
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2671
+                                                Root MSE          =     .13367
+
+------------------------------------------------------------------------------
+             |               Robust
+    alphahat | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .6587209   .1537726     4.28   0.000     .3561431    .9612986
+       _cons |   9.301006   .0500558   185.81   0.000     9.202511    9.399501
+------------------------------------------------------------------------------
+(est7 stored)
+
+. eststo: reg alphar psi_j [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =       8.54
+                                                Prob > F          =     0.0037
+                                                R-squared         =     0.0889
+                                                Root MSE          =     .09481
+
+------------------------------------------------------------------------------
+             |               Robust
+      alphar | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   .2417597   .0827126     2.92   0.004     .0790065     .404513
+       _cons |  -.0569469   .0256225    -2.22   0.027    -.1073641   -.0065296
+------------------------------------------------------------------------------
+(est8 stored)
+
+. 
+. /* 
+> eststo: reg alpha educ [aw=npq], robust
+> predict alphahat, xb
+> predict alphar, r
+> eststo: reg alpha psi_j educ [aw=npq], robust
+> eststo: reg alphahat psi_j [aw=npq], robust
+> eststo: reg alphar psi_j [aw=npq], robust
+> */
+.  
+. esttab, b(4) se nostar r2
+
+-------------------------------------------------------------------------------
+> -------------------------------------
+                      (1)          (2)          (3)          (4)          (5)  
+>         (6)          (7)          (8)
+                  alpha_j        psi_j      alpha_j        alpha        alpha  
+>       alpha     alphahat       alphar
+-------------------------------------------------------------------------------
+> -------------------------------------
+y_j                0.6185       0.3722                                         
+>                                      
+                 (0.0194)     (0.0183)                                         
+>                                      
+
+psi_j                                        0.9012       0.9005               
+>      0.3299       0.6587       0.2418
+                                           (0.1226)     (0.1227)               
+>    (0.0997)     (0.1538)     (0.0827)
+
+skill_m3                                                               1.0410  
+>      0.9017                          
+                                                                     (0.0698)  
+>    (0.0838)                          
+
+_cons              3.6212      -3.2754       9.2440       9.2441       6.4394  
+>      6.7653       9.3010      -0.0569
+                 (0.1828)     (0.1726)     (0.0357)     (0.0357)     (0.1957)  
+>    (0.2234)     (0.0501)     (0.0256)
+-------------------------------------------------------------------------------
+> -------------------------------------
+N                     311          311          311          310          310  
+>         310          310          310
+R-sq                0.867        0.717        0.356        0.355        0.712  
+>       0.747        0.267        0.089
+-------------------------------------------------------------------------------
+> -------------------------------------
+Standard errors in parentheses
+
+. esttab using ${results}/t4.csv, b(4) se nostar r2 replace
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/t4.csv not found)
+(output written to ~/replication/industries/portion3_postdisclosure/results/t4.
+> csv)
+
+. 
+. estimates clear
+
+. eststo: reg ind_effects_m1 psi_j [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     289.79
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6454
+                                                Root MSE          =     .11252
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.239026   .0727846    17.02   0.000     1.095808    1.382244
+       _cons |  -.2523914   .0172982   -14.59   0.000     -.286429   -.2183539
+------------------------------------------------------------------------------
+(est1 stored)
+
+. eststo: reg ind_effects_m2 psi_j [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     334.69
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6774
+                                                Root MSE          =      .0988
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.168636   .0638788    18.29   0.000     1.042942     1.29433
+       _cons |  -.2395208   .0162723   -14.72   0.000    -.2715398   -.2075018
+------------------------------------------------------------------------------
+(est2 stored)
+
+. eststo: reg ind_effects_m3 psi_j [aw=npq], robust
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     417.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7101
+                                                Root MSE          =     .09126
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.165872   .0570716    20.43   0.000     1.053573    1.278172
+       _cons |  -.2390813   .0156121   -15.31   0.000    -.2698011   -.2083614
+------------------------------------------------------------------------------
+(est3 stored)
+
+. // without robust to get adjusted r2
+. eststo: reg ind_effects_m1 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    560.54
+       Model |  7.09731894         1  7.09731894   Prob > F        =    0.0000
+    Residual |  3.89976941       308  .012661589   R-squared       =    0.6454
+-------------+----------------------------------   Adj R-squared   =    0.6442
+       Total |  10.9970883       309  .035589283   Root MSE        =    .11252
+
+------------------------------------------------------------------------------
+ind_effect~1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.239026   .0523332    23.68   0.000      1.13605    1.342001
+       _cons |  -.2523914   .0138853   -18.18   0.000    -.2797135   -.2250693
+------------------------------------------------------------------------------
+(est4 stored)
+
+. eststo: reg ind_effects_m2 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    646.80
+       Model |  6.31382407         1  6.31382407   Prob > F        =    0.0000
+    Residual |  3.00658109       308  .009761627   R-squared       =    0.6774
+-------------+----------------------------------   Adj R-squared   =    0.6764
+       Total |  9.32040516       309  .030163123   Root MSE        =     .0988
+
+------------------------------------------------------------------------------
+ind_effect~2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.168636   .0459509    25.43   0.000     1.078219    1.259054
+       _cons |  -.2395208    .012192   -19.65   0.000    -.2635109   -.2155307
+------------------------------------------------------------------------------
+(est5 stored)
+
+. eststo: reg ind_effects_m3 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    754.55
+       Model |  6.28399067         1  6.28399067   Prob > F        =    0.0000
+    Residual |  2.56506165       308  .008328122   R-squared       =    0.7101
+-------------+----------------------------------   Adj R-squared   =    0.7092
+       Total |  8.84905232       309   .02863771   Root MSE        =    .09126
+
+------------------------------------------------------------------------------
+ind_effect~3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.165872   .0424431    27.47   0.000     1.082357    1.249387
+       _cons |  -.2390813   .0112612   -21.23   0.000      -.26124   -.2169226
+------------------------------------------------------------------------------
+(est6 stored)
+
+. esttab, b(4) se nostar r2 ar2
+
+-------------------------------------------------------------------------------
+> -----------
+                      (1)          (2)          (3)          (4)          (5)  
+>         (6)
+             ind_effect~1 ind_effect~2 ind_effect~3 ind_effect~1 ind_effect~2 i
+> nd_effect~3
+-------------------------------------------------------------------------------
+> -----------
+psi_j              1.2390       1.1686       1.1659       1.2390       1.1686  
+>      1.1659
+                 (0.0728)     (0.0639)     (0.0571)     (0.0523)     (0.0460)  
+>    (0.0424)
+
+_cons             -0.2524      -0.2395      -0.2391      -0.2524      -0.2395  
+>     -0.2391
+                 (0.0173)     (0.0163)     (0.0156)     (0.0139)     (0.0122)  
+>    (0.0113)
+-------------------------------------------------------------------------------
+> -----------
+N                     310          310          310          310          310  
+>         310
+R-sq                0.645        0.677        0.710        0.645        0.677  
+>       0.710
+adj. R-sq           0.644        0.676        0.709        0.644        0.676  
+>       0.709
+-------------------------------------------------------------------------------
+> -----------
+Standard errors in parentheses
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t4.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:10
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do t6
+
+. cap log close
+
+. log using t6.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t6.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:10
+
+. 
+. clear *
+
+. estimates clear
+
+. 
+. 
+. use ${scratch}/merge_acs_lehd, clear
+
+. assert educ<. 
+
+. rename psi psi_j
+
+. 
+. 
+. estimates clear
+
+. su psi_j [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       psi_j |     310  2.5043e+09    .2355514   .1223172    -.08727       .796
+
+. local sdpsi=r(sd)
+
+. su ind_effects_m1 [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~1 |     310  2.5043e+09    .0394629   .1886512  -.3844449   .5662113
+
+. local sd1=r(sd)
+
+. su ind_effects_m2 [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~2 |     310  2.5043e+09    .0357532   .1736753  -.3506376   .5042526
+
+. local sd2=r(sd)
+
+. su ind_effects_m3 [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+ind_effect~3 |     310  2.5043e+09    .0355416   .1692268  -.3936082   .4924877
+
+. local sd3=r(sd)
+
+. eststo, add(sdy `sd1' sdpsi `sdpsi'): reg ind_effects_m1 psi_j [aw=npq], robu
+> st
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     289.79
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6454
+                                                Root MSE          =     .11252
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~1 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.239026   .0727846    17.02   0.000     1.095808    1.382244
+       _cons |  -.2523914   .0172982   -14.59   0.000     -.286429   -.2183539
+------------------------------------------------------------------------------
+(e(sdy) = .18865122 added)
+(e(sdpsi) = .12231723 added)
+(est1 stored)
+
+. eststo, add(sdy `sd2' sdpsi `sdpsi'): reg ind_effects_m2 psi_j [aw=npq], robu
+> st
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     334.69
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6774
+                                                Root MSE          =      .0988
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~2 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.168636   .0638788    18.29   0.000     1.042942     1.29433
+       _cons |  -.2395208   .0162723   -14.72   0.000    -.2715398   -.2075018
+------------------------------------------------------------------------------
+(e(sdy) = .17367534 added)
+(e(sdpsi) = .12231723 added)
+(est2 stored)
+
+. eststo, add(sdy `sd3' sdpsi `sdpsi'): reg ind_effects_m3 psi_j [aw=npq], robu
+> st
+(sum of wgt is 2,504,278,000)
+
+Linear regression                               Number of obs     =        310
+                                                F(1, 308)         =     417.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7101
+                                                Root MSE          =     .09126
+
+------------------------------------------------------------------------------
+             |               Robust
+ind_effect~3 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.165872   .0570716    20.43   0.000     1.053573    1.278172
+       _cons |  -.2390813   .0156121   -15.31   0.000    -.2698011   -.2083614
+------------------------------------------------------------------------------
+(e(sdy) = .1692268 added)
+(e(sdpsi) = .12231723 added)
+(est3 stored)
+
+. // without robust to get adjusted r2
+. eststo, add(sdy `sd1' sdpsi `sdpsi'): reg ind_effects_m1 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    560.54
+       Model |  7.09731894         1  7.09731894   Prob > F        =    0.0000
+    Residual |  3.89976941       308  .012661589   R-squared       =    0.6454
+-------------+----------------------------------   Adj R-squared   =    0.6442
+       Total |  10.9970883       309  .035589283   Root MSE        =    .11252
+
+------------------------------------------------------------------------------
+ind_effect~1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.239026   .0523332    23.68   0.000      1.13605    1.342001
+       _cons |  -.2523914   .0138853   -18.18   0.000    -.2797135   -.2250693
+------------------------------------------------------------------------------
+(e(sdy) = .18865122 added)
+(e(sdpsi) = .12231723 added)
+(est4 stored)
+
+. eststo, add(sdy `sd2' sdpsi `sdpsi'): reg ind_effects_m2 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    646.80
+       Model |  6.31382407         1  6.31382407   Prob > F        =    0.0000
+    Residual |  3.00658109       308  .009761627   R-squared       =    0.6774
+-------------+----------------------------------   Adj R-squared   =    0.6764
+       Total |  9.32040516       309  .030163123   Root MSE        =     .0988
+
+------------------------------------------------------------------------------
+ind_effect~2 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.168636   .0459509    25.43   0.000     1.078219    1.259054
+       _cons |  -.2395208    .012192   -19.65   0.000    -.2635109   -.2155307
+------------------------------------------------------------------------------
+(e(sdy) = .17367534 added)
+(e(sdpsi) = .12231723 added)
+(est5 stored)
+
+. eststo, add(sdy `sd3' sdpsi `sdpsi'): reg ind_effects_m3 psi_j [aw=npq]
+(sum of wgt is 2,504,278,000)
+
+      Source |       SS           df       MS      Number of obs   =       310
+-------------+----------------------------------   F(1, 308)       =    754.55
+       Model |  6.28399067         1  6.28399067   Prob > F        =    0.0000
+    Residual |  2.56506165       308  .008328122   R-squared       =    0.7101
+-------------+----------------------------------   Adj R-squared   =    0.7092
+       Total |  8.84905232       309   .02863771   Root MSE        =    .09126
+
+------------------------------------------------------------------------------
+ind_effect~3 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       psi_j |   1.165872   .0424431    27.47   0.000     1.082357    1.249387
+       _cons |  -.2390813   .0112612   -21.23   0.000      -.26124   -.2169226
+------------------------------------------------------------------------------
+(e(sdy) = .1692268 added)
+(e(sdpsi) = .12231723 added)
+(est6 stored)
+
+. 
+. esttab, b(4) se nostar r2 ar2 scalars(sdy sdpsi)
+
+-------------------------------------------------------------------------------
+> -----------
+                      (1)          (2)          (3)          (4)          (5)  
+>         (6)
+             ind_effect~1 ind_effect~2 ind_effect~3 ind_effect~1 ind_effect~2 i
+> nd_effect~3
+-------------------------------------------------------------------------------
+> -----------
+psi_j              1.2390       1.1686       1.1659       1.2390       1.1686  
+>      1.1659
+                 (0.0728)     (0.0639)     (0.0571)     (0.0523)     (0.0460)  
+>    (0.0424)
+
+_cons             -0.2524      -0.2395      -0.2391      -0.2524      -0.2395  
+>     -0.2391
+                 (0.0173)     (0.0163)     (0.0156)     (0.0139)     (0.0122)  
+>    (0.0113)
+-------------------------------------------------------------------------------
+> -----------
+N                     310          310          310          310          310  
+>         310
+R-sq                0.645        0.677        0.710        0.645        0.677  
+>       0.710
+adj. R-sq           0.644        0.676        0.709        0.644        0.676  
+>       0.709
+sdy                0.1887       0.1737       0.1692       0.1887       0.1737  
+>      0.1692
+sdpsi              0.1223       0.1223       0.1223       0.1223       0.1223  
+>      0.1223
+-------------------------------------------------------------------------------
+> -----------
+Standard errors in parentheses
+
+. esttab using ${results}/t6.csv, b(4) se nostar r2 ar2 scalars(sdy sdpsi) repl
+> ace
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/t6.csv not found)
+(output written to ~/replication/industries/portion3_postdisclosure/results/t6.
+> csv)
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/t6.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:11
+-------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do apptab2
+
+. cap log close
+
+. log using apptab2.log, text replace
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/apptab2.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:37:11
+
+. 
+. use ${scratch}/ind_data, clear
+
+. 
+. su npq, meanonly
+
+. gen share=npq/r(sum)
+
+. 
+. // Normalize
+.  su alpha [aw=npq]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+       alpha |     311  2.5048e+09     9.45626   .1848439      9.022      10.12
+
+.  gen alpha_adj=alpha-r(mean)
+
+. 
+. gen order=naics
+
+. tempfile list mean sd
+
+. save `list'
+file /tmp/St2401399.000001 saved as .dta format
+
+. 
+. collapse (mean) ybar alpha psi [aw=npq]
+
+. gen title="Mean" 
+
+. gen order=0
+
+. rename alpha alpha_adj
+
+. save `mean'
+file /tmp/St2401399.000002 saved as .dta format
+
+. use `list'
+
+. collapse (sd) ybar alpha_adj psi [aw=npq]
+
+. gen title="SD" 
+
+. gen order=1
+
+. save `sd'
+file /tmp/St2401399.000003 saved as .dta format
+
+. 
+. use `mean'
+
+. append using `sd'
+
+. append using `list'
+(variable title was str4, now str119 to accommodate using data's values)
+
+. list naics title ybar alpha_adj psi share in 1/10
+
+     +----------------------------------------------------------------------+
+  1. | naics |                                            title |      ybar |
+     |     . |                                             Mean | 9.4336428 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |       9.4562602       |       .23558897       |              .       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  2. | naics |                                            title |      ybar |
+     |     . |                                               SD | .27829195 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |       .18484385       |       .12233035       |              .       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  3. | naics |                                            title |      ybar |
+     |  1111 |                        Oilseed and Grain Farming |     9.216 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.14526024       |           .1524       |       .0003014       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  4. | naics |                                            title |      ybar |
+     |  1112 |                      Vegetable and Melon Farming |      9.12 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.21326025       |           .1545       |       .0004248       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  5. | naics |                                            title |      ybar |
+     |  1113 |                       Fruit and Tree Nut Farming |     9.013 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.27026024       |           .1043       |       .0006088       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  6. | naics |                                            title |      ybar |
+     |  1114 | Greenhouse, Nursery, and Floriculture Production |     9.032 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.26326025       |           .1021       |       .0008096       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  7. | naics |                                            title |      ybar |
+     |  1119 |                               Other Crop Farming |     9.113 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.21526025       |           .1306       |       .0003374       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  8. | naics |                                            title |      ybar |
+     |  1121 |                      Cattle Ranching and Farming |     9.108 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.27126026       |           .1771       |       .0007965       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+  9. | naics |                                            title |      ybar |
+     |  1122 |                              Hog and Pig Farming |     9.159 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.32026026       |           .2593       |       .0002252       |
+     +----------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------+
+ 10. | naics |                                            title |      ybar |
+     |  1123 |                       Poultry and Egg Production |     9.143 |
+     |----------------------------------------------------------------------|
+     |       alpha_adj       |             psi       |          share       |
+     |      -.30726025       |           .2355       |       .0002942       |
+     +----------------------------------------------------------------------+
+
+. keep naics title ybar alpha_adj psi share
+
+. 
+. export delimited using "${results}/apptab2.csv", replace
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/apptab2.csv not found)
+file /accounts/projects/card/hurricane/replication/industries/portion3_postdisc
+> losure/results/apptab2.csv saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/apptab2.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:11
+-------------------------------------------------------------------------------
+
+. 
+. 
+end of do-file
+
+. 
+. 
+. 
+. log close postlog
+      name:  postlog
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/main_postdisclosure.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:37:11
+-------------------------------------------------------------------------------

@@ -1,0 +1,132 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f4.log
+  log type:  text
+ opened on:   6 Oct 2023, 12:36:42
+
+. 
+. 
+. import excel using "$disclosure3", sheet("2") cellrange(A5:F165) firstrow cle
+> ar
+(6 vars, 160 obs)
+
+. set scheme cleanplots
+
+. rename Quartileoforigin origin
+
+. rename Quartileofdestination destination
+
+. rename Eventtime eventtime
+
+. 
+. sort origin destination eventtime
+
+. line y_m_xb eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line y_m_xb eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line y_m_xb eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line y_m_xb eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line y_m_xb eventtime if origin==4 & destination==1, lstyle(p1) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==2, lstyle(p2) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==3, lstyle(p3) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==4, lstyle(p4) lpattern(dash
+> ) || ///
+>  , legend(order(4 "1-4" 8 "4-4" 3 "1-3" 7 "4-3" 2 "1-2" 6 "4-2" 1 "1-1" 5 "4-
+> 1" ) ///
+>           cols(2) ring(0) pos(12) title("Origin-destination quartiles") regio
+> n(lstyle(foreground)) ) ///
+>    ylabel(9.4 9.8 10.2) xlabel(-5 (1) 4) ///
+>    xline(0) ytitle("Log earnings") title("A. Log earnings (age adjusted)", po
+> s(11) span) ///
+>    name(y_legend, replace) 
+
+. 
+.    
+. sort origin destination eventtime
+
+. line y_m_xb eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line y_m_xb eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line y_m_xb eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line y_m_xb eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line y_m_xb eventtime if origin==4 & destination==1, lstyle(p1) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==2, lstyle(p2) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==3, lstyle(p3) lpattern(dash
+> ) || ///
+> line y_m_xb eventtime if origin==4 & destination==4, lstyle(p4) lpattern(dash
+> ) || ///
+>  , legend(off) ///
+>    xline(0) ytitle("Age-adjusted log earnings") title("A. Log earnings (age a
+> djusted)", pos(11) span) ///
+>    name(y, replace)
+
+.    
+. line akm_res eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line akm_res eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line akm_res eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line akm_res eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line akm_res eventtime if origin==4 & destination==1, lstyle(p1) lpattern(das
+> h) || ///
+> line akm_res eventtime if origin==4 & destination==2, lstyle(p2) lpattern(das
+> h) || ///
+> line akm_res eventtime if origin==4 & destination==3, lstyle(p3) lpattern(das
+> h) || ///
+> line akm_res eventtime if origin==4 & destination==4, lstyle(p4) lpattern(das
+> h) || ///
+>  , legend(off) ///
+>    ylabel(-0.06 -0.03 0 0.03) xlabel(-5 (1) 4) ///
+>    xline(0) ytitle("AKM residual") title("B. AKM residual ({it:{&epsilon}})",
+>  pos(11) span) ///
+>    name(e, replace)    
+
+. 
+. line df_m_psij eventtime if origin==1 & destination==1, lstyle(p1) || ///
+> line df_m_psij eventtime if origin==1 & destination==2, lstyle(p2) || ///
+> line df_m_psij eventtime if origin==1 & destination==3, lstyle(p3) || ///
+> line df_m_psij eventtime if origin==1 & destination==4, lstyle(p4) || ///
+> line df_m_psij eventtime if origin==4 & destination==1, lstyle(p1) lpattern(d
+> ash) || ///
+> line df_m_psij eventtime if origin==4 & destination==2, lstyle(p2) lpattern(d
+> ash) || ///
+> line df_m_psij eventtime if origin==4 & destination==3, lstyle(p3) lpattern(d
+> ash) || ///
+> line df_m_psij eventtime if origin==4 & destination==4, lstyle(p4) lpattern(d
+> ash) || ///
+>  , legend(off) ///
+>    xlabel(-5 (1) 4) ///
+>    xline(0) ytitle("Firm hierarchy effect") title("C. Firm hierarchy effect (
+> {it:h})", pos(11) span) ///
+>    name(delta, replace)    
+
+. 
+. grc1leg2 y_legend e delta , xcommon ///
+>   /* title("Figure 4. Event studies for workers moving from top- and bottom-q
+> uartile industries", pos(11) span) */ ///
+>   legendfrom(y_legend) ring(0) pos(4) lxoffset(-8) lyoffset(13) xtob1title //
+> /  
+>   saving(${results}/f4.gph, replace)
+-grc1leg2- working...
+(file
+    /accounts/projects/card/hurricane/replication/industries/portion3_postdis
+    > closure/results/f4.gph not found)
+file ~/replication/industries/portion3_postdisclosure/results/f4.gph saved
+To view and verify the .gph file saved to disk, click here.
+
+. graph export ${results}/f4.png, replace
+(file ~/replication/industries/portion3_postdisclosure/results/f4.png not found
+> )
+file ~/replication/industries/portion3_postdisclosure/results/f4.png written in
+>  PNG format
+
+.    
+. log close
+      name:  <unnamed>
+       log:  /accounts/projects/card/hurricane/replication/industries/portion3_
+> postdisclosure/code/f4.log
+  log type:  text
+ closed on:   6 Oct 2023, 12:36:49
+-------------------------------------------------------------------------------
